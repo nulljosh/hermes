@@ -35,10 +35,8 @@ struct DetailView: View {
             case .versions: VersionsView(app: app)
             case .metadata: MetadataView(app: app)
             case .media: MediaView(app: app)
-            case .builds: ItemList(args: ["builds", "list", "--app", app.id, "--limit", "50"],
-                                  title: ["version"], sub: ["processingState", "uploadedDate"], state: "processingState")
-            case .testflight: ItemList(args: ["testflight", "groups", "list", "--app", app.id],
-                                      title: ["name"], sub: ["isInternalGroup", "publicLinkEnabled"], state: nil)
+            case .builds: BuildsView(app: app)
+            case .testflight: TestFlightView(app: app)
             case .reviews: ItemList(args: ["reviews", "list", "--app", app.id, "--limit", "50"],
                                    title: ["title", "rating"], sub: ["body", "reviewerNickname"], state: nil)
             case .purchases: ItemList(args: ["iap", "list", "--app", app.id],

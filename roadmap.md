@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.5.0)
+## Parity matrix (v0.6.0)
 
 | Area | Helm | Talaria | Status |
 |---|---|---|---|
@@ -18,10 +18,10 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Localizations: list, edit, bulk download and upload | yes | yes, plus App Info name and subtitle, character limits | done |
 | Screenshots: view, upload, delete, download | yes | yes | done |
 | App previews: view, upload, delete, frame time | yes | view, upload, delete | partial (poster frame todo) |
-| Builds list | yes | read only | partial |
-| Build upload, expire, attach to version, submit for beta review | yes | no | todo |
-| TestFlight groups | yes | read only | partial |
-| TestFlight group create, edit, testers, add builds, aliases | yes | no | todo |
+| Builds list | yes | yes | done |
+| Build upload, expire, attach to version, submit for beta review | yes | expire, attach, add to group, What to Test | partial (upload, beta review submit todo) |
+| TestFlight groups | yes | yes | done |
+| TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | partial (aliases todo) |
 | Customer reviews | yes | read only | partial |
 | Review reply, reply signature, review link | yes | no | todo |
 | Submissions: create, add version or event, submit, cancel | yes | no | todo |
@@ -50,7 +50,8 @@ Each version closes a block of rows above and refreshes the matrix.
 - 0.3 version detail: edit, create, ship, reject, review info (done: all writes confirm the exact asc command; read-only mode on by default)
 - 0.4 localizations editor with bulk upload and download (done: Metadata tab, .strings export, import validated by --dry-run first)
 - 0.5 screenshots and previews (done: Media tab, thumbnails from Apple's CDN, hover delete, uploads checked with --dry-run)
-- 0.6 builds and TestFlight write actions
+- 0.6 builds and TestFlight write actions (done)
+- 0.6.x app icons for unreleased apps from the latest build's iconAssetToken (no more letter tiles)
 - 0.7 reviews: reply and signature
 - 0.8 submissions
 - 0.9 in-app events
