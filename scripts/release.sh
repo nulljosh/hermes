@@ -26,6 +26,6 @@ codesign --sign "$IDENTITY" --timestamp dist/Hermes.dmg
 
 [ "$1" = "--no-notarize" ] && { echo "dist/Hermes.dmg (not notarized)"; exit 0; }
 asc notarization submit --file dist/Hermes.dmg --wait --output table
-asc notarization staple --file dist/Hermes.dmg --confirm --output table
+xcrun stapler staple dist/Hermes.dmg
 spctl -a -t open --context context:primary-signature -v dist/Hermes.dmg
 echo "dist/Hermes.dmg $VERSION ready"

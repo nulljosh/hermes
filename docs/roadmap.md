@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.9.0)
+## Parity matrix (v1.0.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -34,8 +34,8 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Multiple accounts, switch active account | yes | no (one asc profile) | todo |
 | Account setup flow (API key, issuer) | yes | no, uses asc auth | todo |
 | Setup export and import file (.helm-setup) | yes | no | todo |
-| Command line tool for agents (helm-asc) | yes | no | todo, wrap asc |
-| Agent skill pack | yes | no | todo |
+| Command line tool for agents (helm-asc) | yes | MCP server over asc | done (MCP instead of a CLI; asc is the CLI) |
+| Agent skill pack | yes | hermes-status, hermes-ship | done |
 | App intents and Shortcuts | yes | no | todo |
 | Menu bar status and notifications on state change | yes | no | todo |
 | Agreement banner (Apple license updated) | yes | no | todo |
@@ -55,7 +55,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 0.7 rename to Hermes (done)
 - 0.8 reviews: reply and signature (done)
 - 0.9 submissions (done: Submissions tab, outcomes, rejections-only filter, two-step create)
-- 1.0 first major: full QA against Helm, tests and CI, signed and notarized DMG so Download works
+- 1.0 first major (done: every tab QA'd, 4 bugs fixed, 5 tests and CI, notarized DMG, MCP server, two skills, whitepaper, security, architecture)
 - 1.1 in-app events
 - 1.2 to 1.9 IAP and subscriptions with pricing and offers
 - 2.0 multiple accounts, setup flow, export and import

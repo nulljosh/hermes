@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" font-family="-apple-system, Helvetica, sans-serif" font-size="14">
+  <rect width="880" height="300" fill="#fff"/>
+  <g stroke="#c7c7cc" stroke-width="2" fill="none">
+    <path d="M220 110H340"/><path d="M220 250H340"/><path d="M540 180H660"/>
+    <path d="M440 140V150"/><path d="M440 210V220"/>
+    <path d="M120 80V40H760V150" stroke-dasharray="4 4"/>
+  </g>
+  <g fill="#f5f5f7" stroke="#d1d1d6">
+    <rect x="20" y="80" width="200" height="60" rx="14"/>
+    <rect x="20" y="220" width="200" height="60" rx="14"/>
+    <rect x="340" y="80" width="200" height="60" rx="14"/>
+    <rect x="340" y="150" width="200" height="60" rx="14" fill="#fbeee8" stroke="#a8441f"/>
+    <rect x="340" y="220" width="200" height="60" rx="14"/>
+    <rect x="660" y="150" width="200" height="60" rx="14"/>
+  </g>
+  <g fill="#1d1d1f" text-anchor="middle">
+    <text x="120" y="106" font-weight="600">Hermes.app</text><text x="120" y="126" fill="#6e6e73" font-size="12">SwiftUI window</text>
+    <text x="120" y="246" font-weight="600">Agents</text><text x="120" y="266" fill="#6e6e73" font-size="12">skills: hermes-status, hermes-ship</text>
+    <text x="440" y="106" font-weight="600">PendingCommand</text><text x="440" y="126" fill="#6e6e73" font-size="12">shows the command, asks first</text>
+    <text x="440" y="176" font-weight="600">asc CLI</text><text x="440" y="196" fill="#6e6e73" font-size="12">--read-only by default</text>
+    <text x="440" y="246" font-weight="600">mcp/server.py</text><text x="440" y="266" fill="#6e6e73" font-size="12">stdio MCP tools</text>
+    <text x="760" y="176" font-weight="600">App Store Connect</text><text x="760" y="196" fill="#6e6e73" font-size="12">Apple's API</text>
+    <text x="410" y="34" fill="#6e6e73" font-size="12">icons: iTunes lookup, then the newest build's icon</text>
+  </g>
+</svg>

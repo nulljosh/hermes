@@ -6,5 +6,5 @@ Native SwiftUI Mac app for App Store Connect. A feature-for-feature match for He
 - xcodegen `project.yml`; the xcodeproj is generated and ignored. Build: `xcodebuild -scheme Hermes -configuration Release -derivedDataPath build`.
 - Design tokens: `brand/tokens.css`, mirrored in `Sources/Theme.swift`. Font: Hermes Sans from `scripts/gen_font.py` (Instrument Sans, OFL). Icon: `Hermes.icon` via the brand generator.
 - Landing: `landing/`, Worker `hermes` at hermes.jaybulb.com, `./deploy.sh`.
-- `roadmap.md` holds the parity matrix. The loop to v100 is `~/.claude/loops/hermes.md`; QA the app at every major version.
+- `docs/roadmap.md` holds the parity matrix. The loop to v100 is `~/.claude/loops/hermes.md`; QA the app at every major version.
 - Mutations go through `asc` with --dry-run first, and never against live apps without Joshua's yes.
