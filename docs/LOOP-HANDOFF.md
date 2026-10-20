@@ -13,20 +13,21 @@ Rules that bite:
 
 ## Where things stand
 
-- Repo: main at cbb2fe1, tagged v2.5.0, pushed. Another session has uncommitted brand work in the tree (Hermes.icon, Sources/Theme.swift, architecture.svg), and the CLAUDE.md on disk says the font is moving from Hermes Sans to the system font. None of that is committed; check it before the next iteration.
-- 2.5.0 added subscription prices for every country, introductory, promotional and win-back offers, and the billing grace period. The QA pass and the notarized DMG for 2.5.0 are not recorded yet.
-- 2.4.0 (fd13925) redrew the quote marks as feathers in Hermes Sans, thickened the wing icon, and added a two-feather favicon for small sizes.
+- Repo: main at c170d63, tagged v2.7.0, pushed. The landing is deployed at hermes.jaybulb.com. The loop is stopped for now; Joshua is wrapping up.
+- 2.7.0: Hermes Sans kept, rebuilt on Inter (OFL) with proportional spacing, so the type reads like SF. Feather quotes kept. The in-review state is amber. A brand kit page lives at hermes.jaybulb.com/brand. The landing hero has an 1878 public-domain Hermes engraving traced to SVG with scroll parallax; on phones it stands beside the headline. The footer is a WebGL band of engraved Hermes glyphs (wing mark, caduceus, winged helmet, winged sandal, letter, purse). 5 of 5 tests green.
+- 2.6.0: brand moved from terracotta to blue (clrs.cc blue tile for the icon; UI accent #0066C0 in light, #3D9BF0 in dark, both passing AA). New detailed wing icon from scripts/gen_icon.py with Icon Composer glass. README simplified.
+- 2.5.0 (cbb2fe1) added subscription prices for every country, introductory, promotional and win-back offers, and the billing grace period. Its QA pass and notarized DMG are not recorded yet.
+- 2.4.0 redrew the quote marks as feathers in Hermes Sans, thickened the wing icon, and added a two-feather favicon for small sizes.
 - 2.3.0 added light mode and an Appearance setting (System, Light, Dark). 2.2.0 added build upload (.ipa and .pkg), What to Test, and submit for beta review.
-- Landing at hermes.jaybulb.com. The parity matrix in `docs/roadmap.md` still marks TestFlight group aliases as partial.
+- The parity matrix in `docs/roadmap.md` still marks TestFlight group aliases as partial.
 
 ## Next, in order
 
-1. QA 2.5.0 on a real app: prices by country, each offer type, and the grace-period state. Fix what is wrong, then build the notarized DMG if it is not out yet.
-2. TestFlight group aliases, the last partial row in the matrix.
-3. Event duplicate and archive.
-4. Agreement banner.
-5. 3.0: menu bar status, review-state notifications, Shortcuts.
-6. 3.0 is a major version, so it gets the full side-by-side QA with Helm, every tab. Then declare 1:1 with Helm.
+1. TestFlight group aliases, the last partial row in the matrix.
+2. Event duplicate and archive.
+3. Agreement banner.
+4. 3.0: menu bar status, review-state notifications, Shortcuts.
+5. 3.0 is a major version, so it gets the full side-by-side QA with Helm, every tab. Then declare 1:1 with Helm.
 
 ## Restart prompt
 
