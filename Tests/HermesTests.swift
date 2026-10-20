@@ -92,4 +92,35 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(rel["id"] as? String, "rev1")
         XCTAssertEqual(rel["type"] as? String, "customerReviews")
     }
+
+    // Shape of a real `asc web review show --plain-text` (Curbfind, 4.3), text scrubbed. Apple wrote last, so it is ours to answer.
+    func testResolveAllPicksThreadsAppleIsWaitingOn() throws {
+        func show(state: String, lastFrom: String) -> String {
+            #"{"submission":{"state":"\#(state)","appStoreVersionForReview":{"version":"1.0.0"}},"threads":[{"thread":{"id":"t1","canDeveloperAddNote":true},"#
+            + #""messages":[{"createdDate":"2026-10-05T21:20:34Z","messageBodyPlain":"Guideline 4.3","fromActor":{"actorType":"APPLE"}},"#
+            + #"{"createdDate":"2026-10-06T01:00:55Z","messageBodyPlain":"It is original.","fromActor":{"actorType":"USER"}},"#
+            + #"{"createdDate":"2026-10-13T21:31:23Z","messageBodyPlain":"More on 4.3","fromActor":{"actorType":"\#(lastFrom)"}}],"#
+            + #""rejections":[{"reasons":[{"reasonSection":"4.3","reasonDescription":"Design: Spam","reasonCode":"4.3.0"}]}]}]}"#
+        }
+        let ours = try JSONDecoder().decode(ReviewShow.self, from: Data(show(state: "UNRESOLVED_ISSUES", lastFrom: "APPLE").utf8))
+        let o = try XCTUnwrap(ours.open())
+        XCTAssertEqual(o.thread.thread.id, "t1")
+        XCTAssertEqual(o.apple, "More on 4.3")
+        XCTAssertTrue(o.replied)
+        XCTAssertFalse(o.waiting)
+        XCTAssertEqual(ours.reasons, ["4.3 Design: Spam"])
+
+        let theirs = try JSONDecoder().decode(ReviewShow.self, from: Data(show(state: "UNRESOLVED_ISSUES", lastFrom: "USER").utf8))
+        XCTAssertEqual(theirs.open()?.waiting, true)
+        XCTAssertEqual(theirs.open()?.apple, "Guideline 4.3")
+
+        let done = try JSONDecoder().decode(ReviewShow.self, from: Data(show(state: "COMPLETE", lastFrom: "APPLE").utf8))
+        XCTAssertNil(done.open())
+
+        var r = Resolution(app: ASCApp(id: "1", name: "Curbfind", bundleId: "x"), thread: "t1", version: "1.0.0", reasons: [], apple: "", replied: true, repo: "")
+        r.reply = "We changed [what]."
+        XCTAssertTrue(r.unfilled)
+        r.reply = "We changed the map."
+        XCTAssertFalse(r.unfilled)
+    }
 }

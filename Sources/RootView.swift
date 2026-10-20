@@ -79,6 +79,9 @@ struct AppList: View {
     @Binding var query: String
     var addAccount: () -> Void = {}
     let pick: (ASCApp) -> Void
+    @State private var resolving = UserDefaults.standard.bool(forKey: "resolveAll")  // QA launch argument: -resolveAll YES
+
+    var rejectedCount: Int { store.versions.values.filter { $0.contains { $0.state.contains("REJECT") } }.count }
 
     var shown: [ASCApp] {
         query.isEmpty ? store.apps : store.apps.filter { $0.name.localizedCaseInsensitiveContains(query) }
@@ -96,8 +99,13 @@ struct AppList: View {
                 }
                 .padding(.horizontal, 10).padding(.vertical, 6)
                 .background(Theme.surface, in: Capsule())
+                if rejectedCount > 0 {
+                    Button("Resolve All (\(rejectedCount))") { resolving = true }
+                        .foregroundStyle(Theme.bad)
+                }
             }
             .padding(12)
+            .sheet(isPresented: $resolving) { ResolveView(store: store) { resolving = false } }
             Divider().overlay(Theme.line)
             if let e = store.error {
                 Text(e).foregroundStyle(Theme.bad).padding().textSelection(.enabled)

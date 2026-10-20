@@ -26,19 +26,34 @@ enum ASC {
     // The asc profile picked in the sidebar; empty means asc's own default.
     static var profile: String { UserDefaults.standard.string(forKey: "profile") ?? "" }
 
-    static func run(_ args: [String], json: Bool = true) async throws -> Data {
+    static func run(_ args: [String], json: Bool = true, timeout: Double? = nil) async throws -> Data {
+        // Read-only mode (Settings, on by default) makes asc refuse every write before it is sent.
+        try await exec("/opt/homebrew/bin/asc",
+                       (readOnly ? ["--read-only"] : []) + (profile.isEmpty ? [] : ["--profile", profile]) + args + (json ? ["--output", "json"] : []),
+                       timeout: timeout)
+    }
+
+    /// Runs a tool and returns its stdout. No stdin, so nothing can sit waiting on a prompt;
+    /// with a timeout, a stalled run (a web session asking for 2FA) is killed instead of freezing the window.
+    static func exec(_ path: String, _ args: [String], cwd: URL? = nil, timeout: Double? = nil) async throws -> Data {
         try await Task.detached {
             let p = Process()
-            p.executableURL = URL(fileURLWithPath: "/opt/homebrew/bin/asc")
-            // Read-only mode (Settings, on by default) makes asc refuse every write before it is sent.
-            p.arguments = (readOnly ? ["--read-only"] : []) + (profile.isEmpty ? [] : ["--profile", profile]) + args + (json ? ["--output", "json"] : [])
+            p.executableURL = URL(fileURLWithPath: path)
+            p.arguments = args
+            p.currentDirectoryURL = cwd
             p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1"]) { $1 }
             let out = Pipe(), err = Pipe()
-            p.standardOutput = out; p.standardError = err
+            p.standardOutput = out; p.standardError = err; p.standardInput = FileHandle.nullDevice
             try p.run()
+            if let timeout { DispatchQueue.global().asyncAfter(deadline: .now() + timeout) { if p.isRunning { p.terminate() } } }
             let data = out.fileHandleForReading.readDataToEndOfFile()
             let msg = err.fileHandleForReading.readDataToEndOfFile()
             p.waitUntilExit()
+            if p.terminationReason == .uncaughtSignal {
+                let tool = URL(fileURLWithPath: path).lastPathComponent
+                throw NSError(domain: "asc", code: -1, userInfo: [NSLocalizedDescriptionKey: "\(tool) took too long."
+                    + (tool == "asc" ? " If it was signing in to Apple, run asc-login in Terminal and try again." : "")])
+            }
             guard p.terminationStatus == 0 else {
                 throw NSError(domain: "asc", code: Int(p.terminationStatus),
                               userInfo: [NSLocalizedDescriptionKey: String(decoding: msg, as: UTF8.self)])
