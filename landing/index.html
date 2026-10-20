@@ -23,13 +23,15 @@
 <body>
 
 <header class="nav" aria-label="Site">
-  <a class="nav-brand" href="#top" aria-label="Hermes home"><img src="icon.svg" alt="" width="32" height="32"><span>Hermes</span></a>
   <nav class="nav-links" aria-label="Main">
     <a href="#features">Features</a>
     <a href="#agents">Agents</a>
-    <a href="#get">Get it</a>
   </nav>
-  <a class="btn btn-solid" href="https://github.com/nulljosh/hermes/releases/latest/download/Hermes.dmg">Download</a>
+  <a class="nav-brand" href="#top" aria-label="Hermes home"><img src="icon.svg" alt="" width="28" height="28"><span>Hermes</span></a>
+  <div class="nav-end">
+    <a class="nav-get" href="#get">Get it</a>
+    <a class="btn btn-solid" href="https://github.com/nulljosh/hermes/releases/latest/download/Hermes.dmg">Download</a>
+  </div>
 </header>
 
 <main id="top">
@@ -45,7 +47,9 @@
     <p class="fine">macOS 14 and up. Works with your App Store Connect API key. Signed and notarized by Apple.</p>
   </div>
 
-  <div class="wrap demo-wrap reveal" id="demo">
+  <div class="demo-wrap reveal" id="demo">
+    <div class="stage">
+    <figure class="stage-art" aria-hidden="true"><svg viewBox="180 160 1400 760" preserveAspectRatio="xMidYMid slice"><use href="hermes.svg#art"/></svg></figure>
     <div class="win" role="application" aria-label="Hermes, live. Pick an app, switch tabs.">
       <aside class="win-side">
         <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -57,6 +61,7 @@
         <div class="side-foot"><a href="mailto:trommatic@icloud.com?subject=Hermes">Send Feedback</a><span>v2.7.0</span></div>
       </aside>
       <section class="win-main" id="win-main"></section>
+    </div>
     </div>
     <p class="demo-hint">This is the app's own layout, running on sample data. Hover a row, open an app, switch tabs.</p>
   </div>
