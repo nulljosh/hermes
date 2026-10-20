@@ -182,7 +182,7 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 @media (max-width: 900px) {
   .frow { grid-template-columns: 1fr; }
   .docs { grid-template-columns: 1fr; gap: var(--sp-6); }
-  .toc { position: static; grid-auto-flow: column; overflow-x: auto; gap: var(--sp-4); }
+  .toc { position: static; grid-auto-flow: column; overflow-x: auto; gap: var(--sp-4); white-space: nowrap; }
   .defs { grid-template-columns: 1fr; }
   .defs dt { border-bottom: 0; padding-bottom: 0; }
   .frow:nth-child(even) .art { order: 0; }
