@@ -1,0 +1,10 @@
+name: test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install xcodegen
+      - run: xcodegen generate
+      - run: xcodebuild test -scheme Hermes -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO
