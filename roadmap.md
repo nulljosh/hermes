@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.2.0)
+## Parity matrix (v0.3.0)
 
 | Area | Helm | Talaria | Status |
 |---|---|---|---|
@@ -12,9 +12,9 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Per-platform version and state dot | yes | yes | done |
 | Two-pane welcome window | yes | yes | done |
 | Release status and next action | yes | yes | done (Talaria adds blockers) |
-| Version list | yes | read only | partial |
-| Create version, edit version, ship, reject | yes | no | todo |
-| Review info (notes, demo account, attachments) | yes | no | todo |
+| Version list | yes | yes | done |
+| Create version, edit version, ship, reject | yes | create, edit, submit, release, delete | partial (reject = cancel submission, lands with 0.8) |
+| Review info (notes, demo account, attachments) | yes | contact, notes, demo account | partial (attachments todo) |
 | Localizations: list, edit, bulk download and upload | yes | no | todo |
 | Screenshots: view, upload, delete, download | yes | no | todo |
 | App previews: view, upload, delete, frame time | yes | no | todo |
@@ -47,7 +47,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 Each version closes a block of rows above and refreshes the matrix.
 
 - 0.2 landing, brand kit, design system, font, icon (done: talaria.jaybulb.com, Talaria Sans, Talaria.icon, row hover)
-- 0.3 version detail: edit, create, ship, reject, review info
+- 0.3 version detail: edit, create, ship, reject, review info (done: all writes confirm the exact asc command; read-only mode on by default)
 - 0.4 localizations editor with bulk upload and download
 - 0.5 screenshots and previews
 - 0.6 builds and TestFlight write actions
@@ -60,5 +60,8 @@ Each version closes a block of rows above and refreshes the matrix.
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Beyond Helm
+
+Shipped: read-only mode (Settings), every write shows its asc command before it runs, QA launch arguments `-selectApp <id> -tab <name> -openVersion first`.
+
 
 Ideas that Helm does not have: rejection history in one place, release checklist from `asc validate`, price heat map by territory, Xcode Cloud status, analytics and sales from `asc analytics`.

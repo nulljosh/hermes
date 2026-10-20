@@ -22,11 +22,14 @@ struct Status: Decodable {
 }
 
 enum ASC {
+    static var readOnly: Bool { UserDefaults.standard.object(forKey: "readOnly") as? Bool ?? true }
+
     static func run(_ args: [String]) async throws -> Data {
         try await Task.detached {
             let p = Process()
             p.executableURL = URL(fileURLWithPath: "/opt/homebrew/bin/asc")
-            p.arguments = args + ["--output", "json"]
+            // Read-only mode (Settings, on by default) makes asc refuse every write before it is sent.
+            p.arguments = (readOnly ? ["--read-only"] : []) + args + ["--output", "json"]
             p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1"]) { $1 }
             let out = Pipe(), err = Pipe()
             p.standardOutput = out; p.standardError = err
@@ -86,6 +89,10 @@ enum Scalar: Decodable, CustomStringConvertible {
 struct Item: Decodable, Identifiable {
     let id: String
     let attributes: [String: Scalar]?
+    func bool(_ key: String) -> Bool {
+        if case .b(let v)? = attributes?[key] { return v }
+        return false
+    }
     func text(_ key: String) -> String? {
         guard let t = attributes?[key]?.description, !t.isEmpty else { return nil }
         return t
@@ -97,6 +104,11 @@ extension ASC {
         struct R: Decodable { let data: [Item]?; let items: [Item]? }
         let r = try JSONDecoder().decode(R.self, from: await run(args))
         return r.data ?? r.items ?? []
+    }
+
+    static func one(_ args: [String]) async throws -> Item? {
+        struct R: Decodable { let data: Item? }
+        return try JSONDecoder().decode(R.self, from: await run(args)).data
     }
 
     static func versions(_ id: String) async throws -> [PlatformVersion] {

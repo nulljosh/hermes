@@ -9,7 +9,8 @@ struct DetailView: View {
     let app: ASCApp
     let store: Store
     let back: () -> Void
-    @State private var tab = Tab.status
+    // QA launch argument: -tab <name> picks the starting tab.
+    @State private var tab = Tab(rawValue: UserDefaults.standard.string(forKey: "tab") ?? "") ?? .status
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,8 +27,7 @@ struct DetailView: View {
             Divider().overlay(Theme.line)
             switch tab {
             case .status: StatusView(app: app)
-            case .versions: ItemList(args: ["versions", "list", "--app", app.id, "--paginate"],
-                                    title: ["versionString"], sub: ["platform", "appVersionState", "createdDate"], state: "appVersionState")
+            case .versions: VersionsView(app: app)
             case .builds: ItemList(args: ["builds", "list", "--app", app.id, "--limit", "50"],
                                   title: ["version"], sub: ["processingState", "uploadedDate"], state: "processingState")
             case .testflight: ItemList(args: ["testflight", "groups", "list", "--app", app.id],

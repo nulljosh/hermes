@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Talaria">
 
-![version](https://img.shields.io/badge/version-0.2.0-a8441f) ![license](https://img.shields.io/badge/license-MIT-a8441f)
+![version](https://img.shields.io/badge/version-0.3.0-a8441f) ![license](https://img.shields.io/badge/license-MIT-a8441f)
 
 **[talaria.jaybulb.com](https://talaria.jaybulb.com)**
 
