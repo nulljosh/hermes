@@ -58,16 +58,19 @@
       c.fillRect(36, 38, 28, 6);
     }
   ];
-  // Lays the glyphs out evenly across a w by h 2D context, in the given colour.
+  // Lays the glyphs out evenly across a w by h 2D context, in the given colour: one row, or two on a narrow band.
+  function grid(w, h) {
+    var n = GLYPHS.length, rows = w < h * 3 ? 2 : 1, per = Math.ceil(n / rows);
+    return { rows: rows, per: per, cell: Math.min(h / rows * 0.86, w / per) };
+  }
   function paint(c, w, h, colour) {
-    var n = GLYPHS.length, cell = Math.min(h * 0.86, w / n), gap = (w - cell * n) / n;
-    c.fillStyle = c.strokeStyle = colour;
-    GLYPHS.forEach(function (g, i) {
-      c.save(); c.translate(gap / 2 + i * (cell + gap), (h - cell) / 2 + h * 0.04); c.scale(cell / 100, cell / 100);
-      c.fillStyle = c.strokeStyle = colour; g(c); c.restore();
+    var g = grid(w, h), gap = (w - g.cell * g.per) / g.per, rowH = h / g.rows;
+    GLYPHS.forEach(function (draw, i) {
+      var col = i % g.per, row = Math.floor(i / g.per);
+      c.save(); c.translate(gap / 2 + col * (g.cell + gap), row * rowH + (rowH - g.cell) / 2 + rowH * 0.04); c.scale(g.cell / 100, g.cell / 100);
+      c.fillStyle = c.strokeStyle = colour; draw(c); c.restore();
     });
   }
-
 
   var ctx = canvas.getContext('2d');
   if (!ctx) return;
@@ -85,7 +88,7 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2), w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
     if (!w || !h) return;
     drawnW = w; canvas.width = w; canvas.height = h;
-    var colour = getComputedStyle(band).color, pitch = Math.min(5 * dpr, Math.max(3 * dpr, Math.min(h * 0.86, w / GLYPHS.length) / 22)), s = Math.max(2, h * 0.014);
+    var colour = getComputedStyle(band).color, pitch = Math.min(5 * dpr, Math.max(3 * dpr, grid(w, h).cell / 22)), s = Math.max(2, h * 0.014);
     var glyphs = layer(w, h); paint(glyphs.getContext('2d'), w, h, '#fff');
     // the shadow side: glyph pixels whose neighbour down and right is outside the glyph (light from the top left)
     var shade = layer(w, h), sc = shade.getContext('2d');
@@ -94,7 +97,7 @@
     ctx.globalAlpha = 1; ctx.drawImage(rules(w, h, pitch, pitch * 0.32, colour, glyphs), 0, 0);
     ctx.drawImage(rules(w, h, pitch, pitch * 0.6, colour, shade), 0, 0);
     // fade out toward the legal line
-    var g = ctx.createLinearGradient(0, h * 0.7, 0, h);
+    var g = ctx.createLinearGradient(0, h * 0.88, 0, h);
     g.addColorStop(0, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.globalCompositeOperation = 'destination-in'; ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     ctx.globalCompositeOperation = 'source-over';

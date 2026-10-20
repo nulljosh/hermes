@@ -4,24 +4,33 @@
 @font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 @font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+/* Hermes Display: Antonio (SIL OFL 1.1, fonts/OFL-Antonio.txt), condensed caps for headlines and labels only */
+@font-face { font-family: "Hermes Display"; src: url("fonts/HermesDisplay.woff2") format("woff2"); font-weight: 100 700; font-display: swap; }
 
 :root {
   /* colour */
-  --accent: #0066C0;          /* actions and links; clrs.cc blue deepened to pass AA on paper */
+  --accent: #0847c4;          /* actions and links; deep blue, AA on paper */
+  --btn: #0847c4;             /* solid buttons, white label */
+  --frame: #0847c4;           /* the thin frame down the window edges */
+  --band: #0847c4;            /* full-bleed blue sections */
+  --band-sub: #d6e0fa;        /* secondary text on the band, AA */
+  --band-art: #a9c2f7;        /* engraving on the band */
+  --band-line: rgba(255, 255, 255, .22);
   --accent-light: #0074D9;    /* icon gradient top, clrs.cc blue */
   --accent-deep: #004C8F;     /* icon gradient bottom */
   --ring: color-mix(in srgb, var(--accent) 30%, transparent);
-  --bg: #faf8f4;
-  --surface: #f1ede6;
-  --line: #e3ddd3;
-  --text: #1f1d1a;
-  --sub: #6b655c;
+  --bg: #fdfdfd;
+  --surface: #f2f3f7;
+  --line: #dcdde5;
+  --text: #1a1a1a;
+  --sub: #5a5c6b;
   --live: #2f8a4e;            /* ready for sale */
   --pending: #b07a00;         /* in review, processing: amber, so it never reads as a link */
   --bad: #c0392b;             /* rejected */
   --idle: #8a847a;            /* preparing, unknown */
 
   /* type */
+  --display: "Hermes Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font: "Hermes Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --size-display: 64px;       /* hero: 64 line, -0.01em */
   --size-title: 34px;         /* section heads: 40 line */
@@ -40,18 +49,24 @@
   --r-group: 20px;
   --r-row: 8px;
   --r-pill: 999px;
+  --r-sq: 2px;                /* landing buttons and panels */
   --r-icon: 22.5%;
   --motion: .2s ease;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --accent: #3D9BF0;
-    --bg: #171614;
-    --surface: #211f1c;
-    --line: #33302b;
-    --text: #f3efe8;
-    --sub: #9a948a;
+    --accent: #6f9dff;
+    --btn: #1f55e0;
+    --frame: #1f55e0;
+    --band: #0a33b5;
+    --band-sub: #c9d6fb;
+    --band-art: #7d9df0;
+    --bg: #0c0d1d;            /* navy black */
+    --surface: #15172d;
+    --line: #272a48;
+    --text: #f2f2f5;
+    --sub: #a4a7c0;
     --live: #4caf6e;
     --pending: #e0a800;
     --bad: #d9534f;

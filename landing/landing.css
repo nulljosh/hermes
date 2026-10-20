@@ -11,6 +11,8 @@ code { font-size: .9em; padding: 2px 6px; border-radius: var(--r-sq); background
 .center { text-align: center; }
 
 h1, h2, h3, .label { font-family: var(--display); }
+/* the wing, in the accent, over a section title */
+.wing { display: block; width: 56px; height: 56px; margin: 0 auto var(--sp-4); background: var(--accent); -webkit-mask: url(mark.svg) center / contain no-repeat; mask: url(mark.svg) center / contain no-repeat; }
 h1 { font-size: clamp(112px, 17vw, 248px); line-height: .9; font-weight: 200; text-transform: uppercase; letter-spacing: -.005em; }
 h2 { font-size: clamp(52px, 7.4vw, 112px); line-height: .9; font-weight: 200; text-transform: uppercase; }
 h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
@@ -156,7 +158,7 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
   .cell:last-child { border-bottom: 0; }
   .tabs { margin-left: 0; }
   .bar.detail { flex-wrap: wrap; }
-  .word-band { height: 200px; }
+  .word-band { height: 260px; }
   .foot-cols { gap: var(--sp-6); }
 }
 @media (prefers-reduced-motion: reduce) {
