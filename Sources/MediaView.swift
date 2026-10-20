@@ -110,7 +110,18 @@ struct MediaView: View {
             }
             ScrollView(.horizontal) {
                 HStack(spacing: 12) {
-                    ForEach(s.assets) { a in Thumb(asset: a) { pending = PendingCommand(title: "Delete", args: [kind.command, "delete", "--id", a.id, "--confirm"]) } }
+                    ForEach(s.assets) { a in
+                        Thumb(asset: a) { pending = PendingCommand(title: "Delete", args: [kind.command, "delete", "--id", a.id, "--confirm"]) }
+                            .contextMenu {
+                                if kind == .previews {
+                                    ForEach([0, 2, 5, 10, 15], id: \.self) { sec in
+                                        Button("Poster Frame at \(sec)s") {
+                                            pending = PendingCommand(title: "Set Poster Frame", args: ["video-previews", "set-poster-frame", "--id", a.id, "--time-code", String(format: "00:00:%02d:00", sec)])
+                                        }
+                                    }
+                                }
+                            }
+                    }
                 }
             }
         }

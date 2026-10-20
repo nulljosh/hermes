@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v2.0.0)
+## Parity matrix (v2.1.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -14,10 +14,10 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Release status and next action | yes | yes | done (Hermes adds blockers) |
 | Version list | yes | yes | done |
 | Create version, edit version, ship, reject | yes | create, edit, submit, release, delete, cancel submission | done |
-| Review info (notes, demo account, attachments) | yes | contact, notes, demo account | partial (attachments todo) |
+| Review info (notes, demo account, attachments) | yes | contact, notes, demo account, attachments | done |
 | Localizations: list, edit, bulk download and upload | yes | yes, plus App Info name and subtitle, character limits | done |
 | Screenshots: view, upload, delete, download | yes | yes | done |
-| App previews: view, upload, delete, frame time | yes | view, upload, delete | partial (poster frame todo) |
+| App previews: view, upload, delete, frame time | yes | view, upload, delete, poster frame | done |
 | Builds list | yes | yes | done |
 | Build upload, expire, attach to version, submit for beta review | yes | expire, attach, add to group, What to Test | partial (upload, beta review submit todo) |
 | TestFlight groups | yes | yes | done |

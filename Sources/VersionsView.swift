@@ -76,6 +76,8 @@ struct VersionDetail: View {
     @State private var notes = ""
     @State private var demoName = ""
     @State private var demoRequired = false
+    @State private var attachments: [Item] = []
+    @State private var attaching = false
     @State private var pending: PendingCommand?
 
     var state: String { version.text("appVersionState") ?? version.text("appStoreState") ?? "" }
@@ -121,6 +123,22 @@ struct VersionDetail: View {
                         + (demoRequired ? ["--demo-account-name", demoName] : []))
                 }
                 .disabled(review == nil)
+                ForEach(attachments) { a in
+                    HStack {
+                        Image(systemName: "paperclip").foregroundStyle(Theme.muted)
+                        Text(a.text("fileName") ?? a.id)
+                        Spacer()
+                        Button("Remove", role: .destructive) {
+                            pending = PendingCommand(title: "Remove Attachment", args: ["review", "attachments-delete", "--id", a.id, "--confirm"])
+                        }
+                    }
+                }
+                Button("Attach a File...") { attaching = true }
+                    .disabled(review == nil)
+                    .fileImporter(isPresented: $attaching, allowedContentTypes: [.item]) { result in
+                        guard let id = review?.id, let url = try? result.get() else { return }
+                        pending = PendingCommand(title: "Attach File", args: ["review", "attachments-upload", "--review-detail", id, "--file", url.path])
+                    }
             }
             Section("Ship") {
                 if editable {
@@ -161,6 +179,7 @@ struct VersionDetail: View {
         phone = r.text("contactPhone") ?? ""; email = r.text("contactEmail") ?? ""
         notes = r.text("notes") ?? ""; demoName = r.text("demoAccountName") ?? ""
         demoRequired = r.bool("demoAccountRequired")
+        attachments = (try? await ASC.items(["review", "attachments-list", "--review-detail", r.id])) ?? []
     }
 }
 
