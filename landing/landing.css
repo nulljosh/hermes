@@ -175,7 +175,7 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 .defs dd { color: var(--sub); }
 .faq { grid-template-columns: 1fr; }
 .privacy { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
-.doc-h1 { font-size: clamp(56px, 8vw, 104px); }
+.doc-h1 { font-size: clamp(56px, 8vw, 104px); line-height: .95; margin-bottom: var(--sp-3); }
 .legal a { color: inherit; }
 .faq dt { border-bottom: 0; padding-bottom: 0; }
 
