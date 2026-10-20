@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v1.0.0)
+## Parity matrix (v1.1.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -25,7 +25,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Customer reviews | yes | yes, with rating summary and filters | done |
 | Review reply, reply signature, review link | yes | yes | done |
 | Submissions: create, add version or event, submit, cancel | yes | create with version, submit, cancel, full history | partial (add event lands with in-app events) |
-| In-app events: create, duplicate, localize, assets, archive | yes | no | todo |
+| In-app events: create, duplicate, localize, assets, archive | yes | create, text per language, submit, delete | partial (duplicate, assets, archive todo) |
 | In-app purchases: list, edit, localize | yes | read only | partial |
 | IAP and subscription pricing: plan, set, schedule, equalize | yes | no | todo |
 | Subscriptions and groups, offers (intro, promo, win-back, codes) | yes | no | todo |
@@ -56,7 +56,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 0.8 reviews: reply and signature (done)
 - 0.9 submissions (done: Submissions tab, outcomes, rejections-only filter, two-step create)
 - 1.0 first major (done: every tab QA'd, 4 bugs fixed, 5 tests and CI, notarized DMG, MCP server, two skills, whitepaper, security, architecture)
-- 1.1 in-app events
+- 1.1 in-app events (done: Events tab)
 - 1.2 to 1.9 IAP and subscriptions with pricing and offers
 - 2.0 multiple accounts, setup flow, export and import
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
