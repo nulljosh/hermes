@@ -11,18 +11,21 @@ One bold flat white glyph on an accent gradient tile. No text, no outline, no em
 - Clear space equal to the width of the glyph's thickest stroke. Smallest size 16 px.
 
 ## Colour
-| Role | Value |
-|---|---|
-| Accent | `#a8441f` |
-| Gradient top | `#d9703f` |
-| Text | `#1d1d1f` light, `#f5f5f7` dark |
-| Background | `#ffffff` light, `#000000` dark |
-| Surface | `#f5f5f7` light, `#1c1c1e` dark |
+Warm paper in light, warm graphite in dark. One accent, flat surfaces, no gradients except the icon tile, no shadows.
 
-The accent is for actions, links and the icon. Never brown, beige, purple or teal.
+| Role | Light | Dark |
+|---|---|---|
+| Accent (actions, links, icon) | `#a8441f` | `#d9703f` |
+| Background | `#faf8f4` | `#171614` |
+| Surface (cards, sidebar, hover) | `#f1ede6` | `#211f1c` |
+| Line | `#e3ddd3` | `#33302b` |
+| Text | `#1f1d1a` | `#f3efe8` |
+| Secondary text | `#6b655c` | `#9a948a` |
+
+State dots, the same everywhere a version shows: on sale `#4caf6e`, in review or processing `#5b9bd5`, rejected `#d9534f`, preparing `#6f6a62` (dark values; light values are in `tokens.css`).
 
 ## Type
-The system font: `-apple-system, BlinkMacSystemFont, "SF Pro Text", Lato, "Helvetica Neue", Helvetica, Arial, sans-serif`. Scale 34/41 bold, 22/28, 17/24, 15/20, 13/18.
+Talaria Sans, the house face for this app: Instrument Sans under the SIL Open Font License, renamed and pinned by `scripts/gen_font.py`. Four weights, 400 to 700. The fallback is the system stack. Scale: display 64/64 bold, title 34/40 bold, headline 20/28 semibold, body 17/24, footnote 13/16. The app uses 17 semibold for titles, 14 semibold for rows and 11 medium for version lines.
 
 ## Space and shape
 - Space on the 8 point grid: 4, 8, 12, 16, 24, 32, 48. Side margin 20. Reading column 680.
@@ -30,4 +33,4 @@ The system font: `-apple-system, BlinkMacSystemFont, "SF Pro Text", Lato, "Helve
 - Controls are 48 points tall capsules, one height in a row. Focus is a 4 point ring at 30 percent accent.
 - Motion is 0.2 s ease and honours reduced motion.
 
-`tokens.css` holds the app's accent. Everything else comes from the shared token file.
+`tokens.css` is the single source for the landing; `Sources/Theme.swift` mirrors it for the app. Rows hover to the surface colour with an 8 point radius.

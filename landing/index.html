@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Talaria. App Store Connect, on your Mac.</title>
+<meta name="description" content="A native Mac app for App Store Connect. Every app, every platform, every review state in one window. Versions, builds, TestFlight, reviews and purchases without the dashboard.">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171614" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://talaria.jaybulb.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Talaria">
+<meta property="og:title" content="Talaria. App Store Connect, on your Mac.">
+<meta property="og:description" content="Every app, every platform, every review state in one window.">
+<meta property="og:url" content="https://talaria.jaybulb.com/">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="landing.css">
+<script src="landing.js" defer></script>
+</head>
+<body>
+
+<header class="nav" aria-label="Site">
+  <a class="nav-brand" href="#top" aria-label="Talaria home"><img src="icon.svg" alt="" width="32" height="32"><span>Talaria</span></a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#features">Features</a>
+    <a href="#agents">Agents</a>
+    <a href="#get">Get it</a>
+  </nav>
+  <a class="btn btn-solid" href="#get">Download</a>
+</header>
+
+<main id="top">
+<section class="hero" id="hero">
+  <div class="wrap hero-copy">
+    <p class="kicker">Named for the talaria, the winged sandals of Hermes, messenger of the gods.</p>
+    <h1>Ship to the<br>App Store<br>from one window.</h1>
+    <p class="lead">Every app you sell, every platform, every review state. Versions, builds, TestFlight, reviews and purchases, without opening the dashboard.</p>
+    <div class="cta">
+      <a class="btn btn-solid" href="#get">Download for Mac</a>
+      <a class="btn btn-ghost" href="https://github.com/nulljosh/talaria">Source</a>
+    </div>
+    <p class="fine">Free. macOS 14 and up. Works with your App Store Connect API key.</p>
+  </div>
+
+  <div class="wrap demo-wrap reveal" id="demo">
+    <div class="win" role="application" aria-label="Talaria, live. Pick an app, switch tabs.">
+      <aside class="win-side">
+        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="welcome">
+          <img src="icon.svg" alt="" width="72" height="72">
+          <b id="w-title">Welcome to Talaria</b>
+          <span id="w-sub">Select an app to get started.</span>
+        </div>
+        <div class="side-foot"><a href="mailto:trommatic@icloud.com?subject=Talaria">Send Feedback</a><span>v0.2.0</span></div>
+      </aside>
+      <section class="win-main" id="win-main"></section>
+    </div>
+    <p class="demo-hint">This is the app's own layout, running on sample data. Hover a row, open an app, switch tabs.</p>
+  </div>
+</section>
+
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>The dashboard, without the dashboard.</h2>
+      <p>App Store Connect is a website built for one app at a time. Talaria is a Mac app built for all of them at once.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="4" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><h3>Every app at a glance</h3><p>Icons, names and the live version on each platform, with a dot for where it stands: on sale, in review or rejected.</p></article>
+      <article class="card reveal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h4l3-7 3 14 3-7h3"/></svg><h3>Release status</h3><p>One line that says what to do next, the blockers in the way, and links straight to the right page when you need it.</p></article>
+      <article class="card reveal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><h3>Builds and TestFlight</h3><p>Every build with its processing state, and your TestFlight groups beside them.</p></article>
+      <article class="card reveal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l2.5 5 5.5.8-4 3.9.9 5.5L12 16.6 7.1 19.2 8 13.7 4 9.8l5.5-.8z"/></svg><h3>Customer reviews</h3><p>Ratings and reviews for every app in one list, newest first.</p></article>
+      <article class="card reveal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c0-1 1-1.5 2.5-1.5s2.5.7 2.5 1.8c0 2.7-5 1.5-5 4.2 0 1.1 1 2 2.5 2s2.5-.5 2.5-1.5"/></svg><h3>Purchases</h3><p>In-app purchases and subscriptions with their state, so nothing sits half set up.</p></article>
+      <article class="card reveal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l3 4-8 12L4 8z"/></svg><h3>Native and fast</h3><p>SwiftUI on your Mac. Your key stays on your machine. No account with us, no server in between.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec field" id="agents">
+  <div class="wrap two">
+    <div class="reveal">
+      <p class="kicker">Built on asc</p>
+      <h2>Agents can ship too.</h2>
+      <p class="body">Talaria drives the open source <code>asc</code> command line tool. Everything you see in the window is a command your scripts, CI and coding agents can run themselves.</p>
+      <div class="cta"><a class="btn btn-ghost" href="https://github.com/nulljosh/talaria">Source</a></div>
+    </div>
+    <figure class="term reveal" aria-label="The command behind the status pane">
+<pre><span class="dim">$</span> asc status --app 6794988951
+<span class="dim">health</span>      yellow
+<span class="dim">next</span>        Wait for App Store review outcome.
+<span class="dim">app store</span>   50.0.0  WAITING_FOR_REVIEW  IOS
+<span class="dim">build</span>       202610191715  VALID
+<span class="dim">testflight</span>  READY_FOR_BETA_TESTING</pre>
+      <figcaption>The command behind the status pane.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec plats" id="get">
+  <div class="wrap center">
+    <h2 class="reveal">On your Mac.</h2>
+    <p class="body reveal">Download it, point it at your API key, and every app shows up.</p>
+    <div class="plat-row">
+      <div class="reveal"><small>macOS 14 and up</small><b>Mac</b><p>A native app for Apple silicon and Intel. The Mac App Store listing is on the way. Until then, build it from source.</p><a class="btn btn-solid" href="https://github.com/nulljosh/talaria">Get the source</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot" id="footer">
+  <nav class="icons" aria-label="Footer">
+    <a href="https://github.com/nulljosh/talaria" title="Source" aria-label="Source on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></a>
+    <a href="mailto:trommatic@icloud.com?subject=Talaria" title="Feedback" aria-label="Send feedback"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg></a>
+    <a href="https://jaybulb.com" title="More apps" aria-label="More apps"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></a>
+    <a href="#top" title="Back to top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
+  </nav>
+  <div class="word-band" aria-hidden="true"><canvas class="word-canvas"></canvas><span class="word-plain">Talaria</span></div>
+  <p class="legal">Talaria v0.2.0 &middot; MIT License &middot; &copy; 2026 Joshua Trommel &middot; Made in Vancouver, BC</p>
+</footer>
+
+<script src="footer-shader.js" defer></script>
+</body>
+</html>

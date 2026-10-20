@@ -1,0 +1,60 @@
+/* Talaria design tokens. One source for the landing and the Mac app (Sources/Theme.swift mirrors these).
+   Shared system: 8 point grid, one radius set, 48 point capsule controls. The accent is the only colour Talaria owns. */
+@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+:root {
+  /* colour */
+  --accent: #a8441f;          /* actions, links, the icon */
+  --accent-light: #d9703f;    /* icon gradient top */
+  --accent-deep: #a8441f;     /* icon gradient bottom */
+  --ring: color-mix(in srgb, var(--accent) 30%, transparent);
+  --bg: #faf8f4;
+  --surface: #f1ede6;
+  --line: #e3ddd3;
+  --text: #1f1d1a;
+  --sub: #6b655c;
+  --live: #2f8a4e;            /* ready for sale */
+  --pending: #2f6fb0;         /* in review, processing */
+  --bad: #c0392b;             /* rejected */
+  --idle: #8a847a;            /* preparing, unknown */
+
+  /* type */
+  --font: "Talaria Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --size-display: 64px;       /* hero: 64 line, -0.03em */
+  --size-title: 34px;         /* section heads: 40 line */
+  --size-headline: 20px;      /* card heads: 28 line */
+  --size-body: 17px;          /* 24 line */
+  --size-footnote: 13px;      /* 16 line */
+
+  /* space: the 8 point grid */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+  --measure: 680px;
+  --wrap: 1120px;
+
+  /* shape */
+  --control: 48px;
+  --r-card: 28px;
+  --r-group: 20px;
+  --r-row: 8px;
+  --r-pill: 999px;
+  --r-icon: 22.5%;
+  --motion: .2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #d9703f;
+    --bg: #171614;
+    --surface: #211f1c;
+    --line: #33302b;
+    --text: #f3efe8;
+    --sub: #9a948a;
+    --live: #4caf6e;
+    --pending: #5b9bd5;
+    --bad: #d9534f;
+    --idle: #6f6a62;
+  }
+}

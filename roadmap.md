@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.2)
+## Parity matrix (v0.2.0)
 
 | Area | Helm | Talaria | Status |
 |---|---|---|---|
@@ -46,7 +46,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 
 Each version closes a block of rows above and refreshes the matrix.
 
-- 0.2 landing, brand kit, design system, font, icon
+- 0.2 landing, brand kit, design system, font, icon (done: talaria.jaybulb.com, Talaria Sans, Talaria.icon, row hover)
 - 0.3 version detail: edit, create, ship, reject, review info
 - 0.4 localizations editor with bulk upload and download
 - 0.5 screenshots and previews
