@@ -7,7 +7,7 @@ struct RootView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Sidebar(app: selected)
+            Sidebar(app: selected, store: store)
                 .frame(width: 260)
                 .layoutPriority(1)
             Rectangle().fill(Theme.line).frame(width: 1)
@@ -36,12 +36,18 @@ struct RootView: View {
 
 struct Sidebar: View {
     let app: ASCApp?
+    let store: Store
 
     var body: some View {
         VStack(spacing: 8) {
             Spacer()
-            Image(nsImage: NSApp.applicationIconImage)
-                .resizable().scaledToFit().frame(width: 80, height: 80)
+            // Hermes' own mark on the welcome screen; the open app's icon once one is picked.
+            if let app {
+                AppIcon(app: app, url: store.icons[app.id], size: 80)
+            } else {
+                Image(nsImage: NSApp.applicationIconImage)
+                    .resizable().scaledToFit().frame(width: 80, height: 80)
+            }
             Text(app.map { $0.name } ?? "Welcome to Hermes").font(Theme.font(17, .semibold))
             Text(app == nil ? "Select an app to get started." : app!.bundleId)
                 .foregroundStyle(Theme.muted)
