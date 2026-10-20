@@ -51,7 +51,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 0.4 localizations editor with bulk upload and download (done: Metadata tab, .strings export, import validated by --dry-run first)
 - 0.5 screenshots and previews (done: Media tab, thumbnails from Apple's CDN, hover delete, uploads checked with --dry-run)
 - 0.6 builds and TestFlight write actions (done)
-- 0.6.x app icons for unreleased apps from the latest build's iconAssetToken (no more letter tiles)
+- 0.6.1 app icons for unreleased apps from the latest build's iconAssetToken (done)
 - 0.7 reviews: reply and signature
 - 0.8 submissions
 - 0.9 in-app events

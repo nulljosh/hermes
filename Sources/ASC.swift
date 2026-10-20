@@ -118,7 +118,18 @@ extension ASC {
         }.sorted { $0.platform < $1.platform }
     }
 
-    // Live apps only; unreleased ones fall back to a letter tile in the UI.
+    // The icon Apple pulled out of the newest build; works for apps that are not on sale yet.
+    static func buildIcon(_ id: String) async -> URL? {
+        struct R: Decodable {
+            struct D: Decodable { struct A: Decodable { struct T: Decodable { let templateUrl: String }; let iconAssetToken: T? }; let attributes: A }
+            let data: [D]
+        }
+        guard let data = try? await run(["builds", "list", "--app", id, "--limit", "1"]),
+              let t = (try? JSONDecoder().decode(R.self, from: data))?.data.first?.attributes.iconAssetToken?.templateUrl else { return nil }
+        return URL(string: t.replacingOccurrences(of: "{w}x{h}bb.{f}", with: "200x200bb.png"))
+    }
+
+    // Store artwork for live apps; the UI falls back to buildIcon, then a letter tile.
     static func icon(bundleId: String) async -> URL? {
         guard let u = URL(string: "https://itunes.apple.com/lookup?bundleId=\(bundleId)&entity=software"),
               let (d, _) = try? await URLSession.shared.data(from: u),

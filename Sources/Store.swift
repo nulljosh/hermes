@@ -16,7 +16,8 @@ final class Store {
             for app in apps {
                 g.addTask { [self] in
                     let v = try? await ASC.versions(app.id)
-                    let i = await ASC.icon(bundleId: app.bundleId)
+                    var i = await ASC.icon(bundleId: app.bundleId)
+                    if i == nil { i = await ASC.buildIcon(app.id) }
                     await MainActor.run { versions[app.id] = v ?? []; icons[app.id] = i }
                 }
             }
