@@ -23,9 +23,15 @@ code { font-size: .9em; padding: 2px 6px; border-radius: 6px; background: var(--
 .nav-links a { text-decoration: none; color: var(--sub); }
 .nav-links a:hover { color: var(--text); }
 
-.hero { padding: var(--sp-9) 0 var(--sp-8); }
+.hero { padding: var(--sp-9) 0 var(--sp-8); position: relative; overflow: hidden; }
+/* Hero: copy on the left, the 1878 Hermes engraving on the right. --sy is the scroll offset from landing.js:
+   the god drifts down at a quarter of the scroll, the copy at a tenth and fades. */
+.hero-top { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: var(--sp-6); }
+.hero-copy { transform: translate3d(0, calc(var(--sy, 0) * .1px), 0); opacity: calc(1 - var(--sy, 0) / 900); }
+.hero-god { margin: 0; color: var(--text); transform: translate3d(0, calc(var(--sy, 0) * .25px), 0); }
+.hero-god svg { display: block; width: 100%; max-height: 620px; }
 .kicker { font-size: 15px; color: var(--accent); font-weight: 600; margin-bottom: var(--sp-4); }
-h1 { font-size: var(--size-display); line-height: 64px; letter-spacing: -0.03em; font-weight: 700; }
+h1 { font-size: var(--size-display); line-height: 64px; font-weight: 700; }
 .lead { max-width: var(--measure); font-size: 20px; line-height: 28px; color: var(--sub); margin-top: var(--sp-5); }
 .cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
 .fine { margin-top: var(--sp-3); font-size: var(--size-footnote); color: var(--sub); }
@@ -67,7 +73,7 @@ h1 { font-size: var(--size-display); line-height: 64px; letter-spacing: -0.03em;
 .sec { padding: var(--sp-9) 0; }
 .field { background: var(--surface); }
 .sec-head { max-width: var(--measure); margin-bottom: var(--sp-7); }
-h2 { font-size: var(--size-title); line-height: 40px; letter-spacing: -0.02em; font-weight: 700; }
+h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; }
 .sec-head p, .body { color: var(--sub); margin-top: var(--sp-3); max-width: var(--measure); }
 .center .body { margin-left: auto; margin-right: auto; }
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
@@ -95,7 +101,7 @@ h2 { font-size: var(--size-title); line-height: 40px; letter-spacing: -0.02em; f
 .word-band { position: relative; width: 100vw; margin: var(--sp-6) 0 0 calc(50% - 50vw); height: clamp(160px, 24vw, 340px); }
 .word-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
 .word-band.live .word-canvas { display: block; }
-.word-plain { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 700; font-size: clamp(72px, 18vw, 260px); letter-spacing: -0.04em; line-height: 1; color: var(--accent); }
+.word-plain { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 700; font-size: clamp(72px, 18vw, 260px); letter-spacing: -0.01em; line-height: 1; color: var(--accent); }
 .word-band.live .word-plain { display: none; }
 .legal { margin-top: var(--sp-2); font-size: var(--size-footnote); line-height: 16px; color: var(--sub); text-wrap: balance; }
 
@@ -103,6 +109,8 @@ h2 { font-size: var(--size-title); line-height: 40px; letter-spacing: -0.02em; f
 .js .reveal.in { opacity: 1; transform: none; }
 
 @media (max-width: 900px) {
+  .hero-top { grid-template-columns: 1fr; }
+  .hero-god { max-width: 340px; margin: 0 auto; }
   .cards { grid-template-columns: 1fr 1fr; }
   .two { grid-template-columns: 1fr; }
   .win { grid-template-columns: 1fr; height: 600px; }

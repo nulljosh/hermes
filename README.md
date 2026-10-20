@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Hermes">
 
-![version](https://img.shields.io/badge/version-2.6.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
+![version](https://img.shields.io/badge/version-2.7.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
 
 **[hermes.jaybulb.com](https://hermes.jaybulb.com)**
 
@@ -28,7 +28,9 @@ claude mcp add hermes -- uv run ~/Documents/Code/hermes/mcp/server.py
 
 ```sh
 brew install xcodegen asc
+asc auth login --name MyKey --key-id KEY_ID --issuer-id ISSUER_ID --private-key AuthKey.p8
 xcodegen generate && open Hermes.xcodeproj
+./scripts/release.sh   # signed, notarized dist/Hermes.dmg
 ```
 
 The roadmap is `docs/roadmap.md`. How it works is `docs/WHITEPAPER.md`.

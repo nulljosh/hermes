@@ -6,7 +6,7 @@
 
   var C = { live: 'var(--live)', pending: 'var(--pending)', bad: 'var(--bad)', idle: 'var(--idle)' };
   var APPS = [
-    { name: 'Lantern', bundle: 'com.example.lantern', v: [['2.4.1', 'iOS', 'live'], ['2.6.0', 'macOS', 'live']], next: 'Nothing to do. Every platform is on sale.', health: 'live' },
+    { name: 'Lantern', bundle: 'com.example.lantern', v: [['2.4.1', 'iOS', 'live'], ['2.7.0', 'macOS', 'live']], next: 'Nothing to do. Every platform is on sale.', health: 'live' },
     { name: 'Field Notes', bundle: 'com.example.fieldnotes', v: [['1.3.0', 'iOS', 'pending'], ['1.2.9', 'macOS', 'live']], next: 'Wait for App Store review outcome.', health: 'pending' },
     { name: 'Tidepool', bundle: 'com.example.tidepool', v: [['1.0.0', 'iOS', 'bad']], next: 'Resolve blocker: Guideline 2.1, answer App Review in Resolution Center.', health: 'bad' },
     { name: 'Quarry', bundle: 'com.example.quarry', v: [['3.0.0', 'iOS', 'idle'], ['3.0.0', 'macOS', 'idle']], next: 'Attach build 300 and submit for review.', health: 'idle' },
@@ -108,4 +108,15 @@
     }, { rootMargin: '0px 0px -8% 0px' });
     items.forEach(function (e) { io.observe(e); });
   });
+})();
+
+// Hero parallax: hands the scroll offset to CSS as --sy, once per frame. Off under reduced motion.
+(function () {
+  var hero = document.getElementById('hero');
+  if (!hero || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () { hero.style.setProperty('--sy', Math.min(scrollY, 1000)); ticking = false; });
+  }, { passive: true });
 })();

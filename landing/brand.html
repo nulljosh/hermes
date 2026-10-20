@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Brand Kit</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; }
+body { font-family: var(--font); font-size: var(--size-body); line-height: 24px; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+main { max-width: var(--wrap); margin: 0 auto; padding: var(--sp-8) 20px var(--sp-9); display: grid; gap: var(--sp-8); }
+h1 { font-size: var(--size-display); line-height: 64px; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; margin-bottom: var(--sp-5); }
+.sub { color: var(--sub); }
+.foot { font-size: var(--size-footnote); line-height: 16px; color: var(--sub); }
+.head { display: flex; align-items: center; gap: var(--sp-5); }
+.row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--sp-6); }
+.row figure { display: grid; justify-items: center; gap: var(--sp-2); }
+.card { background: var(--surface); border-radius: var(--r-card); padding: var(--sp-6); }
+.marks { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+.marks div { border-radius: var(--r-group); padding: var(--sp-6); display: grid; place-items: center; }
+.mark { width: 160px; height: 160px; -webkit-mask: url(mark.svg) center / contain no-repeat; mask: url(mark.svg) center / contain no-repeat; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--sp-4); }
+.sw { border-radius: var(--r-group); overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+.sw i { display: flex; height: 72px; }
+.sw i b { flex: 1; }
+.sw p { padding: var(--sp-3) var(--sp-4); font-size: var(--size-footnote); line-height: 16px; }
+.sw p span { display: block; color: var(--sub); }
+.specimen { font-size: 120px; line-height: 120px; font-weight: 700; letter-spacing: -0.01em; }
+.weights { display: grid; gap: var(--sp-2); font-size: 34px; line-height: 44px; }
+.scale { display: grid; gap: var(--sp-4); }
+.scale div { display: grid; grid-template-columns: 140px 1fr; align-items: baseline; gap: var(--sp-4); }
+.glyphs { font-size: 28px; line-height: 40px; word-break: break-all; }
+.space { display: grid; gap: var(--sp-2); }
+.space div { display: flex; align-items: center; gap: var(--sp-4); font-size: var(--size-footnote); }
+.space b { display: block; height: 16px; background: var(--accent); border-radius: 4px; }
+.radii { display: flex; flex-wrap: wrap; gap: var(--sp-5); }
+.radii div { width: 120px; height: 96px; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: end start; padding: var(--sp-3); font-size: var(--size-footnote); }
+.btn { display: inline-flex; align-items: center; height: var(--control); padding: 0 var(--sp-5); border-radius: var(--r-pill); font: 600 17px var(--font); border: 0; }
+.btn-solid { background: var(--accent); color: var(--bg); }
+.btn-ghost { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent); }
+.states { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: 15px; }
+.states span { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.states i { width: 10px; height: 10px; border-radius: 50%; }
+@media (max-width: 600px) { h1 { font-size: 44px; line-height: 48px; } .specimen { font-size: 72px; line-height: 76px; } .marks { grid-template-columns: 1fr; } .scale div { grid-template-columns: 1fr; gap: 0; } }
+</style>
+</head>
+<body>
+<main>
+  <section class="head">
+    <img src="icon.svg" width="96" height="96" alt="">
+    <div><h1>Hermes</h1><p class="sub">Brand kit and design system. Every value here is read live from tokens.css.</p></div>
+  </section>
+
+  <section>
+    <h2>The mark</h2>
+    <div class="card">
+      <div class="row">
+        <figure><img src="icon.svg" width="256" height="256" alt=""><figcaption class="foot">256</figcaption></figure>
+        <figure><img src="icon.svg" width="128" height="128" alt=""><figcaption class="foot">128</figcaption></figure>
+        <figure><img src="icon.svg" width="64" height="64" alt=""><figcaption class="foot">64</figcaption></figure>
+        <figure><img src="favicon.svg" width="32" height="32" alt=""><figcaption class="foot">32, small cut</figcaption></figure>
+        <figure><img src="favicon.svg" width="16" height="16" alt=""><figcaption class="foot">16</figcaption></figure>
+      </div>
+    </div>
+    <div class="marks" style="margin-top: var(--sp-4)">
+      <div style="background:#faf8f4"><b class="mark" style="background:#0066C0"></b></div>
+      <div style="background:#171614"><b class="mark" style="background:#f3efe8"></b></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Colour</h2>
+    <div class="swatches" id="swatches"></div>
+    <p class="foot" style="margin-top: var(--sp-3)">Each chip: light on the left, dark on the right. The accent is the only colour Hermes owns; it starts from clrs.cc blue.</p>
+  </section>
+
+  <section>
+    <h2>Type</h2>
+    <div class="card" style="display:grid;gap:var(--sp-6)">
+      <div>
+        <p class="specimen">Hermes Sans</p>
+        <p class="sub">Inter under the SIL Open Font License, renamed. Open shapes and even, proportional spacing in the spirit of San Francisco and Helvetica. The curly quotes are feathers from the wing.</p>
+      </div>
+      <div class="weights">
+        <p style="font-weight:400">Regular 400 &ldquo;Ship it&rdquo;</p>
+        <p style="font-weight:500">Medium 500 &lsquo;in review&rsquo;</p>
+        <p style="font-weight:600">Semibold 600 Ready for Sale</p>
+        <p style="font-weight:700">Bold 700 Ship to the App Store</p>
+      </div>
+      <div class="scale">
+        <div><span class="foot">Display 64/64 bold</span><span style="font-size:64px;line-height:64px;font-weight:700;letter-spacing:-0.01em">One window</span></div>
+        <div><span class="foot">Title 34/40 bold</span><span style="font-size:34px;line-height:40px;font-weight:700">Every app at a glance</span></div>
+        <div><span class="foot">Headline 20/28 semibold</span><span style="font-size:20px;line-height:28px;font-weight:600">Submit for review</span></div>
+        <div><span class="foot">Body 17/24</span><span>Every change shows the exact command and asks first.</span></div>
+        <div><span class="foot">Footnote 13/16</span><span class="foot">2.6.0 on macOS &middot; Ready for Sale</span></div>
+      </div>
+      <p class="glyphs">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 &ldquo;&rdquo; &lsquo;&rsquo; &amp; ? ! @ $ % ( ) &rarr;</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Space and shape</h2>
+    <div class="card" style="display:grid;gap:var(--sp-6)">
+      <div class="space" id="space"></div>
+      <div class="radii">
+        <div style="border-radius:var(--r-row)">row 8</div>
+        <div style="border-radius:var(--r-group)">group 20</div>
+        <div style="border-radius:var(--r-card)">card 28</div>
+        <div style="border-radius:22.5%">icon 22.5%</div>
+      </div>
+      <div class="row" style="align-items:center">
+        <button class="btn btn-solid">Download for Mac</button>
+        <button class="btn btn-ghost">See what it does</button>
+        <span class="foot">Controls are 48 point capsules.</span>
+      </div>
+      <div class="states">
+        <span><i style="background:var(--live)"></i>Ready for Sale</span>
+        <span><i style="background:var(--pending)"></i>In Review</span>
+        <span><i style="background:var(--bad)"></i>Rejected</span>
+        <span><i style="background:var(--idle)"></i>Preparing</span>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+// Swatches and the space scale come straight from tokens.css, so this page can never drift from it.
+(async function () {
+  var css = await (await fetch('tokens.css')).text();
+  var dark = (css.split('prefers-color-scheme: dark')[1] || '');
+  function val(block, name) { var m = block.match(new RegExp('--' + name + ':\\s*(#[0-9a-fA-F]{6})')); return m && m[1]; }
+  var light = css.split('prefers-color-scheme: dark')[0];
+  var roles = [['accent', 'Accent'], ['bg', 'Background'], ['surface', 'Surface'], ['line', 'Line'], ['text', 'Text'], ['sub', 'Secondary'],
+               ['live', 'On sale'], ['pending', 'In review'], ['bad', 'Rejected'], ['idle', 'Preparing'], ['accent-light', 'Icon top'], ['accent-deep', 'Icon bottom']];
+  document.getElementById('swatches').innerHTML = roles.map(function (r) {
+    var l = val(light, r[0]), d = val(dark, r[0]) || l;
+    return '<div class="sw"><i><b style="background:' + l + '"></b><b style="background:' + d + '"></b></i><p>' + r[1] + '<span>' + l + (d !== l ? ' / ' + d : '') + '</span></p></div>';
+  }).join('');
+  var sp = [...light.matchAll(/--sp-(\d): (\d+)px/g)];
+  document.getElementById('space').innerHTML = sp.map(function (m) { return '<div><b style="width:' + m[2] + 'px"></b>sp-' + m[1] + ' &middot; ' + m[2] + '</div>'; }).join('');
+})();
+</script>
+</body>
+</html>

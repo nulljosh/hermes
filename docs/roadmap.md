@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v2.6.0)
+## Parity matrix (v2.7.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -66,6 +66,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 2.4 brand polish (done): feather quotes in Hermes Sans, thicker wing, a two-feather favicon for 16 px
 - 2.5 subscription prices for every country, introductory, promotional and win-back offers, grace period (done)
 - 2.6 blue brand from clrs.cc and a detailed wing icon with Icon Composer glass (done)
+- 2.7 Hermes Sans rebuilt on Inter for SF-like proportional spacing, AA contrast accent, amber review state, brand kit page, 1878 Hermes engraving in a parallax hero (done)
 - 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks

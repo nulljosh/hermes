@@ -1,5 +1,6 @@
-"""Hermes Sans: Instrument Sans (Google Fonts, SIL Open Font License 1.1, no reserved name), renamed, with its curly
+"""Hermes Sans: Inter (Rasmus Andersson, SIL Open Font License 1.1, no reserved name), renamed, with its curly
 quote marks redrawn as feathers from the Hermes wing, so every quote in the app wears the mark.
+Inter is drawn in the spirit of San Francisco and Helvetica: open shapes, even proportional spacing, built for screens.
 
 Same method as coda's Quip Sans and turing's Samantha Sans: pinned release, renamed, OFL shipped beside the fonts,
 original copyright kept in the name table, fixed timestamps so every build is the same bytes.
@@ -21,12 +22,12 @@ from fontTools.ttLib import TTFont
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(HERE, "fonts")
-SOURCE = "https://cdn.jsdelivr.net/npm/@fontsource/instrument-sans@5.2.5/"
+SOURCE = "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/"
 WEIGHTS = {"Regular": 400, "Medium": 500, "Semibold": 600, "Bold": 700}
 
 
 def fetch(path):
-    """Bytes of one file from the pinned Instrument Sans release."""
+    """Bytes of one file from the pinned Inter release."""
     with urllib.request.urlopen(SOURCE + path, timeout=60) as r:
         return r.read()
 
@@ -91,7 +92,7 @@ def check():
                 g = glyf[cmap[cp]]
                 assert g.numberOfContours == n, f"U+{cp:04X} is not the feather"
                 assert 0 <= g.xMin and g.xMax <= hmtx[cmap[cp]][0], f"U+{cp:04X} spills out of its advance"
-    print(f"font ok: Hermes Sans (Instrument Sans, OFL), {len(WEIGHTS)} weights, quotes are feathers")
+    print(f"font ok: Hermes Sans (Inter, OFL), {len(WEIGHTS)} weights, quotes are feathers")
 
 
 def main():
@@ -101,13 +102,13 @@ def main():
     with open(os.path.join(OUT, "OFL.txt"), "wb") as f:
         f.write(fetch("LICENSE"))
     for style, weight in WEIGHTS.items():
-        font = TTFont(io.BytesIO(fetch(f"files/instrument-sans-latin-{weight}-normal.woff2")))
+        font = TTFont(io.BytesIO(fetch(f"files/inter-latin-{weight}-normal.woff2")))
         redraw_quotes(font)
         rename(font, style)
         for ext, flavor in (("ttf", None), ("woff2", "woff2")):
             font.flavor = flavor
             font.save(os.path.join(OUT, f"HermesSans-{style}.{ext}"), reorderTables=False)
-        print(f"HermesSans-{style}: Instrument Sans {weight}")
+        print(f"HermesSans-{style}: Inter {weight}")
 
 
 if __name__ == "__main__":

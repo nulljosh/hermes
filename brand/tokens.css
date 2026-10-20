@@ -7,8 +7,8 @@
 
 :root {
   /* colour */
-  --accent: #0074D9;          /* actions, links, the icon */
-  --accent-light: #0074D9;    /* icon gradient top */
+  --accent: #0066C0;          /* actions and links; clrs.cc blue deepened to pass AA on paper */
+  --accent-light: #0074D9;    /* icon gradient top, clrs.cc blue */
   --accent-deep: #004C8F;     /* icon gradient bottom */
   --ring: color-mix(in srgb, var(--accent) 30%, transparent);
   --bg: #faf8f4;
@@ -17,13 +17,13 @@
   --text: #1f1d1a;
   --sub: #6b655c;
   --live: #2f8a4e;            /* ready for sale */
-  --pending: #2f6fb0;         /* in review, processing */
+  --pending: #b07a00;         /* in review, processing: amber, so it never reads as a link */
   --bad: #c0392b;             /* rejected */
   --idle: #8a847a;            /* preparing, unknown */
 
   /* type */
   --font: "Hermes Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --size-display: 64px;       /* hero: 64 line, -0.03em */
+  --size-display: 64px;       /* hero: 64 line, -0.01em */
   --size-title: 34px;         /* section heads: 40 line */
   --size-headline: 20px;      /* card heads: 28 line */
   --size-body: 17px;          /* 24 line */
@@ -53,7 +53,7 @@
     --text: #f3efe8;
     --sub: #9a948a;
     --live: #4caf6e;
-    --pending: #5b9bd5;
+    --pending: #e0a800;
     --bad: #d9534f;
     --idle: #6f6a62;
   }
