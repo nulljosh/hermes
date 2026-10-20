@@ -25,6 +25,7 @@ struct RootView: View {
         .foregroundStyle(Theme.text)
         .font(Theme.font(13))
         .preferredColorScheme(.dark)
+        .tint(Theme.accent)
         .frame(minWidth: 760, minHeight: 480)
         .task { await store.load() }
         // QA launch argument: -selectApp <app id> opens that app as soon as the list arrives.

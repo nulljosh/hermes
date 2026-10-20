@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v1.4.0)
+## Parity matrix (v1.5.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -30,7 +30,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | IAP and subscription pricing: plan, set, schedule, equalize | yes | app price and proceeds, set app price from a date, set IAP price | partial (subscription prices, equalize todo) |
 | Subscriptions and groups, offers (intro, promo, win-back, codes) | yes | groups and subscriptions: list, create, delete | partial (offers todo) |
 | Promoted purchases, billing grace period | yes | no | todo |
-| Availability and remove from sale | yes | no | todo |
+| Availability and remove from sale | yes | count, per-country switches, everywhere, remove from sale | done |
 | Multiple accounts, switch active account | yes | no (one asc profile) | todo |
 | Account setup flow (API key, issuer) | yes | no, uses asc auth | todo |
 | Setup export and import file (.helm-setup) | yes | no | todo |
@@ -60,7 +60,8 @@ Each version closes a block of rows above and refreshes the matrix.
 - 1.2 in-app purchases (done)
 - 1.3 subscriptions (done, inside the Purchases tab)
 - 1.4 pricing (done: App Price in the Purchases tab, IAP price)
-- 1.5 to 1.9 offers, subscription prices, availability
+- 1.5 availability (done)
+- 1.6 to 1.9 offers, subscription prices, promoted purchases
 - 2.0 multiple accounts, setup flow, export and import
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
