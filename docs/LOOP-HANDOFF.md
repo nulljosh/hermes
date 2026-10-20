@@ -13,7 +13,7 @@ Rules that bite:
 
 ## Where things stand
 
-- Repo: main at cbb2fe1, tagged v2.5.0, pushed. The working tree was clean when this was written.
+- Repo: main at cbb2fe1, tagged v2.5.0, pushed. Another session has uncommitted brand work in the tree (Hermes.icon, Sources/Theme.swift, architecture.svg), and the CLAUDE.md on disk says the font is moving from Hermes Sans to the system font. None of that is committed; check it before the next iteration.
 - 2.5.0 added subscription prices for every country, introductory, promotional and win-back offers, and the billing grace period. The QA pass and the notarized DMG for 2.5.0 are not recorded yet.
 - 2.4.0 (fd13925) redrew the quote marks as feathers in Hermes Sans, thickened the wing icon, and added a two-feather favicon for small sizes.
 - 2.3.0 added light mode and an Appearance setting (System, Light, Dark). 2.2.0 added build upload (.ipa and .pkg), What to Test, and submit for beta review.
