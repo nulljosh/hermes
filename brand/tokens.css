@@ -1,9 +1,9 @@
-/* Talaria design tokens. One source for the landing and the Mac app (Sources/Theme.swift mirrors these).
-   Shared system: 8 point grid, one radius set, 48 point capsule controls. The accent is the only colour Talaria owns. */
-@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Talaria Sans"; src: url("fonts/TalariaSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+/* Hermes design tokens. One source for the landing and the Mac app (Sources/Theme.swift mirrors these).
+   Shared system: 8 point grid, one radius set, 48 point capsule controls. The accent is the only colour Hermes owns. */
+@font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Hermes Sans"; src: url("fonts/HermesSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 
 :root {
   /* colour */
@@ -22,7 +22,7 @@
   --idle: #8a847a;            /* preparing, unknown */
 
   /* type */
-  --font: "Talaria Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font: "Hermes Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --size-display: 64px;       /* hero: 64 line, -0.03em */
   --size-title: 34px;         /* section heads: 40 line */
   --size-headline: 20px;      /* card heads: 28 line */

@@ -15,7 +15,7 @@ enum Theme {
 
     // Falls back to the system face if the bundled one is missing.
     static func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
-        .custom("Talaria Sans", size: size).weight(weight)
+        .custom("Hermes Sans", size: size).weight(weight)
     }
 
     static func stateColor(_ state: String?) -> Color {

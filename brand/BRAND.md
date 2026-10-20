@@ -1,11 +1,11 @@
-# Talaria brand kit and design system
+# Hermes brand kit and design system
 
-the talaria, Hermes' winged sandals: the messenger that carries your app to the store
+A wing from Hermes' sandals: the messenger who carries your app to the store.
 
 ## The mark
 One bold flat white glyph on an accent gradient tile. No text, no outline, no emblem.
 
-- `../Talaria.icon` is the source of truth (Icon Composer). Light and dark fills are set in it.
+- `../Hermes.icon` is the source of truth (Icon Composer). Light and dark fills are set in it.
 - `../icon.svg` is the flat copy for READMEs (shown at 80 px). `icon-1024.png` is the App Store icon, no alpha.
 - `mark.svg` is the glyph alone in `currentColor` for your own background.
 - Clear space equal to the width of the glyph's thickest stroke. Smallest size 16 px.
@@ -25,7 +25,7 @@ Warm paper in light, warm graphite in dark. One accent, flat surfaces, no gradie
 State dots, the same everywhere a version shows: on sale `#4caf6e`, in review or processing `#5b9bd5`, rejected `#d9534f`, preparing `#6f6a62` (dark values; light values are in `tokens.css`).
 
 ## Type
-Talaria Sans, the house face for this app: Instrument Sans under the SIL Open Font License, renamed and pinned by `scripts/gen_font.py`. Four weights, 400 to 700. The fallback is the system stack. Scale: display 64/64 bold, title 34/40 bold, headline 20/28 semibold, body 17/24, footnote 13/16. The app uses 17 semibold for titles, 14 semibold for rows and 11 medium for version lines.
+Hermes Sans, the house face for this app: Instrument Sans under the SIL Open Font License, renamed and pinned by `scripts/gen_font.py`. Four weights, 400 to 700. The fallback is the system stack. Scale: display 64/64 bold, title 34/40 bold, headline 20/28 semibold, body 17/24, footnote 13/16. The app uses 17 semibold for titles, 14 semibold for rows and 11 medium for version lines.
 
 ## Space and shape
 - Space on the 8 point grid: 4, 8, 12, 16, 24, 32, 48. Side margin 20. Reading column 680.

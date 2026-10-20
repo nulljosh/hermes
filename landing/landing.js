@@ -93,7 +93,7 @@
   }
 
   function side(a) {
-    document.getElementById('w-title').textContent = a ? a.name : 'Welcome to Talaria';
+    document.getElementById('w-title').textContent = a ? a.name : 'Welcome to Hermes';
     document.getElementById('w-sub').textContent = a ? a.bundle : 'Select an app to get started.';
   }
 

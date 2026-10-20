@@ -2,7 +2,7 @@ import CoreText
 import SwiftUI
 
 @main
-struct TalariaApp: App {
+struct HermesApp: App {
     init() {
         for url in Bundle.main.urls(forResourcesWithExtension: "ttf", subdirectory: nil) ?? [] {
             CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
@@ -23,7 +23,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Toggle("Read-only mode", isOn: $readOnly)
-            Text("While this is on, Talaria can look at everything and change nothing. Turn it off to save, submit and release.")
+            Text("While this is on, Hermes can look at everything and change nothing. Turn it off to save, submit and release.")
                 .font(.caption).foregroundStyle(.secondary)
         }
         .formStyle(.grouped)

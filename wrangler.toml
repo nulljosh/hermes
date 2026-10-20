@@ -1,8 +1,8 @@
-name = "talaria"
+name = "hermes"
 compatibility_date = "2025-07-01"
 
 workers_dev = false
-routes = [{ pattern = "talaria.jaybulb.com", custom_domain = true }]
+routes = [{ pattern = "hermes.jaybulb.com", custom_domain = true }]
 
 [assets]
 directory = "landing"

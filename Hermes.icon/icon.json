@@ -24,11 +24,11 @@
         {
           "glass": false,
           "image-name": "glyph.png",
-          "name": "Talaria"
+          "name": "Hermes"
         }
       ],
       "lighting": "individual",
-      "name": "Talaria",
+      "name": "Hermes",
       "shadow": {
         "kind": "neutral",
         "opacity": 0.3

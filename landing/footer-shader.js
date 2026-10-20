@@ -1,4 +1,4 @@
-// Footer wordmark: a giant "Talaria" in Talaria Sans, shaded like a line engraving. Horizontal rules run across the
+// Footer wordmark: a giant "Hermes" in Hermes Sans, shaded like a line engraving. Horizontal rules run across the
 // band; inside the letters they thicken on the side facing away from a light that drifts slowly, so the word looks cut
 // into the page. Colours come from the live theme. It runs only while on screen and holds one still frame under
 // reduced motion. Without WebGL the plain word stays.
@@ -62,9 +62,9 @@
   }
   var texWord = texture(0), texSoft = texture(1);
 
-  // The headline's family, Talaria Sans
+  // The headline's family, Hermes Sans
   var family = getComputedStyle(document.querySelector('.hero h1') || document.body).fontFamily;
-  var WORD = 'Talaria';
+  var WORD = 'Hermes';
 
   // The word is drawn once per size into two 2D canvases: sharp, and blurred for the shading.
   function bake() {

@@ -1,17 +1,17 @@
-# Talaria roadmap
+# Hermes roadmap
 
-Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for feature, with its own brand and code. Talaria drives the `asc` CLI, so auth and API coverage come from there.
+Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for feature, with its own brand and code. Hermes drives the `asc` CLI, so auth and API coverage come from there.
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
 ## Parity matrix (v0.6.0)
 
-| Area | Helm | Talaria | Status |
+| Area | Helm | Hermes | Status |
 |---|---|---|---|
 | App list, icons, search, refresh | yes | yes | done |
 | Per-platform version and state dot | yes | yes | done |
 | Two-pane welcome window | yes | yes | done |
-| Release status and next action | yes | yes | done (Talaria adds blockers) |
+| Release status and next action | yes | yes | done (Hermes adds blockers) |
 | Version list | yes | yes | done |
 | Create version, edit version, ship, reject | yes | create, edit, submit, release, delete | partial (reject = cancel submission, lands with 0.8) |
 | Review info (notes, demo account, attachments) | yes | contact, notes, demo account | partial (attachments todo) |
@@ -40,13 +40,13 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Menu bar status and notifications on state change | yes | no | todo |
 | Agreement banner (Apple license updated) | yes | no | todo |
 | Datasets and charts | yes | no | check what these are |
-| Free tier counter and Pro license | yes | n/a | skip, Talaria is free or $1 |
+| Free tier counter and Pro license | yes | n/a | skip, Hermes is free or $1 |
 
 ## Version plan
 
 Each version closes a block of rows above and refreshes the matrix.
 
-- 0.2 landing, brand kit, design system, font, icon (done: talaria.jaybulb.com, Talaria Sans, Talaria.icon, row hover)
+- 0.2 landing, brand kit, design system, font, icon (done: hermes.jaybulb.com, Hermes Sans, Hermes.icon, row hover)
 - 0.3 version detail: edit, create, ship, reject, review info (done: all writes confirm the exact asc command; read-only mode on by default)
 - 0.4 localizations editor with bulk upload and download (done: Metadata tab, .strings export, import validated by --dry-run first)
 - 0.5 screenshots and previews (done: Media tab, thumbnails from Apple's CDN, hover delete, uploads checked with --dry-run)
