@@ -8,3 +8,7 @@ Native SwiftUI Mac app for App Store Connect. A feature-for-feature match for He
 - Landing: `landing/`, Worker `hermes` at hermes.jaybulb.com, `./deploy.sh`.
 - `docs/roadmap.md` holds the parity matrix. The loop to v100 is `~/.claude/loops/hermes.md`; QA the app at every major version.
 - Mutations go through `asc` with --dry-run first, and never against live apps without Joshua's yes.
+
+## The loop
+
+The loop to v100 runs from `~/.claude/loops/hermes.md`. Current state and the next items are in `docs/LOOP-HANDOFF.md`. Read it before any loop iteration.
