@@ -85,6 +85,7 @@ struct IAPDetail: View {
     @State private var drafts: [Submission] = []
     @State private var pending: PendingCommand?
     @State private var newLocale = ""
+    @State private var newPrice = "0.99"
 
     var version: Item? { versions.first }
 
@@ -99,6 +100,10 @@ struct IAPDetail: View {
             }
             Section("Purchase") {
                 LabeledContent("Product ID", value: iap.productId ?? "")
+                Picker("Price (US)", selection: $newPrice) { ForEach(["0.99", "1.99", "2.99", "4.99", "9.99"], id: \.self) { Text($0).tag($0) } }
+                Button("Set Price") {
+                    pending = PendingCommand(title: "Set Purchase Price", args: ["iap", "pricing", "schedules", "create", "--iap-id", iap.id, "--base-territory", "USA", "--price", newPrice])
+                }
                 TextField("Reference name", text: $refName)
                 Button("Save Name") { pending = PendingCommand(title: "Save Name", args: ["iap", "update", "--id", iap.id, "--ref-name", refName]) }
             }

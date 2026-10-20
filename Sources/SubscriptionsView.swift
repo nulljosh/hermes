@@ -105,13 +105,17 @@ struct NewSubscription: View {
 // One tab for both kinds of purchase, so the tab row stays short.
 struct PurchasesTab: View {
     let app: ASCApp
-    @State private var kind = 0
+    @State private var kind = 2
 
     var body: some View {
         VStack(spacing: 0) {
-            Picker("", selection: $kind) { Text("In-App Purchases").tag(0); Text("Subscriptions").tag(1) }
+            Picker("", selection: $kind) { Text("App Price").tag(2); Text("In-App Purchases").tag(0); Text("Subscriptions").tag(1) }
                 .pickerStyle(.segmented).labelsHidden().fixedSize().padding(.top, 8)
-            if kind == 0 { PurchasesView(app: app) } else { SubscriptionsView(app: app) }
+            switch kind {
+            case 0: PurchasesView(app: app)
+            case 1: SubscriptionsView(app: app)
+            default: PriceView(app: app)
+            }
         }
     }
 }
