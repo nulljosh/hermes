@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Hermes">
 
-![version](https://img.shields.io/badge/version-0.7.0-a8441f) ![license](https://img.shields.io/badge/license-MIT-a8441f)
+![version](https://img.shields.io/badge/version-0.8.0-a8441f) ![license](https://img.shields.io/badge/license-MIT-a8441f)
 
 **[hermes.jaybulb.com](https://hermes.jaybulb.com)**
 

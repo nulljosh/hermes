@@ -37,8 +37,7 @@ struct DetailView: View {
             case .media: MediaView(app: app)
             case .builds: BuildsView(app: app)
             case .testflight: TestFlightView(app: app)
-            case .reviews: ItemList(args: ["reviews", "list", "--app", app.id, "--limit", "50"],
-                                   title: ["title", "rating"], sub: ["body", "reviewerNickname"], state: nil)
+            case .reviews: ReviewsView(app: app)
             case .purchases: ItemList(args: ["iap", "list", "--app", app.id],
                                      title: ["name"], sub: ["productId", "inAppPurchaseType", "state"], state: "state")
             }

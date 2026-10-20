@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.6.0)
+## Parity matrix (v0.8.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -22,8 +22,8 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Build upload, expire, attach to version, submit for beta review | yes | expire, attach, add to group, What to Test | partial (upload, beta review submit todo) |
 | TestFlight groups | yes | yes | done |
 | TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | partial (aliases todo) |
-| Customer reviews | yes | read only | partial |
-| Review reply, reply signature, review link | yes | no | todo |
+| Customer reviews | yes | yes, with rating summary and filters | done |
+| Review reply, reply signature, review link | yes | yes | done |
 | Submissions: create, add version or event, submit, cancel | yes | no | todo |
 | In-app events: create, duplicate, localize, assets, archive | yes | no | todo |
 | In-app purchases: list, edit, localize | yes | read only | partial |
@@ -52,10 +52,12 @@ Each version closes a block of rows above and refreshes the matrix.
 - 0.5 screenshots and previews (done: Media tab, thumbnails from Apple's CDN, hover delete, uploads checked with --dry-run)
 - 0.6 builds and TestFlight write actions (done)
 - 0.6.1 app icons for unreleased apps from the latest build's iconAssetToken (done)
-- 0.7 reviews: reply and signature
-- 0.8 submissions
-- 0.9 in-app events
-- 1.0 IAP and subscriptions with pricing and offers
+- 0.7 rename to Hermes (done)
+- 0.8 reviews: reply and signature (done)
+- 0.9 submissions
+- 1.0 first major: full QA against Helm, tests and CI, signed and notarized DMG so Download works
+- 1.1 in-app events
+- 1.2 to 1.9 IAP and subscriptions with pricing and offers
 - 2.0 multiple accounts, setup flow, export and import
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
