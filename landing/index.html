@@ -94,7 +94,9 @@
       <p class="body">Hermes drives the open source <code>asc</code> command line tool. Everything you see in the window is a command your scripts, CI and coding agents can run themselves.</p>
       <div class="cta"><a class="btn btn-ghost" href="https://github.com/nulljosh/hermes">Source</a></div>
     </div>
-    <figure class="term reveal" aria-label="The command behind the status pane">
+    <div class="stage term-stage reveal">
+    <figure class="stage-art" aria-hidden="true"><svg viewBox="0 500 1899 1100" preserveAspectRatio="xMidYMid slice"><use href="hermes.svg#art"/></svg></figure>
+    <figure class="term" aria-label="The command behind the status pane">
 <pre><span class="dim">$</span> asc status --app 6794988951
 <span class="dim">health</span>      yellow
 <span class="dim">next</span>        Wait for App Store review outcome.
@@ -103,6 +105,21 @@
 <span class="dim">testflight</span>  READY_FOR_BETA_TESTING</pre>
       <figcaption>The command behind the status pane.</figcaption>
     </figure>
+    </div>
+    <div class="prods">
+      <article class="prod reveal">
+        <figure class="prod-art" aria-hidden="true"><svg viewBox="700 180 480 320" preserveAspectRatio="xMidYMid slice"><use href="hermes.svg#art"/></svg></figure>
+        <p class="label">Desktop</p><h3>Hermes for Mac</h3><p>Every app, every platform and every review state in one native window.</p><a href="https://github.com/nulljosh/hermes/releases/latest/download/Hermes.dmg">Download &rarr;</a>
+      </article>
+      <article class="prod reveal">
+        <figure class="prod-art" aria-hidden="true"><svg viewBox="305 220 450 300" preserveAspectRatio="xMidYMid slice"><use href="hermes.svg#art"/></svg></figure>
+        <p class="label">CLI</p><h3>asc underneath</h3><p>Every pane is an asc command. Run the same ones from your shell or your CI.</p><a href="https://github.com/nulljosh/hermes#agents">Read the README &rarr;</a>
+      </article>
+      <article class="prod reveal">
+        <figure class="prod-art" aria-hidden="true"><svg viewBox="1000 2000 480 320" preserveAspectRatio="xMidYMid slice"><use href="hermes.svg#art"/></svg></figure>
+        <p class="label">MCP</p><h3>Hermes MCP server</h3><p>Claude and other agents read your whole fleet. Read only unless you set HERMES_ALLOW_WRITES=1.</p><a href="https://github.com/nulljosh/hermes/blob/main/mcp/server.py">mcp/server.py &rarr;</a>
+      </article>
+    </div>
   </div>
 </section>
 
