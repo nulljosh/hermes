@@ -4,7 +4,6 @@ import SwiftUI
 // Store listing text per version and language: App Info (name, subtitle, privacy URL) and the version's own fields.
 struct MetadataView: View {
     let app: ASCApp
-    @State private var versions: [Item] = []
     @State private var versionID = ""
     @State private var locs: [Item] = []
     @State private var infoLocs: [Item] = []
@@ -13,24 +12,14 @@ struct MetadataView: View {
     @State private var pending: PendingCommand?
     @State private var adding = false
     @State private var note: String?
+    @State private var reload = 0
 
     var loc: Item? { locs.first { $0.text("locale") == locale } }
     var infoLoc: Item? { infoLocs.first { $0.text("locale") == locale } }
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 12) {
-                Picker("Version", selection: $versionID) {
-                    ForEach(versions) { v in
-                        Text("\(v.text("versionString") ?? "") \(Theme.platform(v.text("platform") ?? ""))").tag(v.id)
-                    }
-                }
-                .fixedSize()
-                Picker("Language", selection: $locale) {
-                    ForEach(locs.compactMap { $0.text("locale") }, id: \.self) { Text(Locale.current.localizedString(forIdentifier: $0) ?? $0).tag($0) }
-                }
-                .fixedSize()
-                Spacer()
+            VersionLocaleBar(app: app, versionID: $versionID, locs: $locs, locale: $locale, error: $error, reload: reload) {
                 Button("Add Language", systemImage: "plus") { adding = true }
                     .labelStyle(.iconOnly).help("Add Language")
                 Button("Export", systemImage: "square.and.arrow.down") { export() }
@@ -38,7 +27,6 @@ struct MetadataView: View {
                 Button("Import", systemImage: "square.and.arrow.up") { Task { await importStrings() } }
                     .labelStyle(.iconOnly).help("Import")
             }
-            .padding(12)
             Divider().overlay(Theme.line)
             if let error {
                 Text(error).foregroundStyle(Theme.bad).padding().textSelection(.enabled)
@@ -49,17 +37,14 @@ struct MetadataView: View {
                 ProgressView().frame(maxHeight: .infinity)
             }
         }
-        .commands($pending) { await loadLocales() }
-        .sheet(isPresented: $adding) { AddLanguage(versionID: versionID) { adding = false; Task { await loadLocales() } } }
+        .commands($pending) { reload += 1 }
+        .sheet(isPresented: $adding) { AddLanguage(versionID: versionID) { adding = false; reload += 1 } }
         .alert("Import check", isPresented: Binding(get: { note != nil }, set: { if !$0 { note = nil } })) { Button("OK") {} } message: { Text(note ?? "") }
-        .task { await loadVersions() }
-        .onChange(of: versionID) { Task { await loadLocales() } }
+        .task { await loadInfo() }
     }
 
-    func loadVersions() async {
+    func loadInfo() async {
         do {
-            versions = try await ASC.items(["versions", "list", "--app", app.id, "--latest"])
-            versionID = versions.first?.id ?? ""
             let infos = try await ASC.items(["apps", "info", "list", "--app", app.id])
             // the editable app info is the one not yet live; fall back to the live one
             let info = infos.first { $0.text("state") != "READY_FOR_DISTRIBUTION" } ?? infos.first
@@ -69,23 +54,8 @@ struct MetadataView: View {
         } catch { self.error = error.localizedDescription }
     }
 
-    func loadLocales() async {
-        guard !versionID.isEmpty else { return }
-        do {
-            locs = try await ASC.items(["localizations", "list", "--version", versionID, "--paginate"])
-            if loc == nil { locale = locs.first?.text("locale") ?? "" }
-        } catch { self.error = error.localizedDescription }
-    }
-
-    func folder(_ prompt: String) -> URL? {
-        let panel = NSOpenPanel()
-        panel.canChooseDirectories = true; panel.canChooseFiles = false; panel.canCreateDirectories = true
-        panel.prompt = prompt
-        return panel.runModal() == .OK ? panel.url : nil
-    }
-
     func export() {
-        guard let dir = folder("Export Here") else { return }
+        guard let dir = pickFolder("Export Here") else { return }
         Task {
             do {
                 _ = try await ASC.run(["localizations", "download", "--version", versionID, "--path", dir.path])
@@ -96,7 +66,7 @@ struct MetadataView: View {
 
     // Validate with --dry-run first, then ask before the real upload.
     func importStrings() async {
-        guard let dir = folder("Import") else { return }
+        guard let dir = pickFolder("Import") else { return }
         do {
             _ = try await ASC.run(["localizations", "upload", "--version", versionID, "--path", dir.path, "--dry-run"])
             pending = PendingCommand(title: "Upload Localizations", args: ["localizations", "upload", "--version", versionID, "--path", dir.path])

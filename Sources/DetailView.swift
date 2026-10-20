@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Tab: String, CaseIterable, Identifiable {
-    case status = "Status", versions = "Versions", metadata = "Metadata", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", purchases = "Purchases"
+    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", purchases = "Purchases"
     var id: String { rawValue }
 }
 
@@ -18,17 +18,23 @@ struct DetailView: View {
                 Button(action: back) { Image(systemName: "chevron.left") }
                     .buttonStyle(.plain).foregroundStyle(Theme.muted)
                 AppIcon(app: app, url: store.icons[app.id], size: 32)
-                Text(app.name).font(Theme.font(16, .semibold)).lineLimit(1).fixedSize()
+                Text(app.name).font(Theme.font(16, .semibold)).lineLimit(1)
                 Spacer()
-                Picker("", selection: $tab) { ForEach(Tab.allCases) { Text($0.rawValue).tag($0) } }
-                    .pickerStyle(.segmented).labelsHidden().frame(maxWidth: 500)
             }
-            .padding(12)
+            .padding([.horizontal, .top], 12)
+            // Tabs get their own row so a long list never squeezes the sidebar.
+            ScrollView(.horizontal, showsIndicators: false) {
+                Picker("", selection: $tab) { ForEach(Tab.allCases) { Text($0.rawValue).tag($0) } }
+                    .pickerStyle(.segmented).labelsHidden().fixedSize()
+                    .padding(.horizontal, 12)
+            }
+            .padding(.vertical, 8)
             Divider().overlay(Theme.line)
             switch tab {
             case .status: StatusView(app: app)
             case .versions: VersionsView(app: app)
             case .metadata: MetadataView(app: app)
+            case .media: MediaView(app: app)
             case .builds: ItemList(args: ["builds", "list", "--app", app.id, "--limit", "50"],
                                   title: ["version"], sub: ["processingState", "uploadedDate"], state: "processingState")
             case .testflight: ItemList(args: ["testflight", "groups", "list", "--app", app.id],

@@ -9,6 +9,7 @@ struct RootView: View {
         HStack(spacing: 0) {
             Sidebar(app: selected)
                 .frame(width: 260)
+                .layoutPriority(1)
             Rectangle().fill(Theme.line).frame(width: 1)
             Group {
                 if let app = selected {
@@ -17,7 +18,8 @@ struct RootView: View {
                     AppList(store: store, query: $query) { selected = $0 }
                 }
             }
-            .frame(maxWidth: .infinity)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .clipped()
         }
         .background(Theme.bg)
         .foregroundStyle(Theme.text)

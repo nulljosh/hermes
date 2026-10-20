@@ -24,12 +24,12 @@ struct Status: Decodable {
 enum ASC {
     static var readOnly: Bool { UserDefaults.standard.object(forKey: "readOnly") as? Bool ?? true }
 
-    static func run(_ args: [String]) async throws -> Data {
+    static func run(_ args: [String], json: Bool = true) async throws -> Data {
         try await Task.detached {
             let p = Process()
             p.executableURL = URL(fileURLWithPath: "/opt/homebrew/bin/asc")
             // Read-only mode (Settings, on by default) makes asc refuse every write before it is sent.
-            p.arguments = (readOnly ? ["--read-only"] : []) + args + ["--output", "json"]
+            p.arguments = (readOnly ? ["--read-only"] : []) + args + (json ? ["--output", "json"] : [])
             p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1"]) { $1 }
             let out = Pipe(), err = Pipe()
             p.standardOutput = out; p.standardError = err
