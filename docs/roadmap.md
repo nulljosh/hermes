@@ -67,6 +67,19 @@ Each version closes a block of rows above and refreshes the matrix.
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
+## Long plan
+
+A plan, not a promise. Versions climb one block at a time; majors get the full QA pass.
+
+- 2.x: close the Helm gaps. Subscription offers (intro, promo, win-back) and prices, grace period, review attachments, preview poster frame, build upload, beta review submit, TestFlight aliases, event duplicate and archive, the agreement banner.
+- 3.0: menu bar status, a notification when any app changes review state, Shortcuts. Declare 1:1 with Helm after a side-by-side QA.
+- 4 to 9: past Helm. Release checklist from `asc validate`, sales and analytics, Xcode Cloud runs, keyword tools, screenshot framing, a fleet grid of every app at once, a release timeline, review-time estimates from your own history.
+- 10 to 19: iPhone and iPad companion with the same status and notifications, widgets, a watch complication.
+- 20 to 49: live updates from App Store Connect webhooks instead of polling, GitHub Actions status next to builds, teams with shared notes.
+- 50 to 99: speed, accessibility, every language, the Mac App Store listing at $0.99.
+- 100: ship the whole fleet from one window without opening a browser.
+- 1000: no plan that far. Past 100 the number is the loop counting, and the work is whatever the last 100 versions taught us.
+
 ## Beyond Helm
 
 Shipped: read-only mode (Settings), every write shows its asc command before it runs, QA launch arguments `-selectApp <id> -tab <name> -openVersion first`.
