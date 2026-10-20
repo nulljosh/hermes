@@ -63,7 +63,8 @@ Each version closes a block of rows above and refreshes the matrix.
 - 1.5 availability (done)
 - 1.6 offer codes and promoted purchases (done)
 - 1.7 to 1.9 subscription offers and prices, grace period
-- 2.x brand polish (Joshua said yes 2026-10-19): a signature glyph in Hermes Sans, light mode in the app, a thicker icon that holds at 16 px
+- 2.3 light mode and Appearance setting (done)
+- 2.4 brand polish (done): feather quotes in Hermes Sans, thicker wing, a two-feather favicon for 16 px
 - 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks

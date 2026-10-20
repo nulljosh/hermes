@@ -1,4 +1,5 @@
-"""Hermes Sans: Instrument Sans (Google Fonts, SIL Open Font License 1.1, no reserved name), renamed.
+"""Hermes Sans: Instrument Sans (Google Fonts, SIL Open Font License 1.1, no reserved name), renamed, with its curly
+quote marks redrawn as feathers from the Hermes wing, so every quote in the app wears the mark.
 
 Same method as coda's Quip Sans and turing's Samantha Sans: pinned release, renamed, OFL shipped beside the fonts,
 original copyright kept in the name table, fixed timestamps so every build is the same bytes.
@@ -12,6 +13,10 @@ import os
 import sys
 import urllib.request
 
+from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.cu2quPen import Cu2QuPen
+from fontTools.pens.transformPen import TransformPen
+from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,6 +29,39 @@ def fetch(path):
     """Bytes of one file from the pinned Instrument Sans release."""
     with urllib.request.urlopen(SOURCE + path, timeout=60) as r:
         return r.read()
+
+
+QUOTES = {"quoteright": 1, "quotedblright": 2, "quoteleft": 1, "quotedblleft": 2}
+
+
+def feather(pen, x0, y0, w, h):
+    """One feather: a crescent that sweeps from the bottom left to a tip at the top right, like a stroke of the wing."""
+    pen.moveTo((x0 + 0.05 * w, y0 + 0.12 * h))
+    pen.curveTo((x0 + 0.10 * w, y0 + 0.70 * h), (x0 + 0.45 * w, y0 + h), (x0 + w, y0 + h))
+    pen.curveTo((x0 + 0.62 * w, y0 + 0.72 * h), (x0 + 0.40 * w, y0 + 0.45 * h), (x0 + 0.32 * w, y0))
+    pen.closePath()
+
+
+def redraw_quotes(font):
+    """Replace the four curly quotes with feathers inside each original's box, so spacing never moves."""
+    glyphs = font.getGlyphSet()
+    glyf, hmtx, cmap = font["glyf"], font["hmtx"], font.getBestCmap()
+    names = {cmap[0x2019]: 1, cmap[0x201D]: 2, cmap[0x2018]: 1, cmap[0x201C]: 2}
+    for name, count in names.items():
+        bp = BoundsPen(glyphs)
+        glyphs[name].draw(bp)
+        x0, y0, x1, y1 = bp.bounds
+        gap = 0.12 * (x1 - x0) if count == 2 else 0
+        w = (x1 - x0 - gap) / count
+        tt = TTGlyphPen(None)
+        pen = Cu2QuPen(tt, max_err=1.0)
+        if name in (cmap[0x2019], cmap[0x201D]):   # closing marks are the opening feathers turned 180 degrees
+            pen = TransformPen(pen, (-1, 0, 0, -1, x0 + x1, y0 + y1))
+        for i in range(count):
+            feather(pen, x0 + i * (w + gap), y0, w, y1 - y0)
+        glyf[name] = tt.glyph()
+        glyf[name].recalcBounds(glyf)
+        hmtx[name] = (hmtx[name][0], glyf[name].xMin)
 
 
 def rename(font, style):
@@ -48,7 +86,12 @@ def check():
             assert f["name"].getDebugName(1) == "Hermes Sans", "family name"
             assert f["name"].getDebugName(6) == f"HermesSans-{style}", "postscript name"
             assert f["name"].getDebugName(0), "the original copyright must stay in the name table"
-    print(f"font ok: Hermes Sans (Instrument Sans, OFL), {len(WEIGHTS)} weights")
+            cmap, hmtx, glyf = f.getBestCmap(), f["hmtx"], f["glyf"]
+            for cp, n in ((0x2019, 1), (0x201D, 2), (0x2018, 1), (0x201C, 2)):
+                g = glyf[cmap[cp]]
+                assert g.numberOfContours == n, f"U+{cp:04X} is not the feather"
+                assert 0 <= g.xMin and g.xMax <= hmtx[cmap[cp]][0], f"U+{cp:04X} spills out of its advance"
+    print(f"font ok: Hermes Sans (Instrument Sans, OFL), {len(WEIGHTS)} weights, quotes are feathers")
 
 
 def main():
@@ -59,6 +102,7 @@ def main():
         f.write(fetch("LICENSE"))
     for style, weight in WEIGHTS.items():
         font = TTFont(io.BytesIO(fetch(f"files/instrument-sans-latin-{weight}-normal.woff2")))
+        redraw_quotes(font)
         rename(font, style)
         for ext, flavor in (("ttf", None), ("woff2", "woff2")):
             font.flavor = flavor
