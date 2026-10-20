@@ -10,8 +10,10 @@
 * { box-sizing: border-box; margin: 0; }
 body { font-family: var(--font); font-size: var(--size-body); line-height: 24px; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
 main { max-width: var(--wrap); margin: 0 auto; padding: var(--sp-8) 20px var(--sp-9); display: grid; gap: var(--sp-8); }
-h1 { font-size: var(--size-display); line-height: 64px; font-weight: 700; letter-spacing: -0.01em; }
-h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; margin-bottom: var(--sp-5); }
+h1 { font-family: var(--display); font-size: 120px; line-height: 128px; font-weight: 200; text-transform: uppercase; }
+h2 { font-family: var(--display); font-size: 56px; line-height: 56px; font-weight: 200; text-transform: uppercase; margin-bottom: var(--sp-5); }
+.disp { font-family: var(--display); text-transform: uppercase; }
+.specimen.disp { line-height: 132px; margin-bottom: var(--sp-2); }
 .sub { color: var(--sub); }
 .foot { font-size: var(--size-footnote); line-height: 16px; color: var(--sub); }
 .head { display: flex; align-items: center; gap: var(--sp-5); }
@@ -37,13 +39,13 @@ h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; margin-b
 .space b { display: block; height: 16px; background: var(--accent); border-radius: 4px; }
 .radii { display: flex; flex-wrap: wrap; gap: var(--sp-5); }
 .radii div { width: 120px; height: 96px; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: end start; padding: var(--sp-3); font-size: var(--size-footnote); }
-.btn { display: inline-flex; align-items: center; height: var(--control); padding: 0 var(--sp-5); border-radius: var(--r-pill); font: 600 17px var(--font); border: 0; }
-.btn-solid { background: var(--accent); color: var(--bg); }
-.btn-ghost { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent); }
+.btn { display: inline-flex; align-items: center; height: 40px; padding: 0 var(--sp-4); border-radius: var(--r-sq); font: 500 15px var(--display); letter-spacing: .08em; text-transform: uppercase; border: 1px solid transparent; }
+.btn-solid { background: var(--btn); color: #fff; }
+.btn-ghost { background: var(--surface); color: var(--text); border-color: var(--line); }
 .states { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: 15px; }
 .states span { display: inline-flex; align-items: center; gap: var(--sp-2); }
 .states i { width: 10px; height: 10px; border-radius: 50%; }
-@media (max-width: 600px) { h1 { font-size: 44px; line-height: 48px; } .specimen { font-size: 72px; line-height: 76px; } .marks { grid-template-columns: 1fr; } .scale div { grid-template-columns: 1fr; gap: 0; } }
+@media (max-width: 600px) { h1 { font-size: 72px; line-height: 80px; } .specimen.disp { line-height: 84px; } .specimen { font-size: 72px; line-height: 76px; } .marks { grid-template-columns: 1fr; } .scale div { grid-template-columns: 1fr; gap: 0; } }
 </style>
 </head>
 <body>
@@ -65,20 +67,31 @@ h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; margin-b
       </div>
     </div>
     <div class="marks" style="margin-top: var(--sp-4)">
-      <div style="background:#faf8f4"><b class="mark" style="background:#0066C0"></b></div>
-      <div style="background:#171614"><b class="mark" style="background:#f3efe8"></b></div>
+      <div style="background:#fdfdfd"><b class="mark" style="background:#0847c4"></b></div>
+      <div style="background:#0c0d1d"><b class="mark" style="background:#f2f2f5"></b></div>
     </div>
   </section>
 
   <section>
     <h2>Colour</h2>
     <div class="swatches" id="swatches"></div>
-    <p class="foot" style="margin-top: var(--sp-3)">Each chip: light on the left, dark on the right. The accent is the only colour Hermes owns; it starts from clrs.cc blue.</p>
+    <p class="foot" style="margin-top: var(--sp-3)">Each chip: light on the left, dark on the right. Blue is the only colour Hermes owns: the accent, the buttons, the frame and the full-bleed band.</p>
   </section>
 
   <section>
     <h2>Type</h2>
     <div class="card" style="display:grid;gap:var(--sp-6)">
+      <div>
+        <p class="specimen disp" style="font-weight:200">Hermes Display</p>
+        <p class="sub">Antonio under the SIL Open Font License. Thin condensed caps for headlines, labels and buttons on the landing. Never for body text.</p>
+      </div>
+      <div class="weights disp">
+        <p style="font-weight:200">Extralight 200 The dashboard</p>
+        <p style="font-weight:300">Light 300 Every app at a glance</p>
+        <p style="font-weight:500;font-size:17px;letter-spacing:.08em">Medium 500 label &middot; built on asc</p>
+      </div>
+    </div>
+    <div class="card" style="display:grid;gap:var(--sp-6);margin-top:var(--sp-4)">
       <div>
         <p class="specimen">Hermes Sans</p>
         <p class="sub">Inter under the SIL Open Font License, renamed. Open shapes and even, proportional spacing in the spirit of San Francisco and Helvetica. The curly quotes are feathers from the wing.</p>
@@ -109,11 +122,12 @@ h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; margin-b
         <div style="border-radius:var(--r-group)">group 20</div>
         <div style="border-radius:var(--r-card)">card 28</div>
         <div style="border-radius:22.5%">icon 22.5%</div>
+        <div style="border-radius:var(--r-sq)">web 2</div>
       </div>
       <div class="row" style="align-items:center">
         <button class="btn btn-solid">Download for Mac</button>
         <button class="btn btn-ghost">See what it does</button>
-        <span class="foot">Controls are 48 point capsules.</span>
+        <span class="foot">On the web, buttons are 40 point squares in Display caps. In the app, controls stay 48 point capsules.</span>
       </div>
       <div class="states">
         <span><i style="background:var(--live)"></i>Ready for Sale</span>
@@ -131,7 +145,7 @@ h2 { font-size: var(--size-title); line-height: 40px; font-weight: 700; margin-b
   var dark = (css.split('prefers-color-scheme: dark')[1] || '');
   function val(block, name) { var m = block.match(new RegExp('--' + name + ':\\s*(#[0-9a-fA-F]{6})')); return m && m[1]; }
   var light = css.split('prefers-color-scheme: dark')[0];
-  var roles = [['accent', 'Accent'], ['bg', 'Background'], ['surface', 'Surface'], ['line', 'Line'], ['text', 'Text'], ['sub', 'Secondary'],
+  var roles = [['accent', 'Accent'], ['btn', 'Button'], ['band', 'Band'], ['band-sub', 'Band text'], ['band-art', 'Band art'], ['bg', 'Background'], ['surface', 'Surface'], ['line', 'Line'], ['text', 'Text'], ['sub', 'Secondary'],
                ['live', 'On sale'], ['pending', 'In review'], ['bad', 'Rejected'], ['idle', 'Preparing'], ['accent-light', 'Icon top'], ['accent-deep', 'Icon bottom']];
   document.getElementById('swatches').innerHTML = roles.map(function (r) {
     var l = val(light, r[0]), d = val(dark, r[0]) || l;
