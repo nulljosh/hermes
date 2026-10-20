@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.3.0)
+## Parity matrix (v0.4.0)
 
 | Area | Helm | Talaria | Status |
 |---|---|---|---|
@@ -15,7 +15,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Version list | yes | yes | done |
 | Create version, edit version, ship, reject | yes | create, edit, submit, release, delete | partial (reject = cancel submission, lands with 0.8) |
 | Review info (notes, demo account, attachments) | yes | contact, notes, demo account | partial (attachments todo) |
-| Localizations: list, edit, bulk download and upload | yes | no | todo |
+| Localizations: list, edit, bulk download and upload | yes | yes, plus App Info name and subtitle, character limits | done |
 | Screenshots: view, upload, delete, download | yes | no | todo |
 | App previews: view, upload, delete, frame time | yes | no | todo |
 | Builds list | yes | read only | partial |
@@ -48,7 +48,7 @@ Each version closes a block of rows above and refreshes the matrix.
 
 - 0.2 landing, brand kit, design system, font, icon (done: talaria.jaybulb.com, Talaria Sans, Talaria.icon, row hover)
 - 0.3 version detail: edit, create, ship, reject, review info (done: all writes confirm the exact asc command; read-only mode on by default)
-- 0.4 localizations editor with bulk upload and download
+- 0.4 localizations editor with bulk upload and download (done: Metadata tab, .strings export, import validated by --dry-run first)
 - 0.5 screenshots and previews
 - 0.6 builds and TestFlight write actions
 - 0.7 reviews: reply and signature

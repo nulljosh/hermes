@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Tab: String, CaseIterable, Identifiable {
-    case status = "Status", versions = "Versions", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", purchases = "Purchases"
+    case status = "Status", versions = "Versions", metadata = "Metadata", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", purchases = "Purchases"
     var id: String { rawValue }
 }
 
@@ -18,16 +18,17 @@ struct DetailView: View {
                 Button(action: back) { Image(systemName: "chevron.left") }
                     .buttonStyle(.plain).foregroundStyle(Theme.muted)
                 AppIcon(app: app, url: store.icons[app.id], size: 32)
-                Text(app.name).font(Theme.font(16, .semibold))
+                Text(app.name).font(Theme.font(16, .semibold)).lineLimit(1).fixedSize()
                 Spacer()
                 Picker("", selection: $tab) { ForEach(Tab.allCases) { Text($0.rawValue).tag($0) } }
-                    .pickerStyle(.segmented).labelsHidden().frame(maxWidth: 420)
+                    .pickerStyle(.segmented).labelsHidden().frame(maxWidth: 500)
             }
             .padding(12)
             Divider().overlay(Theme.line)
             switch tab {
             case .status: StatusView(app: app)
             case .versions: VersionsView(app: app)
+            case .metadata: MetadataView(app: app)
             case .builds: ItemList(args: ["builds", "list", "--app", app.id, "--limit", "50"],
                                   title: ["version"], sub: ["processingState", "uploadedDate"], state: "processingState")
             case .testflight: ItemList(args: ["testflight", "groups", "list", "--app", app.id],
