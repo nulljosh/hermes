@@ -1,17 +1,19 @@
+import AppKit
 import SwiftUI
 
 // Tokens mirror brand/tokens.css. One accent, flat surfaces, no gradients or shadows.
 enum Theme {
-    static let bg = Color(hex: 0x171614)
-    static let surface = Color(hex: 0x211F1C)
-    static let line = Color(hex: 0x33302B)
-    static let text = Color(hex: 0xF3EFE8)
-    static let muted = Color(hex: 0x9A948A)
-    static let accent = Color(hex: 0xD9703F)
-    static let live = Color(hex: 0x4CAF6E)
-    static let pending = Color(hex: 0x5B9BD5)
-    static let bad = Color(hex: 0xD9534F)
-    static let idle = Color(hex: 0x6F6A62)
+    // Light and dark, from brand/tokens.css. The window follows the system appearance.
+    static let bg = Color(light: 0xFAF8F4, dark: 0x171614)
+    static let surface = Color(light: 0xF1EDE6, dark: 0x211F1C)
+    static let line = Color(light: 0xE3DDD3, dark: 0x33302B)
+    static let text = Color(light: 0x1F1D1A, dark: 0xF3EFE8)
+    static let muted = Color(light: 0x6B655C, dark: 0x9A948A)
+    static let accent = Color(light: 0xA8441F, dark: 0xD9703F)
+    static let live = Color(light: 0x2F8A4E, dark: 0x4CAF6E)
+    static let pending = Color(light: 0x2F6FB0, dark: 0x5B9BD5)
+    static let bad = Color(light: 0xC0392B, dark: 0xD9534F)
+    static let idle = Color(light: 0x8A847A, dark: 0x6F6A62)
 
     // Falls back to the system face if the bundled one is missing.
     static func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
@@ -32,6 +34,13 @@ enum Theme {
 }
 
 extension Color {
+    init(light: UInt32, dark: UInt32) {
+        self.init(nsColor: NSColor(name: nil) { a in
+            let h = a.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? dark : light
+            return NSColor(srgbRed: CGFloat(h >> 16 & 255) / 255, green: CGFloat(h >> 8 & 255) / 255, blue: CGFloat(h & 255) / 255, alpha: 1)
+        })
+    }
+
     init(hex: UInt32) {
         self.init(red: Double(hex >> 16 & 255) / 255, green: Double(hex >> 8 & 255) / 255, blue: Double(hex & 255) / 255)
     }

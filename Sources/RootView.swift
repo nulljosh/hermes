@@ -5,6 +5,7 @@ struct RootView: View {
     @State private var query = ""
     @State private var selected: ASCApp?
     @AppStorage("profile") private var profile = ""
+    @AppStorage("appearance") private var appearance = "system"
     @State private var addingAccount = false
 
     var body: some View {
@@ -26,8 +27,8 @@ struct RootView: View {
         .background(Theme.bg)
         .foregroundStyle(Theme.text)
         .font(Theme.font(13))
-        .preferredColorScheme(.dark)
         .tint(Theme.accent)
+        .preferredColorScheme(appearance == "light" ? .light : appearance == "dark" ? .dark : nil)
         .frame(minWidth: 760, minHeight: 480)
         .task { await store.load() }
         .onChange(of: profile) { selected = nil; Task { await store.load() } }

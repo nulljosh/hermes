@@ -19,9 +19,11 @@ struct HermesApp: App {
 
 struct SettingsView: View {
     @AppStorage("readOnly") private var readOnly = true
+    @AppStorage("appearance") private var appearance = "system"
 
     var body: some View {
         Form {
+            Picker("Appearance", selection: $appearance) { Text("System").tag("system"); Text("Light").tag("light"); Text("Dark").tag("dark") }
             Toggle("Read-only mode", isOn: $readOnly)
             Text("While this is on, Hermes can look at everything and change nothing. Turn it off to save, submit and release.")
                 .font(.caption).foregroundStyle(.secondary)
