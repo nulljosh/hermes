@@ -50,8 +50,7 @@ struct DetailView: View {
             case .reviews: ReviewsView(app: app)
             case .submissions: SubmissionsView(app: app)
             case .events: EventsView(app: app)
-            case .purchases: ItemList(args: ["iap", "list", "--app", app.id],
-                                     title: ["name"], sub: ["productId", "inAppPurchaseType", "state"], state: "state")
+            case .purchases: PurchasesView(app: app)
             }
         }
     }
