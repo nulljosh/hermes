@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct TillerApp: App {
+struct TalariaApp: App {
     var body: some Scene {
         WindowGroup { RootView() }
             .windowStyle(.hiddenTitleBar)

@@ -34,15 +34,14 @@ struct Sidebar: View {
     var body: some View {
         VStack(spacing: 8) {
             Spacer()
-            Image(systemName: "helm")  // placeholder until the Icon Composer mark lands
-                .resizable().scaledToFit().frame(width: 64, height: 64)
-                .foregroundStyle(Theme.accent)
-            Text(app.map { $0.name } ?? "Welcome to Tiller").font(Theme.font(17, .semibold))
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable().scaledToFit().frame(width: 80, height: 80)
+            Text(app.map { $0.name } ?? "Welcome to Talaria").font(Theme.font(17, .semibold))
             Text(app == nil ? "Select an app to get started." : app!.bundleId)
                 .foregroundStyle(Theme.muted)
             Spacer()
             HStack {
-                Link("Send Feedback", destination: URL(string: "mailto:trommatic@icloud.com?subject=Tiller")!)
+                Link("Send Feedback", destination: URL(string: "mailto:trommatic@icloud.com?subject=Talaria")!)
                     .foregroundStyle(Theme.accent)
                 Spacer()
                 Text("v" + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"))
@@ -115,8 +114,9 @@ struct AppRow: View {
             }
             Spacer()
         }
-        .padding(.horizontal, 16).padding(.vertical, 8)
+        .padding(.horizontal, 8).padding(.vertical, 8)
         .contentShape(Rectangle())
+        .hoverable()
     }
 }
 

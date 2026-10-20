@@ -56,7 +56,7 @@ struct ItemList: View {
                 else {
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 0) {
-                            ForEach(items) { row($0); Divider().overlay(Theme.line) }
+                            ForEach(items) { row($0) }
                         }
                     }
                 }
@@ -78,7 +78,9 @@ struct ItemList: View {
             }
             Spacer()
         }
-        .padding(.horizontal, 16).padding(.vertical, 10)
+        .padding(.horizontal, 8).padding(.vertical, 10)
+        .contentShape(Rectangle())
+        .hoverable()
     }
 }
 

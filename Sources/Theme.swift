@@ -15,7 +15,7 @@ enum Theme {
 
     // Falls back to the system face if the bundled one is missing.
     static func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
-        .custom("Tiller Sans", size: size).weight(weight)
+        .custom("Talaria Sans", size: size).weight(weight)
     }
 
     static func stateColor(_ state: String?) -> Color {
@@ -35,4 +35,23 @@ extension Color {
     init(hex: UInt32) {
         self.init(red: Double(hex >> 16 & 255) / 255, green: Double(hex >> 8 & 255) / 255, blue: Double(hex & 255) / 255)
     }
+}
+
+// Row hover: a flat surface fill and a pointing hand, no shadow.
+struct Hoverable: ViewModifier {
+    @State private var on = false
+    func body(content: Content) -> some View {
+        content
+            .background(on ? Theme.surface : .clear, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .padding(.horizontal, 8)
+            .animation(.easeOut(duration: 0.12), value: on)
+            .onHover { h in
+                on = h
+                if h { NSCursor.pointingHand.push() } else { NSCursor.pop() }
+            }
+    }
+}
+
+extension View {
+    func hoverable() -> some View { modifier(Hoverable()) }
 }

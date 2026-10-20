@@ -1,19 +1,20 @@
-name: Tiller
+name: Talaria
 options:
   bundleIdPrefix: com.nulljosh
   deploymentTarget:
     macOS: "14.0"
 targets:
-  Tiller:
+  Talaria:
     type: application
     platform: macOS
-    sources: [Sources]
+    sources: [Sources, Talaria.icon]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.nulljosh.tiller
+        PRODUCT_BUNDLE_IDENTIFIER: com.nulljosh.talaria
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: Tiller
+        INFOPLIST_KEY_CFBundleDisplayName: Talaria
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
         ENABLE_APP_SANDBOX: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: Talaria
         MARKETING_VERSION: 0.1.0
         CURRENT_PROJECT_VERSION: 1
