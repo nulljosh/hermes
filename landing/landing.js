@@ -110,13 +110,3 @@
   });
 })();
 
-// Hero parallax: hands the scroll offset to CSS as --sy, once per frame. Off under reduced motion.
-(function () {
-  var hero = document.getElementById('hero');
-  if (!hero || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var ticking = false;
-  addEventListener('scroll', function () {
-    if (ticking) return; ticking = true;
-    requestAnimationFrame(function () { hero.style.setProperty('--sy', Math.min(scrollY, 1000)); ticking = false; });
-  }, { passive: true });
-})();

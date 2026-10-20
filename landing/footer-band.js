@@ -85,7 +85,7 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2), w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
     if (!w || !h) return;
     drawnW = w; canvas.width = w; canvas.height = h;
-    var colour = getComputedStyle(band).color, pitch = 5 * dpr, s = Math.max(2, h * 0.014);
+    var colour = getComputedStyle(band).color, pitch = Math.min(5 * dpr, Math.max(3 * dpr, Math.min(h * 0.86, w / GLYPHS.length) / 22)), s = Math.max(2, h * 0.014);
     var glyphs = layer(w, h); paint(glyphs.getContext('2d'), w, h, '#fff');
     // the shadow side: glyph pixels whose neighbour down and right is outside the glyph (light from the top left)
     var shade = layer(w, h), sc = shade.getContext('2d');
