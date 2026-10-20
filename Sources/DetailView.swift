@@ -67,7 +67,7 @@ struct ItemList: View {
         Group {
             if let error { Text(error).foregroundStyle(Theme.bad).padding().textSelection(.enabled) }
             else if let items {
-                if items.isEmpty { Text("Nothing here yet.").foregroundStyle(Theme.muted).frame(maxHeight: .infinity) }
+                if items.isEmpty { Text("Nothing here yet.").foregroundStyle(Theme.muted).frame(maxWidth: .infinity, maxHeight: .infinity) }
                 else {
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 0) {

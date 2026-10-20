@@ -26,10 +26,10 @@ struct RootView: View {
         .font(Theme.font(13))
         .preferredColorScheme(.dark)
         .frame(minWidth: 760, minHeight: 480)
-        .task {
-            await store.load()
-            // QA launch argument: -selectApp <app id> opens that app straight away.
-            if let id = UserDefaults.standard.string(forKey: "selectApp") { selected = store.apps.first { $0.id == id } }
+        .task { await store.load() }
+        // QA launch argument: -selectApp <app id> opens that app as soon as the list arrives.
+        .onChange(of: store.apps.count) {
+            if selected == nil, let id = UserDefaults.standard.string(forKey: "selectApp") { selected = store.apps.first { $0.id == id } }
         }
     }
 }

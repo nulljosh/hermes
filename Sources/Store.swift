@@ -12,8 +12,11 @@ final class Store {
         loading = true; error = nil
         defer { loading = false }
         do { apps = try await ASC.apps() } catch { self.error = error.localizedDescription; return }
+        // ponytail: 4 asc processes at a time; 60 at once made some calls fail. Raise if asc gets faster.
         await withTaskGroup(of: Void.self) { g in
-            for app in apps {
+            var queue = apps[...]
+            func next() {
+                guard let app = queue.popFirst() else { return }
                 g.addTask { [self] in
                     let v = try? await ASC.versions(app.id)
                     var i = await ASC.icon(bundleId: app.bundleId)
@@ -21,6 +24,8 @@ final class Store {
                     await MainActor.run { versions[app.id] = v ?? []; icons[app.id] = i }
                 }
             }
+            for _ in 0..<4 { next() }
+            while await g.next() != nil { next() }
         }
     }
 }

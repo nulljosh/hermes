@@ -48,7 +48,7 @@ struct StatusView: View {
     }
 
     @ViewBuilder func link(_ title: String, _ url: String?) -> some View {
-        if let url, let u = URL(string: url) { Link(title, destination: u) }
+        if let url, let u = URL(string: url) { Link(title, destination: u).foregroundStyle(Theme.accent) }
     }
 
     func color(_ h: String?) -> Color {
