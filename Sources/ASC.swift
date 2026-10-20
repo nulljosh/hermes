@@ -56,3 +56,63 @@ enum ASC {
         try JSONDecoder().decode(Status.self, from: await run(["status", "--app", id]))
     }
 }
+
+// MARK: - Per-platform versions, generic items, icons
+
+struct PlatformVersion: Identifiable {
+    let platform: String, version: String, state: String
+    var id: String { platform }
+}
+
+enum Scalar: Decodable, CustomStringConvertible {
+    case s(String), n(Double), b(Bool), null
+    init(from d: Decoder) throws {
+        let c = try d.singleValueContainer()
+        if let v = try? c.decode(String.self) { self = .s(v) }
+        else if let v = try? c.decode(Double.self) { self = .n(v) }
+        else if let v = try? c.decode(Bool.self) { self = .b(v) }
+        else { self = .null }
+    }
+    var description: String {
+        switch self {
+        case .s(let v): v
+        case .n(let v): v == v.rounded() ? String(Int(v)) : String(v)
+        case .b(let v): v ? "yes" : "no"
+        case .null: ""
+        }
+    }
+}
+
+struct Item: Decodable, Identifiable {
+    let id: String
+    let attributes: [String: Scalar]?
+    func text(_ key: String) -> String? {
+        guard let t = attributes?[key]?.description, !t.isEmpty else { return nil }
+        return t
+    }
+}
+
+extension ASC {
+    static func items(_ args: [String]) async throws -> [Item] {
+        struct R: Decodable { let data: [Item]?; let items: [Item]? }
+        let r = try JSONDecoder().decode(R.self, from: await run(args))
+        return r.data ?? r.items ?? []
+    }
+
+    static func versions(_ id: String) async throws -> [PlatformVersion] {
+        try await items(["versions", "list", "--app", id, "--latest"]).compactMap {
+            guard let p = $0.text("platform"), let v = $0.text("versionString") else { return nil }
+            return PlatformVersion(platform: p, version: v, state: $0.text("appVersionState") ?? $0.text("appStoreState") ?? "")
+        }.sorted { $0.platform < $1.platform }
+    }
+
+    // Live apps only; unreleased ones fall back to a letter tile in the UI.
+    static func icon(bundleId: String) async -> URL? {
+        guard let u = URL(string: "https://itunes.apple.com/lookup?bundleId=\(bundleId)&entity=software"),
+              let (d, _) = try? await URLSession.shared.data(from: u),
+              let o = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
+              let r = (o["results"] as? [[String: Any]])?.first,
+              let s = r["artworkUrl100"] as? String else { return nil }
+        return URL(string: s)
+    }
+}

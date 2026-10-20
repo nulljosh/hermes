@@ -7,16 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AEFE529A22090BC79C093502 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8199B48628F99880D7BCC9 /* ContentView.swift */; };
+		18C31F96F04EB776A338D369 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C66277E2355123721A68E /* Theme.swift */; };
+		46261887BB1863E34D6FE941 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D1EA64F664920EBC79B914 /* StatusView.swift */; };
+		858BEB0334792A234E22B53D /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B96E7A0CDFDBCCCEAB67AA /* DetailView.swift */; };
+		A791DC1BC9ABC8216F73076D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C09AD067C465544100F2E /* Store.swift */; };
 		CC0A575EC8515F1AEC34ECC7 /* TillerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E98AF55CDE05F17047E6044 /* TillerApp.swift */; };
 		F6E8087F44CF9486246BB597 /* ASC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB3D709DC268ABDE37DD06 /* ASC.swift */; };
+		FACB4FCC159B31EB434BFE4D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD92B824EB321C90A9648451 /* RootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		06621AD3EDE30192047A77ED /* Tiller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tiller.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C9C66277E2355123721A68E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		2E98AF55CDE05F17047E6044 /* TillerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TillerApp.swift; sourceTree = "<group>"; };
+		399C09AD067C465544100F2E /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		ABDB3D709DC268ABDE37DD06 /* ASC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASC.swift; sourceTree = "<group>"; };
-		CF8199B48628F99880D7BCC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3B96E7A0CDFDBCCCEAB67AA /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		BD92B824EB321C90A9648451 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		C2D1EA64F664920EBC79B914 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -32,7 +40,11 @@
 			isa = PBXGroup;
 			children = (
 				ABDB3D709DC268ABDE37DD06 /* ASC.swift */,
-				CF8199B48628F99880D7BCC9 /* ContentView.swift */,
+				B3B96E7A0CDFDBCCCEAB67AA /* DetailView.swift */,
+				BD92B824EB321C90A9648451 /* RootView.swift */,
+				C2D1EA64F664920EBC79B914 /* StatusView.swift */,
+				399C09AD067C465544100F2E /* Store.swift */,
+				2C9C66277E2355123721A68E /* Theme.swift */,
 				2E98AF55CDE05F17047E6044 /* TillerApp.swift */,
 			);
 			path = Sources;
@@ -102,7 +114,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6E8087F44CF9486246BB597 /* ASC.swift in Sources */,
-				AEFE529A22090BC79C093502 /* ContentView.swift in Sources */,
+				858BEB0334792A234E22B53D /* DetailView.swift in Sources */,
+				FACB4FCC159B31EB434BFE4D /* RootView.swift in Sources */,
+				46261887BB1863E34D6FE941 /* StatusView.swift in Sources */,
+				A791DC1BC9ABC8216F73076D /* Store.swift in Sources */,
+				18C31F96F04EB776A338D369 /* Theme.swift in Sources */,
 				CC0A575EC8515F1AEC34ECC7 /* TillerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

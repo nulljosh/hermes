@@ -1,33 +1,5 @@
 import SwiftUI
 
-struct ContentView: View {
-    @State private var apps: [ASCApp] = []
-    @State private var selection: ASCApp.ID?
-    @State private var error: String?
-
-    var body: some View {
-        NavigationSplitView {
-            List(apps, selection: $selection) { app in
-                VStack(alignment: .leading) {
-                    Text(app.name)
-                    Text(app.bundleId).font(.caption).foregroundStyle(.secondary)
-                }
-            }
-            .navigationSplitViewColumnWidth(min: 200, ideal: 240)
-        } detail: {
-            if let app = apps.first(where: { $0.id == selection }) {
-                StatusView(app: app).id(app.id)
-            } else {
-                Text(error ?? "Select an app").foregroundStyle(.secondary)
-            }
-        }
-        .task {
-            do { apps = try await ASC.apps(); selection = apps.first?.id }
-            catch { self.error = error.localizedDescription }
-        }
-    }
-}
-
 struct StatusView: View {
     let app: ASCApp
     @State private var status: Status?
@@ -36,7 +8,6 @@ struct StatusView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text(app.name).font(.largeTitle.bold())
                 if let s = status {
                     HStack {
                         Circle().fill(color(s.summary.health)).frame(width: 12, height: 12)
@@ -60,7 +31,7 @@ struct StatusView: View {
             .padding(24)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .toolbar { Button("Refresh", systemImage: "arrow.clockwise") { Task { await load() } } }
+        
         .task { await load() }
     }
 
@@ -85,6 +56,3 @@ struct StatusView: View {
     }
 }
 
-private extension String {
-    func ifEmpty(_ s: String) -> String { isEmpty ? s : self }
-}

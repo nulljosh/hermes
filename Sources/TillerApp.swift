@@ -3,7 +3,8 @@ import SwiftUI
 @main
 struct TillerApp: App {
     var body: some Scene {
-        WindowGroup { ContentView() }
-            .defaultSize(width: 900, height: 600)
+        WindowGroup { RootView() }
+            .windowStyle(.hiddenTitleBar)
+            .defaultSize(width: 920, height: 620)
     }
 }
