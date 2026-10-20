@@ -22,7 +22,7 @@ targets:
         ENABLE_APP_SANDBOX: NO
         ENABLE_HARDENED_RUNTIME: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: Hermes
-        MARKETING_VERSION: 2.4.0
+        MARKETING_VERSION: 2.5.0
         CURRENT_PROJECT_VERSION: 1
     scheme:
       testTargets: [HermesTests]

@@ -27,9 +27,9 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Submissions: create, add version or event, submit, cancel | yes | create with version, submit, cancel, full history | partial (add event lands with in-app events) |
 | In-app events: create, duplicate, localize, assets, archive | yes | create, text per language, submit, delete | partial (duplicate, assets, archive todo) |
 | In-app purchases: list, edit, localize | yes | price and proceeds, create, rename, text per language, add to submission, delete | done |
-| IAP and subscription pricing: plan, set, schedule, equalize | yes | app price and proceeds, set app price from a date, set IAP price | partial (subscription prices, equalize todo) |
-| Subscriptions and groups, offers (intro, promo, win-back, codes) | yes | groups and subscriptions; IAP offer codes with one-time code batches | partial (subscription intro, promo, win-back todo) |
-| Promoted purchases, billing grace period | yes | promote switch per purchase | partial (grace period todo) |
+| IAP and subscription pricing: plan, set, schedule, equalize | yes | app price and proceeds, set app price from a date, set IAP price, subscription price for every country from a US base (equalize) | yes |
+| Subscriptions and groups, offers (intro, promo, win-back, codes) | yes | groups and subscriptions with price; introductory, promotional and win-back (free trial) offers; IAP offer codes with one-time code batches | yes |
+| Promoted purchases, billing grace period | yes | promote switch per purchase, grace period on or off, length, renewal type | yes |
 | Availability and remove from sale | yes | count, per-country switches, everywhere, remove from sale | done |
 | Multiple accounts, switch active account | yes | account menu over asc profiles | done |
 | Account setup flow (API key, issuer) | yes | Add Account sheet, offered on first run | done |

@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Subscription groups and the subscriptions in them: create, delete. Prices and offers come later.
+// Subscription groups and the subscriptions in them: create, delete, open one for prices and offers. The app's grace period sits on top.
 struct SubscriptionsView: View {
     let app: ASCApp
     @State private var groups: [Item]?
@@ -9,23 +9,32 @@ struct SubscriptionsView: View {
     @State private var pending: PendingCommand?
     @State private var newGroup = ""
     @State private var addingTo: Item?
+    @State private var open: Item?
+    @State private var prices: [String: IAPSummary] = [:]
 
     var body: some View {
         Group {
-            if let error { Text(error).foregroundStyle(Theme.bad).padding().textSelection(.enabled) }
+            if let open { SubscriptionDetail(sub: open, price: prices[open.id]) { self.open = nil; Task { await load() } } }
+            else if let error { Text(error).foregroundStyle(Theme.bad).padding().textSelection(.enabled) }
             else if let groups {
                 Form {
+                    GracePeriodSection(app: app, pending: $pending)
                     if groups.isEmpty { Text("No subscription groups yet.").foregroundStyle(Theme.muted) }
                     ForEach(groups) { g in
                         Section(g.text("referenceName") ?? g.id) {
                             ForEach(subs[g.id] ?? []) { s in
                                 HStack {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(s.text("name") ?? s.id).font(Theme.font(13, .semibold))
-                                        Text([s.text("productId"), s.text("subscriptionPeriod")?.replacingOccurrences(of: "_", with: " ").lowercased(), s.text("state")]
-                                            .compactMap { $0 }.joined(separator: " · ")).font(Theme.font(11)).foregroundStyle(Theme.muted)
+                                    Button { open = s } label: {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(s.text("name") ?? s.id).font(Theme.font(13, .semibold))
+                                            Text([s.text("productId"), s.text("subscriptionPeriod")?.replacingOccurrences(of: "_", with: " ").lowercased(), s.text("state")]
+                                                .compactMap { $0 }.joined(separator: " · ")).font(Theme.font(11)).foregroundStyle(Theme.muted)
+                                        }
+                                        Spacer()
+                                        Text(IAPSummary.price(prices[s.id]?.currentPrice) ?? "No price").font(Theme.font(13, .semibold))
+                                        Image(systemName: "chevron.right").foregroundStyle(Theme.muted)
                                     }
-                                    Spacer()
+                                    .buttonStyle(.plain).contentShape(Rectangle())
                                     Button("Delete", role: .destructive) {
                                         pending = PendingCommand(title: "Delete Subscription", args: ["subscriptions", "delete", "--id", s.id, "--confirm"])
                                     }
@@ -66,6 +75,9 @@ struct SubscriptionsView: View {
             let gs = try await ASC.items(["subscriptions", "groups", "list", "--app", app.id])
             for g in gs { subs[g.id] = (try? await ASC.items(["subscriptions", "list", "--group-id", g.id])) ?? [] }
             groups = gs
+            struct R: Decodable { let subscriptions: [IAPSummary]? }
+            let summary = try? JSONDecoder().decode(R.self, from: await ASC.run(["subscriptions", "pricing", "summary", "--app", app.id]))
+            prices = Dictionary((summary?.subscriptions ?? []).map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
         } catch { self.error = error.localizedDescription }
     }
 }

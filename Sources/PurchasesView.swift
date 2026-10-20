@@ -9,6 +9,7 @@ struct IAPSummary: Decodable, Identifiable {
     let type: String?
     let currentPrice: Money?
     let estimatedProceeds: Money?
+    let proceeds: Money?
 
     static func price(_ m: Money?) -> String? {
         guard let a = m?.amount, let v = Double(a) else { return nil }
