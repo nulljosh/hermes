@@ -50,7 +50,7 @@ struct DetailView: View {
             case .reviews: ReviewsView(app: app)
             case .submissions: SubmissionsView(app: app)
             case .events: EventsView(app: app)
-            case .purchases: PurchasesView(app: app)
+            case .purchases: PurchasesTab(app: app)
             }
         }
     }
