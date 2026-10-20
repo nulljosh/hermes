@@ -52,6 +52,8 @@ struct PurchasesView: View {
         struct R: Decodable { let iaps: [IAPSummary]? }
         do { iaps = try JSONDecoder().decode(R.self, from: await ASC.run(["iap", "pricing", "summary", "--app", app.id])).iaps ?? [] }
         catch { self.error = error.localizedDescription }
+        // QA launch argument: -openPurchase first opens the first purchase.
+        if open == nil, UserDefaults.standard.string(forKey: "openPurchase") == "first" { open = iaps?.first }
     }
 
     func row(_ i: IAPSummary) -> some View {
@@ -131,6 +133,7 @@ struct IAPDetail: View {
                     Button("Create Version") { pending = PendingCommand(title: "Create Version", args: ["iap", "versions", "create", "--iap-id", iap.id]) }
                 }
             }
+            OfferCodesSection(app: app, iapID: iap.id, pending: $pending)
             Section {
                 Button("Delete Purchase", role: .destructive) { pending = PendingCommand(title: "Delete Purchase", args: ["iap", "delete", "--id", iap.id, "--confirm"]) }
             }
