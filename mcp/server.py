@@ -8,7 +8,7 @@ Read-only by default, like the app: every call gets `--read-only`, so asc refuse
 Set HERMES_ALLOW_WRITES=1 to let the write tools through.
 
     uv run mcp/server.py            # stdio server
-    claude mcp add hermes -- uv run ~/Documents/Code/hermes/mcp/server.py
+    claude mcp add hermes -- uv run https://raw.githubusercontent.com/nulljosh/hermes/main/mcp/server.py
 """
 import json
 import os
