@@ -94,7 +94,7 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 .band { margin: 0 clamp(0px, 3vw, 44px); background: var(--grain), var(--band); color: #fff; overflow: hidden; }
 .band .label { color: var(--band-sub); }
 .band-head { text-align: center; }
-.band-art { aspect-ratio: 14 / 9; max-height: 86vh; width: 100%; background: none; }
+.band-art { aspect-ratio: 19 / 10; max-height: 86vh; width: 100%; background: none; }
 .band-copy { position: relative; margin-top: -10vw; padding: 0 var(--sp-5) var(--sp-9); }
 .band-copy h2 { font-size: clamp(60px, 10vw, 168px); line-height: .9; }
 .band-copy p:last-child { margin: var(--sp-6) auto 0; max-width: 480px; color: var(--band-sub); }
