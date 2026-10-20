@@ -4,6 +4,8 @@ struct RootView: View {
     @State private var store = Store()
     @State private var query = ""
     @State private var selected: ASCApp?
+    @AppStorage("profile") private var profile = ""
+    @State private var addingAccount = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -15,7 +17,7 @@ struct RootView: View {
                 if let app = selected {
                     DetailView(app: app, store: store) { selected = nil }
                 } else {
-                    AppList(store: store, query: $query) { selected = $0 }
+                    AppList(store: store, query: $query, addAccount: { addingAccount = true }) { selected = $0 }
                 }
             }
             .frame(minWidth: 0, maxWidth: .infinity)
@@ -28,6 +30,8 @@ struct RootView: View {
         .tint(Theme.accent)
         .frame(minWidth: 760, minHeight: 480)
         .task { await store.load() }
+        .onChange(of: profile) { selected = nil; Task { await store.load() } }
+        .sheet(isPresented: $addingAccount) { AddAccount { addingAccount = false; Task { await store.load() } } }
         // QA launch argument: -selectApp <app id> opens that app as soon as the list arrives.
         .onChange(of: store.apps.count) {
             if selected == nil, let id = UserDefaults.standard.string(forKey: "selectApp") { selected = store.apps.first { $0.id == id } }
@@ -57,6 +61,8 @@ struct Sidebar: View {
                 Link("Send Feedback", destination: URL(string: "mailto:trommatic@icloud.com?subject=Hermes")!)
                     .foregroundStyle(Theme.accent)
                 Spacer()
+                AccountMenu()
+                Spacer()
                 Text("v" + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"))
                     .foregroundStyle(Theme.muted)
             }
@@ -70,6 +76,7 @@ struct Sidebar: View {
 struct AppList: View {
     let store: Store
     @Binding var query: String
+    var addAccount: () -> Void = {}
     let pick: (ASCApp) -> Void
 
     var shown: [ASCApp] {
@@ -93,6 +100,7 @@ struct AppList: View {
             Divider().overlay(Theme.line)
             if let e = store.error {
                 Text(e).foregroundStyle(Theme.bad).padding().textSelection(.enabled)
+                Button("Add Your App Store Connect Key") { addAccount() }
                 Spacer()
             } else {
                 ScrollView {

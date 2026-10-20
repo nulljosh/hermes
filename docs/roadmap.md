@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v1.6.0)
+## Parity matrix (v2.0.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -31,9 +31,9 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Subscriptions and groups, offers (intro, promo, win-back, codes) | yes | groups and subscriptions; IAP offer codes with one-time code batches | partial (subscription intro, promo, win-back todo) |
 | Promoted purchases, billing grace period | yes | promote switch per purchase | partial (grace period todo) |
 | Availability and remove from sale | yes | count, per-country switches, everywhere, remove from sale | done |
-| Multiple accounts, switch active account | yes | no (one asc profile) | todo |
-| Account setup flow (API key, issuer) | yes | no, uses asc auth | todo |
-| Setup export and import file (.helm-setup) | yes | no | todo |
+| Multiple accounts, switch active account | yes | account menu over asc profiles | done |
+| Account setup flow (API key, issuer) | yes | Add Account sheet, offered on first run | done |
+| Setup export and import file (.helm-setup) | yes | no, on purpose | skip: it would copy a private key around; `asc auth export-to-config` moves a key |
 | Command line tool for agents (helm-asc) | yes | MCP server over asc | done (MCP instead of a CLI; asc is the CLI) |
 | Agent skill pack | yes | hermes-status, hermes-ship | done |
 | App intents and Shortcuts | yes | no | todo |
@@ -63,7 +63,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 1.5 availability (done)
 - 1.6 offer codes and promoted purchases (done)
 - 1.7 to 1.9 subscription offers and prices, grace period
-- 2.0 multiple accounts, setup flow, export and import
+- 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 

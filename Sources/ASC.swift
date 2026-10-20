@@ -23,13 +23,15 @@ struct Status: Decodable {
 
 enum ASC {
     static var readOnly: Bool { UserDefaults.standard.object(forKey: "readOnly") as? Bool ?? true }
+    // The asc profile picked in the sidebar; empty means asc's own default.
+    static var profile: String { UserDefaults.standard.string(forKey: "profile") ?? "" }
 
     static func run(_ args: [String], json: Bool = true) async throws -> Data {
         try await Task.detached {
             let p = Process()
             p.executableURL = URL(fileURLWithPath: "/opt/homebrew/bin/asc")
             // Read-only mode (Settings, on by default) makes asc refuse every write before it is sent.
-            p.arguments = (readOnly ? ["--read-only"] : []) + args + (json ? ["--output", "json"] : [])
+            p.arguments = (readOnly ? ["--read-only"] : []) + (profile.isEmpty ? [] : ["--profile", profile]) + args + (json ? ["--output", "json"] : [])
             p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1"]) { $1 }
             let out = Pipe(), err = Pipe()
             p.standardOutput = out; p.standardError = err
@@ -137,5 +139,16 @@ extension ASC {
               let r = (o["results"] as? [[String: Any]])?.first,
               let s = r["artworkUrl100"] as? String else { return nil }
         return URL(string: s)
+    }
+}
+
+extension ASC {
+    struct Profile: Decodable, Hashable { let name: String; let isDefault: Bool? }
+
+    // Accounts asc knows about. Only names come back here; keys never leave asc.
+    static func profiles() async -> [Profile] {
+        struct R: Decodable { let credentials: [Profile]? }
+        guard let data = try? await run(["auth", "status"]) else { return [] }
+        return (try? JSONDecoder().decode(R.self, from: data))?.credentials ?? []
     }
 }
