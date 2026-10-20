@@ -92,7 +92,8 @@ enum Drafter {
         let prompt = """
         You help an indie developer answer App Store rejections. For each item below, write:
         - reply: a short message to App Review in the Resolution Center. Plain, polite English, a few sentences. \
-        No em dashes, no hype, no "delve" or "seamlessly". Never claim a change was made. Where a fix is needed, \
+        No em dashes, no hype, no "delve" or "seamlessly". Never claim a change was made: you do not know what \
+        the developer changed, so never write "we have revised", "we updated" or "we fixed". Where a fix is needed, \
         write a square-bracket placeholder like [what changed in the new build] for the developer to fill.
         - issueTitle and issueBody: a GitHub issue describing the real change to the app or its listing that \
         would resolve the rejection, concrete enough for an engineer to act on.
@@ -111,9 +112,23 @@ enum Drafter {
         return items.map { r in
             guard let d = drafts.first(where: { $0.thread == r.thread }) else { return r }
             var r = r
-            r.reply = d.reply ?? ""; r.issueTitle = d.issueTitle ?? ""; r.issueBody = d.issueBody ?? ""
+            r.reply = unclaim(d.reply ?? ""); r.issueTitle = d.issueTitle ?? ""; r.issueBody = d.issueBody ?? ""
             return r
         }
+    }
+
+    /// Small models still write "We have revised the app" when nothing changed. Any sentence claiming a change
+    /// becomes a placeholder, which blocks Send until Joshua writes what really changed.
+    /// ponytail: keyword match, misses unusual verbs; the [bracket] gate and the confirm dialog still stand.
+    static func unclaim(_ reply: String) -> String {
+        let claim = #"\b(we|i)(['’]ve| have| had)?\s+((now|also|just|already|since|recently)\s+)*(revised|updated|changed|fixed|removed|added|improved|resolved|addressed|modified|implemented|redesigned|rebuilt|corrected)\b"#
+        var out: [String] = [], placed = false
+        reply.enumerateSubstrings(in: reply.startIndex..., options: .bySentences) { s, _, _, _ in
+            guard let s else { return }
+            if s.range(of: claim, options: [.regularExpression, .caseInsensitive]) == nil { out.append(s) }
+            else if !placed { out.append("[what changed in the new build] "); placed = true }
+        }
+        return out.joined().trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 

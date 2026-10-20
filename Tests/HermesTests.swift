@@ -123,4 +123,13 @@ final class HermesTests: XCTestCase {
         r.reply = "We changed the map."
         XCTAssertFalse(r.unfilled)
     }
+
+    // A drafted reply never claims a change nobody made: the claim becomes a placeholder, which blocks Send.
+    func testDraftClaimsBecomePlaceholders() {
+        let d = Drafter.unclaim("Thank you for the review. We have revised the app to add features. We've also fixed the crash. Please take another look.")
+        XCTAssertEqual(d, "Thank you for the review. [what changed in the new build] Please take another look.")
+        XCTAssertEqual(Drafter.unclaim("Thanks. The app is different from others because it reads live rentals."),
+                       "Thanks. The app is different from others because it reads live rentals.")
+        XCTAssertEqual(Drafter.unclaim(""), "")
+    }
 }
