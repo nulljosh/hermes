@@ -7,9 +7,9 @@
 
 :root {
   /* colour */
-  --accent: #a8441f;          /* actions, links, the icon */
-  --accent-light: #d9703f;    /* icon gradient top */
-  --accent-deep: #a8441f;     /* icon gradient bottom */
+  --accent: #0074D9;          /* actions, links, the icon */
+  --accent-light: #0074D9;    /* icon gradient top */
+  --accent-deep: #004C8F;     /* icon gradient bottom */
   --ring: color-mix(in srgb, var(--accent) 30%, transparent);
   --bg: #faf8f4;
   --surface: #f1ede6;
@@ -46,7 +46,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --accent: #d9703f;
+    --accent: #3D9BF0;
     --bg: #171614;
     --surface: #211f1c;
     --line: #33302b;

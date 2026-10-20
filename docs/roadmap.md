@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v2.2.0)
+## Parity matrix (v2.6.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -62,9 +62,10 @@ Each version closes a block of rows above and refreshes the matrix.
 - 1.4 pricing (done: App Price in the Purchases tab, IAP price)
 - 1.5 availability (done)
 - 1.6 offer codes and promoted purchases (done)
-- 1.7 to 1.9 subscription offers and prices, grace period
 - 2.3 light mode and Appearance setting (done)
 - 2.4 brand polish (done): feather quotes in Hermes Sans, thicker wing, a two-feather favicon for 16 px
+- 2.5 subscription prices for every country, introductory, promotional and win-back offers, grace period (done)
+- 2.6 blue brand from clrs.cc and a detailed wing icon with Icon Composer glass (done)
 - 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
@@ -73,7 +74,7 @@ Each version closes a block of rows above and refreshes the matrix.
 
 A plan, not a promise. Versions climb one block at a time; majors get the full QA pass.
 
-- 2.x: close the Helm gaps. Subscription offers (intro, promo, win-back) and prices, grace period, review attachments, preview poster frame, build upload, beta review submit, TestFlight aliases, event duplicate and archive, the agreement banner.
+- 2.x: close the Helm gaps. Left: TestFlight aliases, event duplicate, assets and archive, the agreement banner, datasets and charts.
 - 3.0: menu bar status, a notification when any app changes review state, Shortcuts. Declare 1:1 with Helm after a side-by-side QA.
 - 4 to 9: past Helm. Release checklist from `asc validate`, sales and analytics, Xcode Cloud runs, keyword tools, screenshot framing, a fleet grid of every app at once, a release timeline, review-time estimates from your own history.
 - 10 to 19: iPhone and iPad companion with the same status and notifications, widgets, a watch complication.

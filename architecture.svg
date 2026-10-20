@@ -9,7 +9,7 @@
     <rect x="20" y="80" width="200" height="60" rx="14"/>
     <rect x="20" y="220" width="200" height="60" rx="14"/>
     <rect x="340" y="80" width="200" height="60" rx="14"/>
-    <rect x="340" y="150" width="200" height="60" rx="14" fill="#fbeee8" stroke="#a8441f"/>
+    <rect x="340" y="150" width="200" height="60" rx="14" fill="#fbeee8" stroke="#004C8F"/>
     <rect x="340" y="220" width="200" height="60" rx="14"/>
     <rect x="660" y="150" width="200" height="60" rx="14"/>
   </g>

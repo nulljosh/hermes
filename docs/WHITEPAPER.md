@@ -22,7 +22,7 @@ Live apps use their App Store artwork from the iTunes lookup. Apps that are not 
 
 ## Brand
 
-A wing from Hermes' sandals on a terracotta tile, built as an Icon Composer bundle. The type is Hermes Sans, Instrument Sans renamed under the SIL Open Font License. Colours and spacing live in `brand/tokens.css` and are mirrored in `Sources/Theme.swift`.
+A wing from Hermes' sandals on a blue tile (clrs.cc), built as an Icon Composer bundle. The type is Hermes Sans, Instrument Sans renamed under the SIL Open Font License. Colours and spacing live in `brand/tokens.css` and are mirrored in `Sources/Theme.swift`.
 
 ## Distribution
 

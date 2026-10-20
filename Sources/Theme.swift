@@ -9,7 +9,7 @@ enum Theme {
     static let line = Color(light: 0xE3DDD3, dark: 0x33302B)
     static let text = Color(light: 0x1F1D1A, dark: 0xF3EFE8)
     static let muted = Color(light: 0x6B655C, dark: 0x9A948A)
-    static let accent = Color(light: 0xA8441F, dark: 0xD9703F)
+    static let accent = Color(light: 0x0074D9, dark: 0x3D9BF0)
     static let live = Color(light: 0x2F8A4E, dark: 0x4CAF6E)
     static let pending = Color(light: 0x2F6FB0, dark: 0x5B9BD5)
     static let bad = Color(light: 0xC0392B, dark: 0xD9534F)

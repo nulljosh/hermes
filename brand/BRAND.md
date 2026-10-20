@@ -16,7 +16,7 @@ Warm paper in light, warm graphite in dark. One accent, flat surfaces, no gradie
 
 | Role | Light | Dark |
 |---|---|---|
-| Accent (actions, links, icon) | `#a8441f` | `#d9703f` |
+| Accent (actions, links, icon) | `#0074D9` (clrs.cc blue) | `#3D9BF0` |
 | Background | `#faf8f4` | `#171614` |
 | Surface (cards, sidebar, hover) | `#f1ede6` | `#211f1c` |
 | Line | `#e3ddd3` | `#33302b` |
