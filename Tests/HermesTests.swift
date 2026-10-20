@@ -1,3 +1,4 @@
+import CryptoKit
 import SwiftUI
 import XCTest
 @testable import Hermes
@@ -45,5 +46,34 @@ final class HermesTests: XCTestCase {
         let subs = try JSONDecoder().decode([Submission].self, from: Data(json.utf8))
         XCTAssertTrue(subs[0].rejected)
         XCTAssertFalse(subs[1].rejected)
+    }
+
+    // The iOS client signs its own requests: ES256, raw r||s signature, 20 minute expiry, Apple's audience.
+    func testAPITokenVerifiesAndCarriesClaims() throws {
+        let pk = P256.Signing.PrivateKey()
+        let client = ASCClient(key: ASCKey(keyID: "ABC123", issuerID: "issuer-1", pem: pk.pemRepresentation))
+        let parts = try client.token(now: Date(timeIntervalSince1970: 1_000)).split(separator: ".").map(String.init)
+        XCTAssertEqual(parts.count, 3)
+        func json(_ s: String) throws -> [String: Any] {
+            var b = s.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+            while b.count % 4 != 0 { b += "=" }
+            return try JSONSerialization.jsonObject(with: Data(base64Encoded: b)!) as! [String: Any]
+        }
+        let header = try json(parts[0]), claims = try json(parts[1])
+        XCTAssertEqual(header["alg"] as? String, "ES256")
+        XCTAssertEqual(header["kid"] as? String, "ABC123")
+        XCTAssertEqual(claims["iss"] as? String, "issuer-1")
+        XCTAssertEqual(claims["aud"] as? String, "appstoreconnect-v1")
+        XCTAssertEqual(claims["exp"] as? Int, 2_200)
+        var sig = parts[2].replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        while sig.count % 4 != 0 { sig += "=" }
+        let signature = try P256.Signing.ECDSASignature(rawRepresentation: Data(base64Encoded: sig)!)
+        XCTAssertTrue(pk.publicKey.isValidSignature(signature, for: Data((parts[0] + "." + parts[1]).utf8)))
+    }
+
+    func testLatestPerPlatformKeepsNewestOfEach() throws {
+        let json = #"{"data":[{"id":"1","attributes":{"platform":"IOS","versionString":"2.0"}},{"id":"2","attributes":{"platform":"MAC_OS","versionString":"1.5"}},{"id":"3","attributes":{"platform":"IOS","versionString":"1.9"}}]}"#
+        let doc = try JSONDecoder().decode(Doc<VersionAttrs>.self, from: Data(json.utf8))
+        XCTAssertEqual(latestPerPlatform(doc.data).map(\.id), ["1", "2"])
     }
 }
