@@ -1,7 +1,14 @@
 /* Hermes landing, dressed after Nous Research: a navy-black page in a thin blue frame, giant thin condensed caps,
    tiny caps labels, small square buttons, and one full-bleed blue band where the 1878 engraving sits in scanlines.
    Every colour, both faces and the radii come from tokens.css (copied from brand/ at deploy, shared with the app). */
-:root { --scan: repeating-linear-gradient(to bottom, #000 0 1.5px, transparent 1.5px 3px); }  /* scanlines for the engravings */
+:root {
+  --scan: repeating-linear-gradient(to bottom, #000 0 1.5px, transparent 1.5px 3px);  /* scanlines for the engravings */
+  /* film grain: white fractal noise, laid over every blue surface */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .28 0 0 0 -.06'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Halftone art: each image is a dot mask (art/*.png, dithered from public domain works), tinted with --band-art */
+.art { position: relative; overflow: hidden; background: var(--grain), var(--band); }
+.art::before { content: ""; position: absolute; inset: 0; background: var(--band-art); -webkit-mask: var(--img) center / cover no-repeat; mask: var(--img) center / cover no-repeat; }
 * { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font); font-size: var(--size-body); line-height: 24px; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
@@ -45,9 +52,11 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 
 /* the live window: same layout as the Mac app */
 .demo-wrap { margin: var(--sp-8) clamp(0px, 3vw, 44px) 0; }
-.stage { position: relative; overflow: hidden; background: var(--band); padding: clamp(24px, 6vw, 96px) clamp(12px, 7vw, 128px); }
-.stage-art { position: absolute; inset: 0; margin: 0; color: var(--band-art); opacity: .65; -webkit-mask-image: var(--scan); mask-image: var(--scan); }
-.stage-art svg { display: block; width: 100%; height: 100%; }
+.stage { position: relative; overflow: hidden; background: var(--grain), var(--band); padding: clamp(24px, 6vw, 96px) clamp(12px, 7vw, 128px); }
+.stage-art { position: absolute; inset: 0; }
+.term-stage .stage-art { color: var(--band-art); opacity: .65; -webkit-mask-image: var(--scan); mask-image: var(--scan); background: none; }
+.term-stage .stage-art::before { content: none; }
+.term-stage .stage-art svg { display: block; width: 100%; height: 100%; }
 .stage .win { position: relative; max-width: 1040px; margin: 0 auto; }
 .win { display: grid; grid-template-columns: 260px 1fr; height: 560px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); color: var(--text); font-size: 13px; line-height: 18px; text-align: left; }
 .win-side { display: flex; flex-direction: column; padding: var(--sp-4); background: var(--surface); border-right: 1px solid var(--line); }
@@ -82,14 +91,20 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 .demo-hint { margin-top: var(--sp-3); font-size: var(--size-footnote); color: var(--sub); text-align: center; }
 
 /* The blue band: the engraving in scanlines beside the section head, then the six features as ruled cells */
-.band { margin: 0 clamp(0px, 3vw, 44px); background: var(--band); color: #fff; overflow: hidden; }
+.band { margin: 0 clamp(0px, 3vw, 44px); background: var(--grain), var(--band); color: #fff; overflow: hidden; }
 .band .label { color: var(--band-sub); }
-.band-head { position: relative; display: grid; place-items: center; min-height: clamp(560px, 60vw, 860px); padding: var(--sp-9) var(--sp-5); text-align: center; overflow: hidden; }
-.band-god { position: absolute; inset: var(--sp-6) 0 0; margin: 0; display: flex; justify-content: center; color: var(--band-art); opacity: .5; -webkit-mask-image: var(--scan); mask-image: var(--scan); }
-.band-god svg { display: block; height: 100%; width: auto; }
-.band-copy { position: relative; }
+.band-head { text-align: center; }
+.band-art { aspect-ratio: 14 / 9; max-height: 86vh; width: 100%; background: none; }
+.band-copy { position: relative; margin-top: -10vw; padding: 0 var(--sp-5) var(--sp-9); }
 .band-copy h2 { font-size: clamp(60px, 10vw, 168px); line-height: .9; }
 .band-copy p:last-child { margin: var(--sp-6) auto 0; max-width: 480px; color: var(--band-sub); }
+.frows { border-top: 1px solid var(--band-line); }
+.frow { display: grid; grid-template-columns: 1fr 1fr; align-items: center; border-bottom: 1px solid var(--band-line); }
+.frow .art { aspect-ratio: 3 / 2; background: var(--grain), color-mix(in srgb, #fff 6%, var(--band)); }
+.frow:nth-child(even) .art { order: 2; }
+.frow > div:not(.art) { padding: var(--sp-7) clamp(24px, 6vw, 96px); max-width: 560px; }
+.frow h3 { font-size: clamp(36px, 3.6vw, 52px); line-height: 1; font-weight: 200; }
+.frow p:last-child { margin-top: var(--sp-4); color: var(--band-sub); }
 .cells { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--band-line); }
 .cell { padding: var(--sp-6) var(--sp-6) var(--sp-7); border-right: 1px solid var(--band-line); border-bottom: 1px solid var(--band-line); }
 .cell:nth-child(3n) { border-right: 0; }
@@ -105,8 +120,7 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 /* three product cards, each with its own crop of the engraving */
 .prods { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin-top: var(--sp-4); text-align: left; }
 .prod { display: grid; align-content: start; gap: var(--sp-2); }
-.prod-art { margin: 0 0 var(--sp-3); aspect-ratio: 3 / 2; background: var(--band); color: var(--band-art); overflow: hidden; }
-.prod-art svg { display: block; width: 100%; height: 100%; opacity: .75; -webkit-mask-image: var(--scan); mask-image: var(--scan); }
+.prod-art { margin: 0 0 var(--sp-3); aspect-ratio: 3 / 2; }
 .prod .label { margin-bottom: 0; }
 .prod p:not(.label) { color: var(--sub); font-size: 15px; line-height: 22px; }
 .prod a { color: var(--accent); font-size: 15px; text-decoration: none; }
@@ -142,6 +156,10 @@ h3 { font-size: 30px; line-height: 32px; font-weight: 300; }
 .js .reveal.in { opacity: 1; transform: none; }
 
 @media (max-width: 900px) {
+  .frow { grid-template-columns: 1fr; }
+  .frow:nth-child(even) .art { order: 0; }
+  .frow > div:not(.art) { padding: var(--sp-6) var(--sp-5) var(--sp-7); }
+  .band-copy { margin-top: -14vw; }
   .cells { grid-template-columns: 1fr 1fr; }
   .cell, .cell:nth-child(3n), .cell:nth-last-child(-n+3) { border-right: 1px solid var(--band-line); border-bottom: 1px solid var(--band-line); }
   .cell:nth-child(2n) { border-right: 0; }
