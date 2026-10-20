@@ -5,7 +5,12 @@ struct PendingCommand: Identifiable {
     let id = UUID()
     let title: String
     let args: [String]
-    var line: String { "asc " + args.map { $0.contains(" ") ? "\"\($0)\"" : $0 }.joined(separator: " ") }
+    // Optional second step; "{id}" is replaced with data.id from the first step's output.
+    var then: [String]? = nil
+    var line: String {
+        ([args] + (then.map { [$0] } ?? [])).map { "asc " + $0.map { $0.contains(" ") ? "\"\($0)\"" : $0 }.joined(separator: " ") }
+            .joined(separator: "\nthen ")
+    }
 }
 
 struct CommandRunner: ViewModifier {
@@ -30,7 +35,12 @@ struct CommandRunner: ViewModifier {
 
     func run(_ cmd: PendingCommand) async {
         do {
-            _ = try await ASC.run(cmd.args)
+            let data = try await ASC.run(cmd.args)
+            if let then = cmd.then {
+                struct R: Decodable { struct D: Decodable { let id: String }; let data: D }
+                let id = try JSONDecoder().decode(R.self, from: data).data.id
+                _ = try await ASC.run(then.map { $0.replacingOccurrences(of: "{id}", with: id) })
+            }
             failed = false; result = cmd.title + " finished."
             await done()
         } catch {

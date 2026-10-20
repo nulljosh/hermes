@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Tab: String, CaseIterable, Identifiable {
-    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", purchases = "Purchases"
+    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", submissions = "Submissions", purchases = "Purchases"
     var id: String { rawValue }
 }
 
@@ -22,11 +22,21 @@ struct DetailView: View {
                 Spacer()
             }
             .padding([.horizontal, .top], 12)
-            // Tabs get their own row so a long list never squeezes the sidebar.
+            // Tabs get their own row and size to their labels, so nine of them fit.
             ScrollView(.horizontal, showsIndicators: false) {
-                Picker("", selection: $tab) { ForEach(Tab.allCases) { Text($0.rawValue).tag($0) } }
-                    .pickerStyle(.segmented).labelsHidden().fixedSize()
-                    .padding(.horizontal, 12)
+                HStack(spacing: 2) {
+                    ForEach(Tab.allCases) { t in
+                        Button { tab = t } label: {
+                            Text(t.rawValue).font(Theme.font(12, tab == t ? .semibold : .medium))
+                                .foregroundStyle(tab == t ? Theme.text : Theme.muted)
+                                .padding(.horizontal, 10).padding(.vertical, 5)
+                                .background(tab == t ? Theme.surface : .clear, in: Capsule())
+                                .contentShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, 8)
             }
             .padding(.vertical, 8)
             Divider().overlay(Theme.line)
@@ -38,6 +48,7 @@ struct DetailView: View {
             case .builds: BuildsView(app: app)
             case .testflight: TestFlightView(app: app)
             case .reviews: ReviewsView(app: app)
+            case .submissions: SubmissionsView(app: app)
             case .purchases: ItemList(args: ["iap", "list", "--app", app.id],
                                      title: ["name"], sub: ["productId", "inAppPurchaseType", "state"], state: "state")
             }

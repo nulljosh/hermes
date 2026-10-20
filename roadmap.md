@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v0.8.0)
+## Parity matrix (v0.9.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -13,7 +13,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Two-pane welcome window | yes | yes | done |
 | Release status and next action | yes | yes | done (Hermes adds blockers) |
 | Version list | yes | yes | done |
-| Create version, edit version, ship, reject | yes | create, edit, submit, release, delete | partial (reject = cancel submission, lands with 0.8) |
+| Create version, edit version, ship, reject | yes | create, edit, submit, release, delete, cancel submission | done |
 | Review info (notes, demo account, attachments) | yes | contact, notes, demo account | partial (attachments todo) |
 | Localizations: list, edit, bulk download and upload | yes | yes, plus App Info name and subtitle, character limits | done |
 | Screenshots: view, upload, delete, download | yes | yes | done |
@@ -24,7 +24,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | partial (aliases todo) |
 | Customer reviews | yes | yes, with rating summary and filters | done |
 | Review reply, reply signature, review link | yes | yes | done |
-| Submissions: create, add version or event, submit, cancel | yes | no | todo |
+| Submissions: create, add version or event, submit, cancel | yes | create with version, submit, cancel, full history | partial (add event lands with in-app events) |
 | In-app events: create, duplicate, localize, assets, archive | yes | no | todo |
 | In-app purchases: list, edit, localize | yes | read only | partial |
 | IAP and subscription pricing: plan, set, schedule, equalize | yes | no | todo |
@@ -54,7 +54,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 0.6.1 app icons for unreleased apps from the latest build's iconAssetToken (done)
 - 0.7 rename to Hermes (done)
 - 0.8 reviews: reply and signature (done)
-- 0.9 submissions
+- 0.9 submissions (done: Submissions tab, outcomes, rejections-only filter, two-step create)
 - 1.0 first major: full QA against Helm, tests and CI, signed and notarized DMG so Download works
 - 1.1 in-app events
 - 1.2 to 1.9 IAP and subscriptions with pricing and offers
@@ -67,4 +67,4 @@ Each version closes a block of rows above and refreshes the matrix.
 Shipped: read-only mode (Settings), every write shows its asc command before it runs, QA launch arguments `-selectApp <id> -tab <name> -openVersion first`.
 
 
-Ideas that Helm does not have: rejection history in one place, release checklist from `asc validate`, price heat map by territory, Xcode Cloud status, analytics and sales from `asc analytics`.
+Ideas that Helm does not have: rejection history in one place (shipped 0.9), release checklist from `asc validate`, price heat map by territory, Xcode Cloud status, analytics and sales from `asc analytics`.
