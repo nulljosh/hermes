@@ -27,7 +27,7 @@
   --live: #2f8a4e;            /* ready for sale */
   --pending: #b07a00;         /* in review, processing: amber, so it never reads as a link */
   --bad: #c0392b;             /* rejected */
-  --idle: #8a847a;            /* preparing, unknown */
+  --idle: #8a8d99;            /* preparing, unknown */
 
   /* type */
   --display: "Hermes Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -62,14 +62,14 @@
     --band: #0a33b5;
     --band-sub: #c9d6fb;
     --band-art: #7d9df0;
-    --bg: #0c0d1d;            /* navy black */
-    --surface: #15172d;
-    --line: #272a48;
+    --bg: #0a0e19;            /* navy black */
+    --surface: #141a2a;
+    --line: #252d44;
     --text: #f2f2f5;
-    --sub: #a4a7c0;
+    --sub: #a2a9bc;
     --live: #4caf6e;
     --pending: #e0a800;
     --bad: #d9534f;
-    --idle: #6f6a62;
+    --idle: #6f7488;
   }
 }

@@ -4,16 +4,16 @@ import SwiftUI
 // Tokens mirror brand/tokens.css. One accent, flat surfaces, no gradients or shadows.
 enum Theme {
     // Light and dark, from brand/tokens.css. The window follows the system appearance.
-    static let bg = Color(light: 0xFDFDFD, dark: 0x0C0D1D)
-    static let surface = Color(light: 0xF2F3F7, dark: 0x15172D)
-    static let line = Color(light: 0xDCDDE5, dark: 0x272A48)
+    static let bg = Color(light: 0xFDFDFD, dark: 0x0A0E19)
+    static let surface = Color(light: 0xF2F3F7, dark: 0x141A2A)
+    static let line = Color(light: 0xDCDDE5, dark: 0x252D44)
     static let text = Color(light: 0x1A1A1A, dark: 0xF2F2F5)
-    static let muted = Color(light: 0x5A5C6B, dark: 0xA4A7C0)
+    static let muted = Color(light: 0x5A5C6B, dark: 0xA2A9BC)
     static let accent = Color(light: 0x0847C4, dark: 0x6F9DFF)
     static let live = Color(light: 0x2F8A4E, dark: 0x4CAF6E)
     static let pending = Color(light: 0xB07A00, dark: 0xE0A800)
     static let bad = Color(light: 0xC0392B, dark: 0xD9534F)
-    static let idle = Color(light: 0x8A847A, dark: 0x6F6A62)
+    static let idle = Color(light: 0x8A8D99, dark: 0x6F7488)
 
     // Falls back to the system face if the bundled one is missing.
     static func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {

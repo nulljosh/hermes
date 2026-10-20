@@ -11,6 +11,7 @@ code { font-size: .9em; padding: 2px 6px; border-radius: var(--r-sq); background
 .center { text-align: center; }
 
 h1, h2, h3, .label { font-family: var(--display); }
+h1, h2, h3 { text-wrap: balance; }
 /* the wing, in the accent, over a section title */
 .wing { display: block; width: 56px; height: 56px; margin: 0 auto var(--sp-4); background: var(--accent); -webkit-mask: url(mark.svg) center / contain no-repeat; mask: url(mark.svg) center / contain no-repeat; }
 h1 { font-size: clamp(112px, 17vw, 248px); line-height: .9; font-weight: 200; text-transform: uppercase; letter-spacing: -.005em; }
