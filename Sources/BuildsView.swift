@@ -9,6 +9,7 @@ struct BuildsView: View {
     @State private var error: String?
     @State private var pending: PendingCommand?
     @State private var notesFor: Item?
+    @State private var uploading = false
 
     var body: some View {
         Group {
@@ -17,7 +18,11 @@ struct BuildsView: View {
                 if builds.isEmpty { Text("No builds yet.").foregroundStyle(Theme.muted).frame(maxHeight: .infinity) }
                 else {
                     ScrollView {
-                        LazyVStack(alignment: .leading, spacing: 0) { ForEach(builds) { row($0) } }
+                        LazyVStack(alignment: .leading, spacing: 0) {
+                            HStack { Spacer(); Button("Upload Build", systemImage: "square.and.arrow.up") { uploading = true } }
+                                .padding(.horizontal, 16).padding(.vertical, 8)
+                            ForEach(builds) { row($0) }
+                        }
                     }
                 }
             } else { ProgressView().frame(maxHeight: .infinity) }
@@ -25,6 +30,7 @@ struct BuildsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .commands($pending) { await load() }
         .sheet(item: $notesFor) { b in TestNotes(build: b) { notesFor = nil } }
+        .sheet(isPresented: $uploading) { UploadBuild(app: app) { cmd in uploading = false; if let cmd { pending = cmd } } }
         .task { await load() }
     }
 
@@ -65,6 +71,9 @@ struct BuildsView: View {
                     }
                 }
                 Button("What to Test...") { notesFor = b }
+                Button("Submit for Beta Review") {
+                    pending = PendingCommand(title: "Submit for Beta Review", args: ["testflight", "review", "submit", "--build-id", b.id, "--confirm"])
+                }
                 Divider()
                 Button("Expire", role: .destructive) {
                     pending = PendingCommand(title: "Expire Build", args: ["builds", "expire", "--build-id", b.id, "--confirm"])
@@ -109,5 +118,39 @@ struct TestNotes: View {
         .formStyle(.grouped)
         .frame(width: 420)
         .commands($pending) { close() }
+    }
+}
+
+struct UploadBuild: View {
+    let app: ASCApp
+    let done: (PendingCommand?) -> Void
+    @State private var file: URL?
+    @State private var picking = false
+    @State private var notes = ""
+
+    var body: some View {
+        Form {
+            HStack {
+                Text(file?.lastPathComponent ?? "No .ipa or .pkg chosen")
+                Spacer()
+                Button("Choose File") { picking = true }
+            }
+            TextField("What to Test (optional)", text: $notes, axis: .vertical).lineLimit(2...6)
+            Text("The build number is read from the file. Processing at Apple takes a few minutes after the upload.").font(.caption).foregroundStyle(.secondary)
+            HStack {
+                Button("Cancel") { done(nil) }
+                Spacer()
+                Button("Upload") {
+                    guard let file else { return }
+                    let flag = file.pathExtension == "pkg" ? "--pkg" : "--ipa"
+                    done(PendingCommand(title: "Upload Build", args: ["builds", "upload", "--app", app.id, flag, file.path]
+                        + (notes.isEmpty ? [] : ["--test-notes", notes, "--locale", "en-US"])))
+                }
+                .disabled(file == nil).keyboardShortcut(.defaultAction)
+            }
+        }
+        .formStyle(.grouped)
+        .frame(width: 440)
+        .fileImporter(isPresented: $picking, allowedContentTypes: [.item]) { file = try? $0.get() }
     }
 }

@@ -18,9 +18,17 @@ struct CommandRunner: ViewModifier {
     var done: () async -> Void = {}
     @State private var result: String?
     @State private var failed = false
+    @State private var running: String?
 
     func body(content: Content) -> some View {
         content
+            // Long writes (uploads) show what is running instead of a frozen window.
+            .overlay {
+                if let running {
+                    HStack(spacing: 8) { ProgressView().controlSize(.small); Text(running + "...") }
+                        .padding(12).background(Theme.surface, in: Capsule())
+                }
+            }
             .confirmationDialog(pending?.title ?? "", isPresented: Binding(get: { pending != nil }, set: { if !$0 { pending = nil } }),
                                 titleVisibility: .visible, presenting: pending) { cmd in
                 Button(cmd.title) { Task { await run(cmd) } }
@@ -34,6 +42,8 @@ struct CommandRunner: ViewModifier {
     }
 
     func run(_ cmd: PendingCommand) async {
+        running = cmd.title
+        defer { running = nil }
         do {
             let data = try await ASC.run(cmd.args)
             if let then = cmd.then {

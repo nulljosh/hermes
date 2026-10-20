@@ -4,7 +4,7 @@ Goal: a native Mac app for App Store Connect that matches Helm 2.3.9 feature for
 
 Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the matrix every version. The truth for Helm's surface is its `helm-asc` command map in `Contents/Resources/AgentSkill_AgentSkill.bundle`.
 
-## Parity matrix (v2.1.0)
+## Parity matrix (v2.2.0)
 
 | Area | Helm | Hermes | Status |
 |---|---|---|---|
@@ -19,7 +19,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Screenshots: view, upload, delete, download | yes | yes | done |
 | App previews: view, upload, delete, frame time | yes | view, upload, delete, poster frame | done |
 | Builds list | yes | yes | done |
-| Build upload, expire, attach to version, submit for beta review | yes | expire, attach, add to group, What to Test | partial (upload, beta review submit todo) |
+| Build upload, expire, attach to version, submit for beta review | yes | upload .ipa/.pkg, expire, attach, add to group, What to Test, beta review | done |
 | TestFlight groups | yes | yes | done |
 | TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | partial (aliases todo) |
 | Customer reviews | yes | yes, with rating summary and filters | done |
@@ -63,6 +63,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 1.5 availability (done)
 - 1.6 offer codes and promoted purchases (done)
 - 1.7 to 1.9 subscription offers and prices, grace period
+- 2.x brand polish (Joshua said yes 2026-10-19): a signature glyph in Hermes Sans, light mode in the app, a thicker icon that holds at 16 px
 - 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
 - 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
@@ -82,7 +83,7 @@ A plan, not a promise. Versions climb one block at a time; majors get the full Q
 
 ## Beyond Helm
 
-Shipped: read-only mode (Settings), every write shows its asc command before it runs, QA launch arguments `-selectApp <id> -tab <name> -openVersion first`.
+Shipped: a running indicator for long writes like uploads, read-only mode (Settings), every write shows its asc command before it runs, QA launch arguments `-selectApp <id> -tab <name> -openVersion first`.
 
 
 Ideas that Helm does not have: rejection history in one place (shipped 0.9), release checklist from `asc validate`, price heat map by territory, Xcode Cloud status, analytics and sales from `asc analytics`.
