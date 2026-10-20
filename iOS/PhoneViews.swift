@@ -165,6 +165,7 @@ struct SettingsView: View {
     let fleet: Fleet
     var onDisconnect: () -> Void
     @AppStorage("onboarded") private var onboarded = true
+    @AppStorage("signature") private var signature = ""
     @State private var confirm = false
 
     func masked(_ s: String) -> String { String(repeating: "•", count: max(0, min(s.count, 12) - 4)) + s.suffix(4) }
@@ -179,7 +180,8 @@ struct SettingsView: View {
                     Button("Disconnect key", role: .destructive) { confirm = true }
                 } header: { Text("App Store Connect") } footer: { Text("Your key lives in your Keychain and syncs only through iCloud Keychain.") }
                 Section {
-                    LabeledContent("Mode", value: "Read only")
+                    LabeledContent("Changes", value: "Ask first")
+                    TextField("Reply signature", text: $signature)
                     LabeledContent("Version", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "")
                     Button("Show the intro again") { onboarded = false }
                 } header: { Text("Hermes") }
@@ -187,6 +189,7 @@ struct SettingsView: View {
                     Link("Docs", destination: URL(string: "https://hermes.jaybulb.com/docs")!)
                     Link("Send feedback", destination: URL(string: "mailto:trommatic@icloud.com?subject=Hermes%20iOS")!)
                     Link("Source on GitHub", destination: URL(string: "https://github.com/nulljosh/hermes")!)
+                    Link("Privacy", destination: URL(string: "https://hermes.jaybulb.com/privacy")!)
                 }
             }
             .scrollContentBackground(.hidden)
@@ -241,6 +244,51 @@ struct AppRow: View {
     }
 }
 
+// MARK: - Writes, each one asks first
+
+struct ReplySheet: View {
+    let client: ASCClient
+    let review: Doc<ReviewAttrs>.Item
+    @Environment(\.dismiss) private var dismiss
+    @AppStorage("signature") private var signature = ""
+    @State private var text = ""
+    @State private var confirm = false
+    @State private var sending = false
+    @State private var error: String?
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Text(review.attributes.title ?? "").font(Theme.font(15, .semibold))
+                    Text(review.attributes.body ?? "").font(Theme.font(14)).foregroundStyle(Theme.muted)
+                }
+                Section {
+                    TextEditor(text: $text).frame(minHeight: 140)
+                } footer: { Text("Your reply shows publicly on the App Store.") }
+                if let error { Section { Text(error).foregroundStyle(Theme.bad) } }
+            }
+            .navigationTitle("Reply")
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear { if text.isEmpty && !signature.isEmpty { text = "\n\n" + signature } }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Send") { confirm = true }.disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || sending)
+                }
+            }
+            .confirmationDialog("Publish this reply on the App Store?", isPresented: $confirm, titleVisibility: .visible) {
+                Button("Publish") {
+                    Task {
+                        sending = true; defer { sending = false }
+                        do { try await client.reply(to: review.id, text); dismiss() } catch { self.error = error.localizedDescription }
+                    }
+                }
+            }
+        }
+    }
+}
+
 // MARK: - One app
 
 struct AppDetail: View {
@@ -252,6 +300,7 @@ struct AppDetail: View {
     @State private var builds: [Doc<BuildAttrs>.Item] = []
     @State private var reviews: [Doc<ReviewAttrs>.Item] = []
     @State private var icon: URL?
+    @State private var replying: Doc<ReviewAttrs>.Item?
     @State private var error: String?
 
     var body: some View {
@@ -290,11 +339,11 @@ struct AppDetail: View {
                     if reviews.isEmpty { Text("No reviews here yet.").foregroundStyle(Theme.muted) }
                     ForEach(reviews) { r in
                         let a = r.attributes
-                        VStack(alignment: .leading, spacing: 4) {
+                        Button { replying = r } label: { VStack(alignment: .leading, spacing: 4) {
                             Text(String(repeating: "★", count: a.rating ?? 0) + " " + (a.title ?? "")).font(Theme.font(15, .semibold))
                             Text(a.body ?? "").font(Theme.font(14)).foregroundStyle(Theme.muted)
                             Text("\(a.reviewerNickname ?? "") · \(a.territory ?? "") · \(String((a.createdDate ?? "").prefix(10)))").font(Theme.font(12)).foregroundStyle(Theme.muted)
-                        }
+                        } }.foregroundStyle(Theme.text)
                     }
                 }
             }
@@ -306,6 +355,7 @@ struct AppDetail: View {
         .navigationBarTitleDisplayMode(.inline)
         .refreshable { await load() }
         .task { await load() }
+        .sheet(item: $replying) { r in ReplySheet(client: client, review: r) }
     }
 
     private func load() async {

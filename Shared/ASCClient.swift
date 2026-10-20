@@ -2,7 +2,8 @@ import CryptoKit
 import Foundation
 
 // The App Store Connect API, called directly and signed with your own .p8 key. The Mac app runs the asc CLI;
-// iOS can't run a CLI, so the phone talks to Apple itself. Read only: GET is the only request it can make.
+// iOS can't run a CLI, so the phone talks to Apple itself. Reads are GET; every write is one named method below,
+// and the app asks before calling any of them.
 
 struct ASCKey: Codable, Equatable {
     let keyID: String
@@ -53,6 +54,26 @@ struct ASCClient {
         return data
     }
 
+    /// The request behind a write, built separately so tests can check it without sending anything.
+    func writeRequest(_ method: String, _ path: String, body: [String: Any]) throws -> URLRequest {
+        var req = URLRequest(url: Self.base.appendingPathComponent(path))
+        req.httpMethod = method
+        req.setValue("Bearer \(try token())", forHTTPHeaderField: "Authorization")
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try JSONSerialization.data(withJSONObject: body, options: .sortedKeys)
+        return req
+    }
+
+    func send(_ req: URLRequest) async throws -> Data {
+        let (data, resp) = try await session.data(for: req)
+        let status = (resp as? HTTPURLResponse)?.statusCode ?? 0
+        guard (200..<300).contains(status) else {
+            struct E: Decodable { struct I: Decodable { let detail: String?; let title: String? }; let errors: [I]? }
+            throw ASCError(status: status, detail: (try? JSONDecoder().decode(E.self, from: data))?.errors?.first.map { $0.detail ?? $0.title ?? "" } ?? "")
+        }
+        return data
+    }
+
     func decode<T: Decodable>(_ type: T.Type, _ path: String, _ query: [String: String] = [:]) async throws -> T {
         try JSONDecoder().decode(T.self, from: await get(path, query))
     }
@@ -97,6 +118,18 @@ extension ASCClient {
 
     func reviews(_ app: String) async throws -> [Doc<ReviewAttrs>.Item] {
         try await decode(Doc<ReviewAttrs>.self, "/v1/apps/\(app)/customerReviews", ["sort": "-createdDate", "limit": "50"]).data
+    }
+}
+
+extension ASCClient {
+    static func replyBody(review: String, text: String) -> [String: Any] {
+        ["data": ["type": "customerReviewResponses", "attributes": ["responseBody": text],
+                  "relationships": ["review": ["data": ["type": "customerReviews", "id": review]]]]]
+    }
+
+    /// Publish a reply to a customer review. Apple shows it on the App Store.
+    func reply(to review: String, _ text: String) async throws {
+        _ = try await send(writeRequest("POST", "/v1/customerReviewResponses", body: Self.replyBody(review: review, text: text)))
     }
 }
 

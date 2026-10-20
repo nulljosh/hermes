@@ -97,7 +97,7 @@ struct OnboardingView: View {
     let pages = [
         Page(art: "art-prax", glyph: "wing", title: "HERMES", body: "App Store Connect, on your iPhone."),
         Page(art: "art-goltzius", glyph: "caduceus", title: "EVERY APP", body: "Every version, build and review on your account, in one list."),
-        Page(art: "art-carceri8", glyph: "letter", title: "READ ONLY", body: "Hermes looks and never touches. Nothing changes at Apple."),
+        Page(art: "art-carceri8", glyph: "letter", title: "ASKS FIRST", body: "Reply, submit and ship. Every change shows what it will do and waits for your yes."),
         Page(art: "art-ludovisi", glyph: "purse", title: "YOUR KEY", body: "Your API key stays in your Keychain. No server, no account."),
     ]
 

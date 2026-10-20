@@ -76,4 +76,20 @@ final class HermesTests: XCTestCase {
         let doc = try JSONDecoder().decode(Doc<VersionAttrs>.self, from: Data(json.utf8))
         XCTAssertEqual(latestPerPlatform(doc.data).map(\.id), ["1", "2"])
     }
+
+    // Writes are built separately from sending, so the shape Apple expects is checked without touching a live app.
+    func testReplyRequestShape() throws {
+        let client = ASCClient(key: ASCKey(keyID: "K", issuerID: "I", pem: P256.Signing.PrivateKey().pemRepresentation))
+        let req = try client.writeRequest("POST", "/v1/customerReviewResponses", body: ASCClient.replyBody(review: "rev1", text: "Thanks!"))
+        XCTAssertEqual(req.httpMethod, "POST")
+        XCTAssertEqual(req.url?.absoluteString, "https://api.appstoreconnect.apple.com/v1/customerReviewResponses")
+        XCTAssertTrue(req.value(forHTTPHeaderField: "Authorization")?.hasPrefix("Bearer ") ?? false)
+        let body = try JSONSerialization.jsonObject(with: req.httpBody!) as! [String: Any]
+        let data = body["data"] as! [String: Any]
+        XCTAssertEqual(data["type"] as? String, "customerReviewResponses")
+        XCTAssertEqual((data["attributes"] as! [String: Any])["responseBody"] as? String, "Thanks!")
+        let rel = ((data["relationships"] as! [String: Any])["review"] as! [String: Any])["data"] as! [String: Any]
+        XCTAssertEqual(rel["id"] as? String, "rev1")
+        XCTAssertEqual(rel["type"] as? String, "customerReviews")
+    }
 }

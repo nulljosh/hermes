@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hermes Privacy</title>
+<meta name="description" content="Hermes collects nothing. Your key stays on your devices.">
+<meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0e19" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://hermes.jaybulb.com/privacy">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+<header class="nav" aria-label="Site">
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#features">Features</a>
+    <a href="/#agents">Agents</a>
+  </nav>
+  <a class="nav-brand" href="/" aria-label="Hermes home"><img src="icon.svg" alt="" width="28" height="28"><span>Hermes</span></a>
+  <div class="nav-end">
+    <a class="nav-get" href="docs">Docs</a>
+    <a class="btn btn-solid" href="https://github.com/nulljosh/hermes/releases/latest/download/Hermes.dmg">Download</a>
+  </div>
+</header>
+
+<!-- Header art: Hermes of Praxiteles (Rijksmuseum, CC0), dithered to halftone. -->
+<main>
+<div class="docs privacy">
+  <article class="doc">
+    <section>
+      <p class="label">Privacy</p>
+      <h1 class="doc-h1">Hermes collects nothing</h1>
+      <p><em>Last updated October 20, 2026.</em></p>
+      <p>Hermes collects nothing. There is no Hermes account, no Hermes server and no analytics in the Mac app, the iPhone app or the MCP server.</p>
+    </section>
+    <section>
+      <h2>Your App Store Connect key</h2>
+      <p>Your API key stays on your devices. On the Mac, the <code>asc</code> tool keeps it. On iPhone, Hermes keeps it in your Keychain, and iCloud Keychain syncs it between your own devices if you have that turned on. Apple encrypts that end to end. The key itself is never sent anywhere. Hermes uses it to sign short-lived tokens, and those tokens go only to Apple.</p>
+    </section>
+    <section>
+      <h2>Who Hermes talks to</h2>
+      <p>Only Apple: <code>api.appstoreconnect.apple.com</code> for your apps, and Apple's own servers for app icons and store pages. Links to GitHub, the docs or email open in your browser or mail app.</p>
+    </section>
+    <section>
+      <h2>The website</h2>
+      <p>hermes.jaybulb.com is a static site on Cloudflare. It sets no cookies and runs no analytics. Cloudflare may keep standard request logs, like any web host, under <a href="https://www.cloudflare.com/privacypolicy/">its own policy</a>.</p>
+    </section>
+    <section>
+      <h2>Email</h2>
+      <p>If you send feedback, I get your email address and what you wrote. I use it to reply, and nothing else.</p>
+    </section>
+    <section>
+      <h2>Changes</h2>
+      <p>If this ever changes, this page changes first, with a new date at the top.</p>
+    </section>
+    <section>
+      <h2>Contact</h2>
+      <p>Joshua Trommel, <a href="mailto:trommatic@icloud.com">trommatic@icloud.com</a>.</p>
+    </section>
+  </article>
+</div>
+</main>
+
+<footer class="foot">
+  <p class="legal">&copy; 2026 Joshua Trommel &middot; MIT License &middot; <a href="privacy">Privacy</a></p>
+</footer>
+</body>
+</html>
