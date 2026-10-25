@@ -82,6 +82,7 @@ struct AppList: View {
     let pick: (ASCApp) -> Void
     @State private var resolving = UserDefaults.standard.bool(forKey: "resolveAll")  // QA launch argument: -resolveAll YES
     @State private var agreement: String?
+    @AppStorage("fleetGrid") private var grid = false
 
     var rejectedCount: Int { store.versions.values.filter { $0.contains { $0.state.contains("REJECT") } }.count }
 
@@ -101,6 +102,8 @@ struct AppList: View {
                 }
                 .padding(.horizontal, 10).padding(.vertical, 6)
                 .background(Theme.surface, in: Capsule())
+                Button { grid.toggle() } label: { Image(systemName: grid ? "list.bullet" : "square.grid.2x2") }
+                    .buttonStyle(.plain).foregroundStyle(Theme.muted).help(grid ? "List" : "Fleet grid")
                 if rejectedCount > 0 {
                     Button("Resolve All (\(rejectedCount))") { resolving = true }
                         .foregroundStyle(Theme.bad)
@@ -126,10 +129,20 @@ struct AppList: View {
                 Spacer()
             } else {
                 ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(shown) { app in
-                            Button { pick(app) } label: { AppRow(app: app, store: store) }
-                                .buttonStyle(.plain)
+                    if grid {
+                        // The fleet grid (4.1): every app at once, one card each, a chip per platform.
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 200), spacing: 12)], spacing: 12) {
+                            ForEach(shown) { app in
+                                Button { pick(app) } label: { AppCard(app: app, store: store) }.buttonStyle(.plain)
+                            }
+                        }
+                        .padding(12)
+                    } else {
+                        LazyVStack(spacing: 0) {
+                            ForEach(shown) { app in
+                                Button { pick(app) } label: { AppRow(app: app, store: store) }
+                                    .buttonStyle(.plain)
+                            }
                         }
                     }
                 }
@@ -158,6 +171,33 @@ struct AppRow: View {
             Spacer()
         }
         .padding(.horizontal, 8).padding(.vertical, 8)
+        .contentShape(Rectangle())
+        .hoverable()
+    }
+}
+
+struct AppCard: View {
+    let app: ASCApp
+    let store: Store
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                AppIcon(app: app, url: store.icons[app.id], size: 32)
+                Text(app.name).font(Theme.font(13, .semibold)).lineLimit(1)
+            }
+            ForEach(store.versions[app.id] ?? []) { v in
+                HStack(spacing: 6) {
+                    Circle().fill(Theme.stateColor(v.state)).frame(width: 7, height: 7)
+                    Text("\(Theme.platform(v.platform)) \(v.version)").font(Theme.font(11, .medium))
+                    Spacer()
+                    Text(Watch.words(v.state)).font(Theme.font(10)).foregroundStyle(Theme.muted).lineLimit(1)
+                }
+            }
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, minHeight: 96, alignment: .topLeading)
+        .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         .contentShape(Rectangle())
         .hoverable()
     }

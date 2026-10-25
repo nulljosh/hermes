@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25, 4.0.0)
+# Hermes loop handoff (2026-10-25, 5.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25, evening: 5.0.0, fleet grid (toggle on the app list) and release timeline (Timeline tab). Next band per the loop to v10: charts over time, Xcode Cloud runs, keyword tools, screenshot framing, review-time estimates (needs a decision date source), then 10.0 iPhone and iPad companion.
 
 - 2026-10-25, evening: 4.0.0. 3.1.0 closed TestFlight group aliases (kept on the Mac), event duplicate (through asc) and archive (kept on the Mac), and the agreement banner (asc web agreements status). 4.0.0 adds the release checklist (asc validate per version not live yet, on the Status tab) and last month's sales per app (monthly SALES SUMMARY, cached per month). 19 tests green. Not verified live: the sales numbers, because the finance key was refused on 2026-10-25 and the web analytics session had expired; the section shows the role message instead. Still open against Helm: event assets, adding an event to a submission, charts over time, and the visual side-by-side QA.
 
