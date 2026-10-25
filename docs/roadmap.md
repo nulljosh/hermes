@@ -93,6 +93,4 @@ Ideas that Helm does not have: rejection history in one place (shipped 0.9), rel
 
 ## Ingested 2026-10-25
 - [ ] Needs a custom font: sans serif, Helvetica / San Francisco inspired.
-- [ ] Screenshot / demo on the landing page should be accurate, not simple CSS.
-- [ ] Maybe get rid of the fallen angel painting; make the images more relevant to each other.
 - [ ] Refresh the design system with macOS Liquid Glass inspiration (reference: "macOS | Custom Widget" by Kawsar Ahmed on Dribbble).
