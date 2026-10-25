@@ -212,8 +212,14 @@ struct ResolveView: View {
         busy = true; signInNeeded = false; unread = []; waiting = []
         // Opened at launch, the list may still be loading; rejections are read off it.
         for _ in 0..<200 where store.loading || (store.apps.isEmpty && store.error == nil) { try? await Task.sleep(for: .milliseconds(300)) }
-        for (i, app) in rejected.enumerated() {
-            phase = "Reading \(app.name) (\(i + 1) of \(rejected.count))"
+        let apps = rejected
+        var i = 0, pauses = 0
+        while i < apps.count, !Task.isCancelled {
+            let app = apps[i]
+            phase = "Reading \(app.name) (\(i + 1) of \(apps.count))"
+            // ponytail: one app at a time with a short gap, so nine reads never look like a burst to Apple.
+            if i > 0 { try? await Task.sleep(for: .seconds(2)) }
+            i += 1
             do {
                 let data = try await ASC.run(["web", "review", "show", "--app", app.id, "--plain-text",
                                               "--out", dir.appendingPathComponent(app.id).path], timeout: 240)
@@ -224,6 +230,13 @@ struct ResolveView: View {
                                         reasons: show.reasons, apple: o.apple, replied: o.replied,
                                         repo: UserDefaults.standard.string(forKey: "repo." + app.id) ?? ""))
             } catch {
+                // Apple paused sign-ins: wait it out and read the same app again, rather than spend more attempts.
+                if let until = AppleWeb.throttledUntil(error), pauses < 3 {
+                    pauses += 1
+                    phase = "Apple paused sign-ins. Reading again at \(until.formatted(date: .omitted, time: .shortened))"
+                    try? await Task.sleep(for: .seconds(max(5, until.timeIntervalSinceNow + 15)))
+                    i -= 1; continue
+                }
                 // One expired session fails every app the same way: stop and ask once instead of listing it nine times.
                 if AppleWeb.isSessionError(error) { signInNeeded = true; break }
                 unread.append(app.name + ": " + (error.localizedDescription.split(separator: "\n").first.map(String.init) ?? "failed"))

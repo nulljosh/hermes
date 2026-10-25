@@ -85,6 +85,15 @@ enum AppleWeb {
         return m.contains("web session") || m.contains("session expired") || m.contains("2fa required") || m.contains("web auth login")
     }
 
+    /// Apple is throttling sign-ins: when asc will try again. Every attempt counts toward Apple's limit, so callers wait instead of retrying.
+    static func throttledUntil(_ e: Error) -> Date? {
+        let m = e.localizedDescription
+        guard m.contains("throttl") || m.contains("not sign in automatically") || m.contains("status 503") else { return nil }
+        if let r = m.range(of: #"(?<=until |before )\d{4}-\d{2}-\d{2}T[0-9:.]+Z"#, options: .regularExpression),
+           let d = ISO8601DateFormatter().date(from: String(m[r]).replacingOccurrences(of: #"\.\d+"#, with: "", options: .regularExpression)) { return d }
+        return .now.addingTimeInterval(600)
+    }
+
     /// The password goes to asc for this one run; asc keeps it in its own keychain entry after a good sign-in.
     static func signIn(appleID: String, password: String) async throws {
         _ = try await ASC.exec("/opt/homebrew/bin/asc", ["web", "auth", "login", "--apple-id", appleID],

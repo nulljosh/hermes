@@ -140,4 +140,12 @@ final class HermesTests: XCTestCase {
         XCTAssertTrue(AppleWeb.isSessionError(e("Error: web auth login failed: 2fa required")))
         XCTAssertFalse(AppleWeb.isSessionError(e("Error: app not found")))
     }
+
+    func testThrottleWaitsForAsc() {
+        func e(_ m: String) -> Error { NSError(domain: "asc", code: 1, userInfo: [NSLocalizedDescriptionKey: m]) }
+        let d = AppleWeb.throttledUntil(e("signin complete failed with status 503. Other asc web commands will not sign in automatically before 2026-10-25T18:22:53Z;"))
+        XCTAssertEqual(d, ISO8601DateFormatter().date(from: "2026-10-25T18:22:53Z"))
+        XCTAssertNotNil(AppleWeb.throttledUntil(e("Apple's sign-in service is unavailable or is throttling sign-ins")))
+        XCTAssertNil(AppleWeb.throttledUntil(e("Session expired.")))
+    }
 }
