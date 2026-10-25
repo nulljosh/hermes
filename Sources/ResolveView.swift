@@ -171,7 +171,7 @@ struct ResolveView: View {
         rows = SavedDrafts.apply(found)
         let fresh = rows.filter { ($0.reply + $0.issueTitle + $0.issueBody).isEmpty }
         if !fresh.isEmpty {
-            guard await Drafter.available else { phase = "No Ollama or Claude Code here, so write the replies yourself."; busy = false; return }
+            guard await Drafter.available else { phase = "Turn on Apple Intelligence or run Ollama to draft replies, or write them yourself."; busy = false; return }
             phase = "Drafting \(fresh.count) replies"
             do {
                 let drafted = try await Drafter.draft(fresh)

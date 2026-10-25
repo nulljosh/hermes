@@ -2,3 +2,4 @@ build/
 *.xcodeproj/
 dist/
 .claude/settings.local.json
+mcp/__pycache__/
