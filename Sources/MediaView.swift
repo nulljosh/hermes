@@ -49,6 +49,7 @@ struct MediaView: View {
     @State private var sets: [MediaSets.Entry]?
     @State private var pending: PendingCommand?
     @State private var uploading = false
+    @State private var framing = UserDefaults.standard.bool(forKey: "openFrame")  // QA launch argument: -openFrame YES
     @State private var note: String?
 
     var locID: String? { locs.first { $0.text("locale") == locale }?.id }
@@ -60,6 +61,7 @@ struct MediaView: View {
                     .pickerStyle(.segmented).labelsHidden().fixedSize()
                 Button("Download", systemImage: "square.and.arrow.down") { download() }
                     .labelStyle(.iconOnly).help("Download all").disabled(kind == .previews)
+                Button("Frame...", systemImage: "iphone") { framing = true }
                 Button("Upload", systemImage: "square.and.arrow.up") { uploading = true }
                     .labelStyle(.iconOnly).help("Upload")
             }
@@ -83,6 +85,7 @@ struct MediaView: View {
             }
         }
         .commands($pending) { await load() }
+        .sheet(isPresented: $framing) { FrameView { framing = false }.font(Theme.font(13)) }
         .sheet(isPresented: $uploading) {
             MediaUpload(kind: kind, locID: locID ?? "", sizes: sets?.map { $0.set.text("screenshotDisplayType") ?? $0.set.text("previewType") ?? "" } ?? []) { cmd in
                 uploading = false

@@ -74,6 +74,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 6.0 Xcode Cloud runs (done: workflows, last five runs, Start Build behind a confirm)
 - 7.0 keyword tools (done: Keywords tab on asc's audit, words repeated from the name or subtitle flagged; tab overflow folds into More)
 - 7.1 Cover Flow (done: third view of the app list, icons tilt on either side of the centred app over flat reflections; Joshua asked)
+- 8.0 screenshot framing (done: Frame sheet in Media, any device asc knows, title and subtitle, solid background; needs Koubou installed)
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Long plan
