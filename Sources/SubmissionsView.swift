@@ -40,7 +40,7 @@ struct SubmissionsView: View {
             } else { ProgressView().frame(maxHeight: .infinity) }
         }
         .commands($pending) { await load() }
-        .sheet(isPresented: $creating) { NewSubmission(app: app) { cmd in creating = false; if let cmd { pending = cmd } } }
+        .sheet(isPresented: $creating) { NewSubmission(app: app) { cmd in creating = false; if let cmd { pending = cmd } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

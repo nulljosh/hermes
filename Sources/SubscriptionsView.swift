@@ -65,7 +65,7 @@ struct SubscriptionsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .commands($pending) { newGroup = ""; await load() }
-        .sheet(item: $addingTo) { g in NewSubscription(group: g) { cmd in addingTo = nil; if let cmd { pending = cmd } } }
+        .sheet(item: $addingTo) { g in NewSubscription(group: g) { cmd in addingTo = nil; if let cmd { pending = cmd } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

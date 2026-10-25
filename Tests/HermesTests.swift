@@ -132,4 +132,12 @@ final class HermesTests: XCTestCase {
                        "Thanks. The app is different from others because it reads live rentals.")
         XCTAssertEqual(Drafter.unclaim(""), "")
     }
+
+    // An expired Apple web session stops Resolve All once instead of failing every app the same way.
+    func testSessionErrorsAreSeparatedFromAppErrors() {
+        func e(_ m: String) -> Error { NSError(domain: "asc", code: 2, userInfo: [NSLocalizedDescriptionKey: m]) }
+        XCTAssertTrue(AppleWeb.isSessionError(e("Session expired.\nError: no usable Apple web session for a@b.com")))
+        XCTAssertTrue(AppleWeb.isSessionError(e("Error: web auth login failed: 2fa required")))
+        XCTAssertFalse(AppleWeb.isSessionError(e("Error: app not found")))
+    }
 }

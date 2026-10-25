@@ -88,6 +88,7 @@ struct MediaView: View {
                 uploading = false
                 if let cmd { pending = cmd }
             }
+            .font(Theme.font(13))
         }
         .alert("Upload check", isPresented: Binding(get: { note != nil }, set: { if !$0 { note = nil } })) { Button("OK") {} } message: { Text(note ?? "") }
         .task(id: "\(locID ?? "")-\(kind.rawValue)") { await load() }

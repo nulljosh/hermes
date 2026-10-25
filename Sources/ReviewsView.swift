@@ -53,8 +53,8 @@ struct ReviewsView: View {
                 }
             } else { ProgressView().frame(maxHeight: .infinity) }
         }
-        .sheet(item: $replying) { r in Reply(review: r, signature: signature) { replying = nil; Task { await load() } } }
-        .sheet(isPresented: $editingSignature) { SignatureForm(signature: $signature) { editingSignature = false } }
+        .sheet(item: $replying) { r in Reply(review: r, signature: signature) { replying = nil; Task { await load() } }.font(Theme.font(13)) }
+        .sheet(isPresented: $editingSignature) { SignatureForm(signature: $signature) { editingSignature = false }.font(Theme.font(13)) }
         .task(id: "\(filter)-\(stars)") { await load() }
     }
 

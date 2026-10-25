@@ -28,7 +28,7 @@ struct EventsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .commands($pending) { await load() }
-        .sheet(isPresented: $creating) { NewEvent(app: app) { cmd in creating = false; if let cmd { pending = cmd } } }
+        .sheet(isPresented: $creating) { NewEvent(app: app) { cmd in creating = false; if let cmd { pending = cmd } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

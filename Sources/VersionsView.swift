@@ -31,7 +31,7 @@ struct VersionsView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .sheet(isPresented: $creating) { NewVersion(app: app, latest: items?.first) { creating = false; Task { await load() } } }
+        .sheet(isPresented: $creating) { NewVersion(app: app, latest: items?.first) { creating = false; Task { await load() } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

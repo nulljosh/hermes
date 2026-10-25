@@ -38,7 +38,7 @@ struct MetadataView: View {
             }
         }
         .commands($pending) { reload += 1 }
-        .sheet(isPresented: $adding) { AddLanguage(versionID: versionID) { adding = false; reload += 1 } }
+        .sheet(isPresented: $adding) { AddLanguage(versionID: versionID) { adding = false; reload += 1 }.font(Theme.font(13)) }
         .alert("Import check", isPresented: Binding(get: { note != nil }, set: { if !$0 { note = nil } })) { Button("OK") {} } message: { Text(note ?? "") }
         .task { await loadInfo() }
     }

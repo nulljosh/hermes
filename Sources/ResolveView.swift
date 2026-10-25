@@ -141,6 +141,8 @@ struct ResolveView: View {
     @State private var phase = "Reading rejections"
     @State private var busy = true
     @State private var confirming = false
+    @State private var signInNeeded = false
+    @State private var signingIn = false
 
     /// Apps whose newest version on some platform was rejected.
     var rejected: [ASCApp] { store.apps.filter { (store.versions[$0.id] ?? []).contains { $0.state.contains("REJECT") } } }
@@ -163,6 +165,13 @@ struct ResolveView: View {
                         Text("Waiting on Apple: " + waiting.joined(separator: ", ")).foregroundStyle(Theme.muted)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
+                    if signInNeeded {
+                        HStack {
+                            Text("Sign in to your Apple Account to read the rejections.").foregroundStyle(Theme.muted)
+                            Spacer()
+                            Button("Sign In") { signingIn = true }
+                        }
+                    }
                     ForEach(unread, id: \.self) { Text("Could not read " + $0).foregroundStyle(Theme.bad).textSelection(.enabled)
                         .frame(maxWidth: .infinity, alignment: .leading) }
                 }
@@ -183,6 +192,7 @@ struct ResolveView: View {
         .frame(width: 760, height: 640)
         .background(Theme.bg)
         .task { await scan() }
+        .sheet(isPresented: $signingIn, onDismiss: { Task { await scan() } }) { AppleSignInSheet { signingIn = false }.font(Theme.font(13)) }
         .confirmationDialog("Send \(sending.count) to Apple and GitHub?", isPresented: $confirming, titleVisibility: .visible) {
             Button("Send All") { Task { await send() } }
             Button("Cancel", role: .cancel) {}
@@ -199,13 +209,14 @@ struct ResolveView: View {
         // asc refuses to follow symlinks, and the temp folder sits behind /var -> /private/var. Caches has none.
         let dir = URL.cachesDirectory.appendingPathComponent("Hermes/review")
         var found: [Resolution] = []
+        busy = true; signInNeeded = false; unread = []; waiting = []
         // Opened at launch, the list may still be loading; rejections are read off it.
         for _ in 0..<200 where store.loading || (store.apps.isEmpty && store.error == nil) { try? await Task.sleep(for: .milliseconds(300)) }
         for (i, app) in rejected.enumerated() {
             phase = "Reading \(app.name) (\(i + 1) of \(rejected.count))"
             do {
                 let data = try await ASC.run(["web", "review", "show", "--app", app.id, "--plain-text",
-                                              "--out", dir.appendingPathComponent(app.id).path], timeout: 90)
+                                              "--out", dir.appendingPathComponent(app.id).path], timeout: 240)
                 let show = try JSONDecoder().decode(ReviewShow.self, from: data)
                 guard let o = show.open() else { continue }
                 if o.waiting { waiting.append(app.name); continue }
@@ -213,10 +224,13 @@ struct ResolveView: View {
                                         reasons: show.reasons, apple: o.apple, replied: o.replied,
                                         repo: UserDefaults.standard.string(forKey: "repo." + app.id) ?? ""))
             } catch {
-                unread.append(app.name + ": " + error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines))
+                // One expired session fails every app the same way: stop and ask once instead of listing it nine times.
+                if AppleWeb.isSessionError(error) { signInNeeded = true; break }
+                unread.append(app.name + ": " + (error.localizedDescription.split(separator: "\n").first.map(String.init) ?? "failed"))
             }
         }
         rows = found
+        if signInNeeded && found.isEmpty { phase = "Apple sign-in needed"; busy = false; return }
         guard !found.isEmpty else { phase = waiting.isEmpty ? "No open rejections." : "Nothing to answer."; busy = false; return }
         guard await Drafter.available else { phase = "No Ollama or Claude Code here, so write the replies yourself."; busy = false; return }
         phase = "Drafting \(found.count) replies"

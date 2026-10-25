@@ -29,8 +29,8 @@ struct BuildsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .commands($pending) { await load() }
-        .sheet(item: $notesFor) { b in TestNotes(build: b) { notesFor = nil } }
-        .sheet(isPresented: $uploading) { UploadBuild(app: app) { cmd in uploading = false; if let cmd { pending = cmd } } }
+        .sheet(item: $notesFor) { b in TestNotes(build: b) { notesFor = nil }.font(Theme.font(13)) }
+        .sheet(isPresented: $uploading) { UploadBuild(app: app) { cmd in uploading = false; if let cmd { pending = cmd } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

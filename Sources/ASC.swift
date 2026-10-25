@@ -35,13 +35,16 @@ enum ASC {
 
     /// Runs a tool and returns its stdout. No stdin, so nothing can sit waiting on a prompt;
     /// with a timeout, a stalled run (a web session asking for 2FA) is killed instead of freezing the window.
-    static func exec(_ path: String, _ args: [String], cwd: URL? = nil, timeout: Double? = nil) async throws -> Data {
+    static func exec(_ path: String, _ args: [String], cwd: URL? = nil, timeout: Double? = nil, env: [String: String] = [:]) async throws -> Data {
         try await Task.detached {
             let p = Process()
             p.executableURL = URL(fileURLWithPath: path)
             p.arguments = args
             p.currentDirectoryURL = cwd
-            p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1"]) { $1 }
+            // asc signs in to Apple's web session on its own when it expires; the 2FA code comes from Hermes' own prompt.
+            p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1", "ASC_TIMEOUT": "240s",
+                                                                         "ASC_WEB_2FA_CODE_COMMAND": TwoFactor.script]) { $1 }
+                .merging(env) { $1 }
             let out = Pipe(), err = Pipe()
             p.standardOutput = out; p.standardError = err; p.standardInput = FileHandle.nullDevice
             try p.run()

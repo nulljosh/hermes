@@ -44,7 +44,7 @@ struct PurchasesView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .commands($pending) { await load() }
-        .sheet(isPresented: $creating) { NewIAP(app: app) { cmd in creating = false; if let cmd { pending = cmd } } }
+        .sheet(isPresented: $creating) { NewIAP(app: app) { cmd in creating = false; if let cmd { pending = cmd } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

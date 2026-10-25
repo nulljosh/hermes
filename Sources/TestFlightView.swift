@@ -32,8 +32,8 @@ struct TestFlightView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .commands($pending) { await load() }
-        .sheet(isPresented: $creating) { GroupForm(app: app, group: nil) { creating = false; Task { await load() } } }
-        .sheet(item: $editing) { g in GroupForm(app: app, group: g) { editing = nil; Task { await load() } } }
+        .sheet(isPresented: $creating) { GroupForm(app: app, group: nil) { creating = false; Task { await load() } }.font(Theme.font(13)) }
+        .sheet(item: $editing) { g in GroupForm(app: app, group: g) { editing = nil; Task { await load() } }.font(Theme.font(13)) }
         .task { await load() }
     }
 

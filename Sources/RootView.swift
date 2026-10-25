@@ -31,8 +31,9 @@ struct RootView: View {
         .preferredColorScheme(appearance == "light" ? .light : appearance == "dark" ? .dark : nil)
         .frame(minWidth: 760, minHeight: 480)
         .task { await store.load() }
+        .task { await TwoFactor.watch() }
         .onChange(of: profile) { selected = nil; Task { await store.load() } }
-        .sheet(isPresented: $addingAccount) { AddAccount { addingAccount = false; Task { await store.load() } } }
+        .sheet(isPresented: $addingAccount) { AddAccount { addingAccount = false; Task { await store.load() } }.font(Theme.font(13)) }
         // QA launch argument: -selectApp <app id> opens that app as soon as the list arrives.
         .onChange(of: store.apps.count) {
             if selected == nil, let id = UserDefaults.standard.string(forKey: "selectApp") { selected = store.apps.first { $0.id == id } }
@@ -105,7 +106,7 @@ struct AppList: View {
                 }
             }
             .padding(12)
-            .sheet(isPresented: $resolving) { ResolveView(store: store) { resolving = false } }
+            .sheet(isPresented: $resolving) { ResolveView(store: store) { resolving = false }.font(Theme.font(13)) }
             Divider().overlay(Theme.line)
             if let e = store.error {
                 Text(e).foregroundStyle(Theme.bad).padding().textSelection(.enabled)

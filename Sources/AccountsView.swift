@@ -6,6 +6,7 @@ struct AccountMenu: View {
     @AppStorage("profile") private var profile = ""
     @State private var profiles: [ASC.Profile] = []
     @State private var adding = false
+    @State private var signingIn = false
 
     var current: String { profile.isEmpty ? (profiles.first { $0.isDefault == true }?.name ?? "Account") : profile }
 
@@ -18,9 +19,11 @@ struct AccountMenu: View {
             }
             Divider()
             Button("Add Account...") { adding = true }
+            Button("Apple Sign-In...") { signingIn = true }
         } label: { Text(current).font(Theme.font(11, .medium)) }
         .menuStyle(.borderlessButton).fixedSize()
-        .sheet(isPresented: $adding) { AddAccount { adding = false; Task { profiles = await ASC.profiles() } } }
+        .sheet(isPresented: $adding) { AddAccount { adding = false; Task { profiles = await ASC.profiles() } }.font(Theme.font(13)) }
+        .sheet(isPresented: $signingIn) { AppleSignInSheet { signingIn = false }.font(Theme.font(13)) }
         .task { profiles = await ASC.profiles() }
     }
 }
