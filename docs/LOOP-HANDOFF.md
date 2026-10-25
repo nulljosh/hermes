@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25)
+# Hermes loop handoff (2026-10-25, 3.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25, afternoon: 3.0.0 released. Menu bar extra (every app not live yet), a notification on each review-state move behind a Settings toggle (permission asked only when it is turned on), a 15-minute refresh, two Shortcuts actions, one shared Store. Notarized DMG on GitHub v3.0.0, cask bumped (sha checked against the download), landing and /docs deployed. 17 tests green. The menu bar item could not be screenshotted: this Mac auto-hides the system menu bar and status items do not show in the window list (Surf's do not either). Same day: Melete Mac 3.1 (Sign in with Apple entitlement) and Machaon Mac 2.3.5 (data protection keychain, sandbox, named Machaon) resubmitted, both WAITING_FOR_REVIEW. The Writer knows those fixes as recipes. Next: the side-by-side Helm QA that declares 1:1, then TestFlight aliases, event duplicate and archive, the agreement banner, and 4.x.
 
 - 2026-10-25: 2.9.0. Resolve All drafts on Apple's on-device model (Sources/Writer.swift), Ollama second; the claude child process is gone, and with it the privacy popups. Each app gets a fact sheet first (Sources/Facts.swift): history, approved versions, builds, its own Swift files and any byte-identical with other apps (GitHub tree SHAs, cached a day in ~/Library/Caches/Hermes/review/fleet.json; monorepo apps are scoped to their own folders). Apple's nine 4.3 questions are answered one at a time; a plain 4.3(a) gets the house reply. No placeholders. The MCP mirrors it (app_facts, open_rejections, saved_drafts, send_rejection_reply) and serves HTTP with `--http`; skill hermes-resolve. Sent and verified on the real account the same day: Cartons, Sidewise (nine answers), Oohaah, Atlin (listing name restored from the probe leftover "Danae") and Talli (asked for approval under Apple's bug-fix provision; the next Talli update needs an organization developer account, which means incorporating plus a D-U-N-S number). Still open, code fixes: Melete Mac (Sign in with Apple error on the reviewer's MacBook Air), Machaon Mac 2.3.5 (keychain prompt blocks the reviewer, cut-off text).
 
