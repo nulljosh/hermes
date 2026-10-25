@@ -169,4 +169,10 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(Writer.fresh("It is for news readers. Sidewise pulls 16 feeds from 14 newsrooms across the spectrum.", after: earlier),
                        "It is for news readers.")
     }
+
+    func testKnownFixesMatchApplesWording() {
+        XCTAssertEqual(Writer.knownFixes("We were unable to access the app because we were unable to bypass the keychain request.").count, 1)
+        XCTAssertEqual(Writer.knownFixes("the app displayed an error message when we attempted to create an account using Sign in with Apple").count, 1)
+        XCTAssertTrue(Writer.knownFixes("Guideline 4.3(a) - Design - Spam").isEmpty)
+    }
 }

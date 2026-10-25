@@ -64,6 +64,21 @@ enum Writer {
             .map { String($0.output.2).replacingOccurrences(of: "\n", with: " ") }
     }
 
+    /// Fixes Hermes already knows, matched on Apple's own wording. Each one was a real rejection and a real fix,
+    /// so the issue leads with it instead of a small model's guess (the on-device model cannot write these patches).
+    static let recipes: [(match: [String], fix: String)] = [
+        (["bypass the keychain"], "Store keychain items in the data protection keychain: add kSecUseDataProtectionKeychain: true to every SecItem query. On the Mac the default login keychain asks for a password, and App Review stops there. (Machaon 2.3.5, 2026-10-25)"),
+        (["sign in with apple", "error"], "Check the Mac target's entitlements for com.apple.developer.applesignin. An iOS-only entitlement makes the Mac sign-in fail with an error. (Melete 3.1, 2026-10-25)"),
+        (["lsapplicationcategorytype"], "Add LSApplicationCategoryType to the Mac target's Info.plist properties in project.yml."),
+        (["cut off"], "Find the sheet or view whose content is taller than a 13-inch screen and put it in a ScrollView or give it a maximum height. Check the screenshots Apple attached."),
+        (["5.1.1(ix)"], "Apple wants an organization developer account. If the submission carries bug fixes, reply and ask for approval now under Apple's bug-fix provision, then plan the account before the next update. (Talli 4.0.0, 2026-10-25)"),
+    ]
+
+    static func knownFixes(_ apple: String) -> [String] {
+        let a = apple.lowercased()
+        return recipes.filter { $0.match.allSatisfy(a.contains) }.map(\.fix)
+    }
+
     /// Apple's 4.3 follow-up asks the same nine questions every time. Each gets pointed at the one fact that answers it.
     static func focus(_ q: String) -> (hint: String, readme: Bool) {
         let q = q.lowercased()
@@ -143,6 +158,8 @@ enum Writer {
         """)
         let title = try await complete(voice, "\(context)\nIssue body:\n\(body)\nWrite a GitHub issue title for this, under 80 characters, one line, no quotes.")
         let line = title.split(separator: "\n").first.map(String.init) ?? ""
-        return (reply, line.count > 80 ? String(line.prefix(77)) + "..." : line, body)
+        let known = knownFixes(apple)
+        let full = known.isEmpty ? body : "Known fix:\n" + known.map { "- " + $0 }.joined(separator: "\n") + "\n\n" + body
+        return (reply, line.count > 80 ? String(line.prefix(77)) + "..." : line, full)
     }
 }
