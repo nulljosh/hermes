@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var store = Store()
+    @State private var store = Store.shared
     @State private var query = ""
     @State private var selected: ASCApp?
     @AppStorage("profile") private var profile = ""

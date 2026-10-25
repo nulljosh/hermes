@@ -36,8 +36,8 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Setup export and import file (.helm-setup) | yes | no, on purpose | skip: it would copy a private key around; `asc auth export-to-config` moves a key |
 | Command line tool for agents (helm-asc) | yes | MCP server over asc | done (MCP instead of a CLI; asc is the CLI) |
 | Agent skill pack | yes | hermes-status, hermes-ship | done |
-| App intents and Shortcuts | yes | no | todo |
-| Menu bar status and notifications on state change | yes | no | todo |
+| App intents and Shortcuts | yes | Get App Store Status, Get One App's Status | done (3.0) |
+| Menu bar status and notifications on state change | yes | menu bar list of every app not live yet, a notification on each review-state move, 15-minute refresh | done (3.0) |
 | Agreement banner (Apple license updated) | yes | no | todo |
 | Datasets and charts | yes | no | check what these are |
 | Free tier counter and Pro license | yes | n/a | skip, Hermes is free or $1 |
@@ -68,7 +68,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 2.6 blue brand from clrs.cc and a detailed wing icon with Icon Composer glass (done)
 - 2.7 Hermes Sans rebuilt on Inter for SF-like proportional spacing, AA contrast accent, amber review state, brand kit page, 1878 Hermes engraving in a parallax hero (done)
 - 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
-- 3.0 menu bar, notifications, Shortcuts, CLI wrapper, agent skill
+- 3.0 menu bar, notifications, Shortcuts, agent skills (done: menu bar extra, review-state notifications behind a Settings toggle, two Shortcuts actions, hermes-resolve skill, MCP over HTTP)
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Long plan

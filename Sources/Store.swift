@@ -2,6 +2,8 @@ import SwiftUI
 
 @MainActor @Observable
 final class Store {
+    /// One store for the window, the menu bar and Shortcuts, so they never disagree.
+    static let shared = Store()
     var apps: [ASCApp] = []
     var versions: [String: [PlatformVersion]] = [:]
     var icons: [String: URL] = [:]
@@ -27,5 +29,6 @@ final class Store {
             for _ in 0..<4 { next() }
             while await g.next() != nil { next() }
         }
+        Watch.check(self)
     }
 }

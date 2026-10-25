@@ -91,7 +91,7 @@
       <h2>MCP</h2>
       <p>The Hermes MCP server gives Claude and other agents the same view. One line, no clone. It needs <a href="https://docs.astral.sh/uv/">uv</a> and a signed in asc.</p>
       <pre class="code">claude mcp add hermes -- uv run https://raw.githubusercontent.com/nulljosh/hermes/main/mcp/server.py</pre>
-      <p>Read only unless you set <code>HERMES_ALLOW_WRITES=1</code>.</p>
+      <p>Read only unless you set <code>HERMES_ALLOW_WRITES=1</code>. Add <code>--http</code> to serve the same tools on 127.0.0.1:8787, as MCP at <code>/mcp</code> and plain JSON at <code>/api/&lt;tool&gt;</code>.</p>
       <dl class="defs">
         <dt>fleet_status</dt><dd>Newest version on each platform for every app, with its state.</dd>
         <dt>list_apps</dt><dd>Every app with its id, name and bundle id.</dd>
@@ -102,13 +102,17 @@
         <dt>review_history</dt><dd>Every App Review submission and its outcome.</dd>
         <dt>reply_to_review</dt><dd>Publish a reply. Writes only.</dd>
         <dt>submit_for_review</dt><dd>Attach the newest build and submit. Writes only.</dd>
+        <dt>open_rejections</dt><dd>The open Resolution Center thread: Apple's message, the reasons, the thread to answer.</dd>
+        <dt>app_facts</dt><dd>Checked facts for an appeal: versions already approved, builds, the app's own source files and any shared with your other apps.</dd>
+        <dt>saved_drafts</dt><dd>The last Resolve All run, reply by reply.</dd>
+        <dt>send_rejection_reply</dt><dd>Send one Resolution Center reply. Writes only, never retried.</dd>
       </dl>
     </section>
 
     <section id="skills">
       <p class="label">05</p>
       <h2>Skills</h2>
-      <p>Two Claude Code skills ride on the MCP. <code>hermes-status</code> reads the whole fleet and leads with what is rejected. <code>hermes-ship</code> walks one version from build to App Review and confirms before every write.</p>
+      <p>Three Claude Code skills ride on the MCP. <code>hermes-status</code> reads the whole fleet and leads with what is rejected. <code>hermes-ship</code> walks one version from build to App Review and confirms before every write. <code>hermes-resolve</code> answers rejections from checked facts and sends only on your yes.</p>
       <pre class="code">git clone https://github.com/nulljosh/hermes
 cp -R hermes/skills/* ~/.claude/skills/</pre>
     </section>

@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Hermes">
 
-![version](https://img.shields.io/badge/version-2.9.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
+![version](https://img.shields.io/badge/version-3.0.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
 
 **[hermes.jaybulb.com](https://hermes.jaybulb.com)**
 
@@ -9,6 +9,8 @@ App Store Connect is a website built for one app at a time. Hermes is a Mac app 
 ## Features
 
 Every app in one list, with its icon, its live version on each platform and where it stands in review. Open one for versions, metadata, screenshots, builds, TestFlight, reviews, submissions, events, prices and purchases. Every change shows the exact command and asks first.
+
+A menu bar list shows every app that is not live yet, Hermes can tell you the moment a review state moves, and Shortcuts can ask for the fleet's status.
 
 When Apple rejects an app, Resolve All reads the rejection, checks the facts (what App Review already approved, how many builds, how much of the code is the app's own) and writes the reply on your Mac's own Apple Intelligence model. No placeholders, nothing leaves the Mac, and nothing sends until you say so.
 

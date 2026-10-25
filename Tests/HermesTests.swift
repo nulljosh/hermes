@@ -175,4 +175,11 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(Writer.knownFixes("the app displayed an error message when we attempted to create an account using Sign in with Apple").count, 1)
         XCTAssertTrue(Writer.knownFixes("Guideline 4.3(a) - Design - Spam").isEmpty)
     }
+
+    func testWatchOnlyReportsRealMoves() {
+        let old = ["1|IOS": "WAITING_FOR_REVIEW", "2|MAC_OS": "REJECTED"]
+        let new = ["1|IOS": "IN_REVIEW", "2|MAC_OS": "REJECTED", "3|IOS": "PREPARE_FOR_SUBMISSION"]
+        XCTAssertEqual(Watch.changes(from: old, to: new), [Watch.Change(key: "1|IOS", from: "WAITING_FOR_REVIEW", to: "IN_REVIEW")])
+        XCTAssertEqual(Watch.words("WAITING_FOR_REVIEW"), "waiting for review")
+    }
 }
