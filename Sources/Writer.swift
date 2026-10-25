@@ -64,6 +64,39 @@ enum Writer {
             .map { String($0.output.2).replacingOccurrences(of: "\n", with: " ") }
     }
 
+    /// Apple's 4.3 follow-up asks the same nine questions every time. Each gets pointed at the one fact that answers it.
+    static func focus(_ q: String) -> (hint: String, readme: Bool) {
+        let q = q.lowercased()
+        let hints: [(String, String)] = [
+            ("beta", "Say only how many builds went through App Store Connect and TestFlight and since when, using those numbers exactly. Do not say whether testing happened or who tested."),
+            ("intended user", "Describe the people who would use it, from what the README says it does."),
+            ("gap in the market", "Name the one or two things it does that a plain app in its category does not, from the README."),
+            ("standalone", "Say it is a standalone product, and that the other apps on this account do unrelated things."),
+            ("in-app purchase", "Say no: none of the other apps on this account is about the same subject, so it has nowhere to fold into."),
+            ("third-party", "Say it is the developer's own code, and give the count of its own Swift files."),
+            ("share any significant code", "Use the facts on byte-identical files between this app and the others on the account."),
+            ("client", "Say who holds the copyright from the facts, and that the developer made it under their own account."),
+            ("describe in detail", "Describe what it does and the problem it solves, in your own words, not the store description."),
+        ]
+        let readme = ["intended user", "gap in the market", "describe in detail"].contains { q.contains($0) }
+        return (hints.first { q.contains($0.0) }?.1 ?? "", readme)
+    }
+
+    /// Small models retell the same sentence in every answer. A sentence whose words mostly appeared already is dropped.
+    /// ponytail: word-overlap at 60%, no embeddings; the first sentence always stays so an answer is never empty.
+    static func fresh(_ answer: String, after earlier: [String]) -> String {
+        func words(_ s: String) -> Set<String> { Set(s.lowercased().split { !$0.isLetter && !$0.isNumber }.map(String.init).filter { $0.count > 3 }) }
+        var seen = earlier.map(words)
+        var kept: [String] = []
+        answer.enumerateSubstrings(in: answer.startIndex..., options: .bySentences) { s, _, _, _ in
+            guard let s = s?.trimmingCharacters(in: .whitespaces), !s.isEmpty else { return }
+            let w = words(s)
+            let repeated = seen.contains { !w.isEmpty && Double(w.intersection($0).count) / Double(w.count) > 0.6 }
+            if !repeated || kept.isEmpty { kept.append(s); seen.append(w) }
+        }
+        return kept.joined(separator: " ")
+    }
+
     /// The reply and the issue for one rejection. Numbered questions get one answer each, written one at a time.
     static func write(app: String, reasons: String, replied: Bool, facts: String, apple: String) async throws -> (reply: String, title: String, body: String) {
         let context = "App: \(app)\nRejected for: \(reasons)\nFacts:\n\(facts)"
@@ -80,13 +113,21 @@ enum Writer {
                 """)
             } else {
                 var answers: [String] = []
+                // Only the questions about what the app is see the README; the rest get the numbers, so they stop retelling the pitch.
+                let numbers = facts.split(separator: "\n").filter { !$0.hasPrefix("README:") }.joined(separator: "\n")
                 for (i, q) in qs.enumerated() {
+                    let (hint, readme) = focus(q)
                     let a = try await complete(voice, """
-                    \(context)
+                    App: \(app)
+                    Rejected for: \(reasons)
+                    Facts:
+                    \(readme ? facts : numbers)
                     App Review asks: \(q)
-                    Answer in one to three sentences, from the facts only. If the facts do not cover it, say only what they do show.
+                    \(hint)
+                    \(answers.isEmpty ? "" : "Already answered, so do not repeat any of it:\n" + answers.joined(separator: "\n"))
+                    Answer in one to three sentences.
                     """)
-                    answers.append("\(i + 1). \(a.replacingOccurrences(of: "\n", with: " "))")
+                    answers.append("\(i + 1). " + fresh(a.replacingOccurrences(of: "\n", with: " "), after: answers))
                 }
                 reply = "Thank you for the review. Our answers to your questions about \(app):\n\n" + answers.joined(separator: "\n\n")
             }
