@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Hermes">
 
-![version](https://img.shields.io/badge/version-8.0.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
+![version](https://img.shields.io/badge/version-9.0.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
 
 **[hermes.jaybulb.com](https://hermes.jaybulb.com)**
 
@@ -16,7 +16,7 @@ The Keywords tab audits every language's keyword field: how many of the 100 char
 
 The Xcode Cloud tab shows each workflow with its last runs, and starts a build after you confirm.
 
-Flip the list to a grid, or to Cover Flow for the iPod look, to see every app at once, and open Timeline for every version an app ever shipped.
+Flip the list to a grid, or to Cover Flow for the iPod look, to see every app at once, and open Timeline for every version an app ever shipped, charted month by month.
 
 Before you submit, the Status tab runs Apple's own readiness check and lists what blocks the version, in the order to fix it, next to last month's downloads and proceeds.
 

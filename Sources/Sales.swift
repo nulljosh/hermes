@@ -1,3 +1,4 @@
+import Charts
 import SwiftUI
 
 // Sales (4.0): last month's downloads and proceeds from Apple's monthly sales summary, through asc.
@@ -24,8 +25,11 @@ enum Sales {
         }
     }
 
-    static var lastMonth: String {
-        let d = Calendar.current.date(byAdding: .month, value: -1, to: .now)!
+    static var lastMonth: String { month(ago: 1) }
+
+    /// "YYYY-MM" for n months back; Apple publishes a month's summary after it ends, so 1 is the newest there is.
+    static func month(ago n: Int) -> String {
+        let d = Calendar.current.date(byAdding: .month, value: -n, to: .now)!
         let c = Calendar.current.dateComponents([.year, .month], from: d)
         return String(format: "%04d-%02d", c.year!, c.month!)
     }
@@ -50,6 +54,7 @@ enum Sales {
 struct SalesSection: View {
     let app: ASCApp
     @State private var totals: Sales.Totals?
+    @State private var history: [(month: String, downloads: Int)] = []
     @State private var error: String?
 
     var body: some View {
@@ -57,6 +62,11 @@ struct SalesSection: View {
             Text("Sales, \(Sales.lastMonth)").font(Theme.font(13, .semibold))
             if let t = totals {
                 Text("\(t.downloads) downloads, \(t.redownloads) redownloads, \(t.proceeds, format: .currency(code: "USD")) proceeds")
+                if history.count > 1 {
+                    // Six months of first downloads (9.0), one cached report per month for the whole account.
+                    Chart(history, id: \.month) { BarMark(x: .value("Month", $0.month), y: .value("Downloads", $0.downloads)).foregroundStyle(Theme.accent) }
+                        .frame(height: 120)
+                }
             } else if let error {
                 Text(error.contains("forbidden") || error.contains("does not allow")
                      ? "Sales need an App Store Connect key with the Finance or Sales role. Add one in Accounts." : error)
@@ -64,7 +74,15 @@ struct SalesSection: View {
             } else { ProgressView().controlSize(.small) }
         }
         .task {
-            do { totals = Sales.totals(try await Sales.month(Sales.lastMonth), app: app.id) } catch { self.error = error.localizedDescription }
+            do {
+                totals = Sales.totals(try await Sales.month(Sales.lastMonth), app: app.id)
+                var h: [(month: String, downloads: Int)] = []
+                for n in (1...6).reversed() {
+                    let m = Sales.month(ago: n)
+                    if let rows = try? await Sales.month(m) { h.append((m, Sales.totals(rows, app: app.id).downloads)) }
+                }
+                history = h
+            } catch { self.error = error.localizedDescription }
         }
     }
 }

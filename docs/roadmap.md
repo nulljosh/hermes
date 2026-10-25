@@ -39,7 +39,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | App intents and Shortcuts | yes | Get App Store Status, Get One App's Status | done (3.0) |
 | Menu bar status and notifications on state change | yes | menu bar list of every app not live yet, a notification on each review-state move, 15-minute refresh | done (3.0) |
 | Agreement banner (Apple license updated) | yes | banner on the app list from asc web agreements status | done (3.1) |
-| Datasets and charts | yes | last month's downloads, redownloads and proceeds per app from the sales summary | partial (4.0: the numbers; charts over time next) |
+| Datasets and charts | yes | last month's downloads, redownloads and proceeds per app from the sales summary | done (9.0: monthly charts on Timeline and Sales) |
 | Free tier counter and Pro license | yes | n/a | skip, Hermes is free or $1 |
 
 ## Version plan
@@ -75,6 +75,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 7.0 keyword tools (done: Keywords tab on asc's audit, words repeated from the name or subtitle flagged; tab overflow folds into More)
 - 7.1 Cover Flow (done: third view of the app list, icons tilt on either side of the centred app over flat reflections; Joshua asked)
 - 8.0 screenshot framing (done: Frame sheet in Media, any device asc knows, title and subtitle, solid background; needs Koubou installed)
+- 9.0 charts over time (done: versions per month by outcome on Timeline, six months of downloads in Sales)
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Long plan

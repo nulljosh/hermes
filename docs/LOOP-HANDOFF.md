@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25, 8.0.0)
+# Hermes loop handoff (2026-10-25, 9.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25: 9.0.0, charts over time (Timeline per month by outcome, QA'd on Talli; Sales six months, unverified until a Finance key works). Next: 10.0 iPhone and iPad companion (iOS/ target HermesPhone already exists: add iPad layout and the 3.0 to 9.0 features that fit a phone), then /checkpoint.
 
 - 2026-10-25: 7.1.0 Cover Flow, 8.0.0 screenshot framing. Koubou is not installed on this Mac (installing it was blocked by the session permission check), so only the missing-Koubou path is verified. Next: 9.0 charts over time, then 10.0 iPhone and iPad companion.
 

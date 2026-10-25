@@ -214,4 +214,14 @@ final class HermesTests: XCTestCase {
         let a = try JSONDecoder().decode(KeywordAudit.self, from: Data(j.utf8))
         XCTAssertEqual(a.locales.first?.repeats, ["atlin", "deal"])
     }
+
+    func testTimelineMonthsGroupByOutcome() throws {
+        let j = #"[{"id":"a","attributes":{"createdDate":"2026-09-02T00:00:00Z","appVersionState":"READY_FOR_DISTRIBUTION"}},
+                  {"id":"b","attributes":{"createdDate":"2026-09-20T00:00:00Z","appVersionState":"REJECTED"}},
+                  {"id":"c","attributes":{"createdDate":"2026-10-01T00:00:00Z","appVersionState":"READY_FOR_DISTRIBUTION"}},
+                  {"id":"d","attributes":{"createdDate":"2026-10-11T00:00:00Z","appVersionState":"READY_FOR_DISTRIBUTION"}}]"#
+        let items = try JSONDecoder().decode([Item].self, from: Data(j.utf8))
+        XCTAssertEqual(TimelineView.months(items), [.init(month: "2026-09", outcome: "live", count: 1), .init(month: "2026-09", outcome: "rejected", count: 1),
+                                                    .init(month: "2026-10", outcome: "live", count: 2)])
+    }
 }
