@@ -82,7 +82,8 @@ struct AppList: View {
     let pick: (ASCApp) -> Void
     @State private var resolving = UserDefaults.standard.bool(forKey: "resolveAll")  // QA launch argument: -resolveAll YES
     @State private var agreement: String?
-    @AppStorage("fleetGrid") private var grid = false
+    @AppStorage("fleetView") private var view = UserDefaults.standard.bool(forKey: "fleetGrid") ? "grid" : "list"
+    var grid: Bool { view == "grid" }
 
     var rejectedCount: Int { store.versions.values.filter { $0.contains { $0.state.contains("REJECT") } }.count }
 
@@ -102,8 +103,11 @@ struct AppList: View {
                 }
                 .padding(.horizontal, 10).padding(.vertical, 6)
                 .background(Theme.surface, in: Capsule())
-                Button { grid.toggle() } label: { Image(systemName: grid ? "list.bullet" : "square.grid.2x2") }
-                    .buttonStyle(.plain).foregroundStyle(Theme.muted).help(grid ? "List" : "Fleet grid")
+                // List, grid, Cover Flow, then back to the list.
+                Button { view = ["list": "grid", "grid": "flow"][view] ?? "list" } label: {
+                    Image(systemName: ["list": "square.grid.2x2", "grid": "rectangle.stack", "flow": "list.bullet"][view] ?? "list.bullet")
+                }
+                .buttonStyle(.plain).foregroundStyle(Theme.muted).help(["list": "Fleet grid", "grid": "Cover Flow", "flow": "List"][view] ?? "List")
                 if rejectedCount > 0 {
                     Button("Resolve All (\(rejectedCount))") { resolving = true }
                         .foregroundStyle(Theme.bad)
@@ -128,7 +132,9 @@ struct AppList: View {
                 Button("Add Your App Store Connect Key") { addAccount() }
                 Spacer()
             } else {
-                ScrollView {
+                if view == "flow" {
+                    CoverFlow(apps: shown, store: store, pick: pick)
+                } else { ScrollView {
                     if grid {
                         // The fleet grid (4.1): every app at once, one card each, a chip per platform.
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 200), spacing: 12)], spacing: 12) {
@@ -145,7 +151,7 @@ struct AppList: View {
                             }
                         }
                     }
-                }
+                } }
             }
         }
     }
