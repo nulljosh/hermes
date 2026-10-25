@@ -71,6 +71,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 3.0 menu bar, notifications, Shortcuts, agent skills (done: menu bar extra, review-state notifications behind a Settings toggle, two Shortcuts actions, hermes-resolve skill, MCP over HTTP)
 - 4.0 release checklist and sales (done: asc validate for every version not live yet, its fix steps in order, on the Status tab; last month's downloads, redownloads and proceeds per app). Parity read against the matrix: everything Helm does is here except event assets, adding an event to a submission, and charts over time. A visual side-by-side with Helm is still to do when Joshua is at the Mac.
 - 5.0 fleet grid and release timeline (done: grid toggle on the app list, Timeline tab). Review-time estimates wait for a decision date: asc review history has the submit date only.
+- 6.0 Xcode Cloud runs (done: workflows, last five runs, Start Build behind a confirm)
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Long plan

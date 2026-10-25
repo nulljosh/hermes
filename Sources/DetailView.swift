@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Tab: String, CaseIterable, Identifiable {
-    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", submissions = "Submissions", events = "Events", purchases = "Purchases", timeline = "Timeline"
+    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", submissions = "Submissions", events = "Events", purchases = "Purchases", cloud = "Xcode Cloud", timeline = "Timeline"
     var id: String { rawValue }
 }
 
@@ -51,6 +51,7 @@ struct DetailView: View {
             case .submissions: SubmissionsView(app: app)
             case .events: EventsView(app: app)
             case .purchases: PurchasesTab(app: app)
+            case .cloud: XcodeCloudView(app: app)
             case .timeline: TimelineView(app: app)
             }
         }

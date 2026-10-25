@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Hermes">
 
-![version](https://img.shields.io/badge/version-5.0.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
+![version](https://img.shields.io/badge/version-6.0.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
 
 **[hermes.jaybulb.com](https://hermes.jaybulb.com)**
 
@@ -9,6 +9,8 @@ App Store Connect is a website built for one app at a time. Hermes is a Mac app 
 ## Features
 
 Every app in one list, with its icon, its live version on each platform and where it stands in review. Open one for versions, metadata, screenshots, builds, TestFlight, reviews, submissions, events, prices and purchases. Every change shows the exact command and asks first.
+
+The Xcode Cloud tab shows each workflow with its last runs, and starts a build after you confirm.
 
 Flip the list to a grid to see every app and platform at once, and open Timeline for every version an app ever shipped.
 

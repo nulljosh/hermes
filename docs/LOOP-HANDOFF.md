@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25, 5.0.0)
+# Hermes loop handoff (2026-10-25, 6.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25: 6.0.0, Xcode Cloud tab. Next: 7.0 keyword tools (asc metadata keywords audit), 8.0 screenshot framing, 9.0 charts over time, 10.0 iPhone and iPad companion.
 
 - 2026-10-25, evening: 5.0.0, fleet grid (toggle on the app list) and release timeline (Timeline tab). Next band per the loop to v10: charts over time, Xcode Cloud runs, keyword tools, screenshot framing, review-time estimates (needs a decision date source), then 10.0 iPhone and iPad companion.
 
