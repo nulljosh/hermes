@@ -141,6 +141,17 @@ final class HermesTests: XCTestCase {
         XCTAssertFalse(AppleWeb.isSessionError(e("Error: app not found")))
     }
 
+    func testSavedDraftsRetireOnANewAppleMessage() {
+        var r = Resolution(app: ASCApp(id: "1", name: "Cartons", bundleId: "b"), thread: "t1", version: "1.0.0",
+                           reasons: ["4.3 Design: Spam"], apple: "Hello", replied: false, repo: "")
+        let k = SavedDrafts.key(r)
+        r.reply = "Cartons tracks UPS parcels."
+        XCTAssertTrue(SavedDrafts.dryRun([r]).contains("## Cartons 1.0.0"))
+        XCTAssertTrue(SavedDrafts.dryRun([r]).contains("> Hello"))
+        let newer = Resolution(app: r.app, thread: "t1", version: "1.0.0", reasons: [], apple: "Hello again", replied: false, repo: "")
+        XCTAssertNotEqual(k, SavedDrafts.key(newer))
+    }
+
     func testThrottleWaitsForAsc() {
         func e(_ m: String) -> Error { NSError(domain: "asc", code: 1, userInfo: [NSLocalizedDescriptionKey: m]) }
         let d = AppleWeb.throttledUntil(e("signin complete failed with status 503. Other asc web commands will not sign in automatically before 2026-10-25T18:22:53Z;"))
