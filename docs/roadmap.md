@@ -21,11 +21,11 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Builds list | yes | yes | done |
 | Build upload, expire, attach to version, submit for beta review | yes | upload .ipa/.pkg, expire, attach, add to group, What to Test, beta review | done |
 | TestFlight groups | yes | yes | done |
-| TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | partial (aliases todo) |
+| TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | done (3.1: aliases are Hermes nicknames kept on the Mac; App Store Connect has no alias field) |
 | Customer reviews | yes | yes, with rating summary and filters | done |
 | Review reply, reply signature, review link | yes | yes | done |
 | Submissions: create, add version or event, submit, cancel | yes | create with version, submit, cancel, full history | partial (add event lands with in-app events) |
-| In-app events: create, duplicate, localize, assets, archive | yes | create, text per language, submit, delete | partial (duplicate, assets, archive todo) |
+| In-app events: create, duplicate, localize, assets, archive | yes | create, text per language, submit, delete | partial (3.1: duplicate through asc, archive kept on the Mac since App Store Connect has none; assets todo) |
 | In-app purchases: list, edit, localize | yes | price and proceeds, create, rename, text per language, add to submission, delete | done |
 | IAP and subscription pricing: plan, set, schedule, equalize | yes | app price and proceeds, set app price from a date, set IAP price, subscription price for every country from a US base (equalize) | yes |
 | Subscriptions and groups, offers (intro, promo, win-back, codes) | yes | groups and subscriptions with price; introductory, promotional and win-back (free trial) offers; IAP offer codes with one-time code batches | yes |
@@ -38,7 +38,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | Agent skill pack | yes | hermes-status, hermes-ship | done |
 | App intents and Shortcuts | yes | Get App Store Status, Get One App's Status | done (3.0) |
 | Menu bar status and notifications on state change | yes | menu bar list of every app not live yet, a notification on each review-state move, 15-minute refresh | done (3.0) |
-| Agreement banner (Apple license updated) | yes | no | todo |
+| Agreement banner (Apple license updated) | yes | banner on the app list from asc web agreements status | done (3.1) |
 | Datasets and charts | yes | no | check what these are |
 | Free tier counter and Pro license | yes | n/a | skip, Hermes is free or $1 |
 

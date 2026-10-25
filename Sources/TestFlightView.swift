@@ -10,6 +10,8 @@ struct TestFlightView: View {
     @State private var editing: Item?
     @State private var creating = false
     @State private var pending: PendingCommand?
+    @State private var aliasing: Item?
+    @State private var aliasText = ""
 
     var body: some View {
         Group {
@@ -34,6 +36,14 @@ struct TestFlightView: View {
         .commands($pending) { await load() }
         .sheet(isPresented: $creating) { GroupForm(app: app, group: nil) { creating = false; Task { await load() } }.font(Theme.font(13)) }
         .sheet(item: $editing) { g in GroupForm(app: app, group: g) { editing = nil; Task { await load() } }.font(Theme.font(13)) }
+        .alert("Alias", isPresented: Binding(get: { aliasing != nil }, set: { if !$0 { aliasing = nil } })) {
+            TextField("Nickname, empty to clear", text: $aliasText)
+            Button("Save") {
+                if let g = aliasing { UserDefaults.standard.set(aliasText.trimmingCharacters(in: .whitespaces), forKey: "groupAlias." + g.id) }
+                aliasing = nil; Task { await load() }
+            }
+            Button("Cancel", role: .cancel) { aliasing = nil }
+        } message: { Text("A name only Hermes shows. App Store Connect keeps the real one.") }
         .task { await load() }
     }
 
@@ -42,18 +52,22 @@ struct TestFlightView: View {
         do { groups = try await ASC.items(["testflight", "groups", "list", "--app", app.id]) } catch { self.error = error.localizedDescription }
     }
 
+    // Aliases are Hermes' own nicknames for groups, kept on this Mac; App Store Connect has no alias field.
+    func alias(_ g: Item) -> String? { UserDefaults.standard.string(forKey: "groupAlias." + g.id).flatMap { $0.isEmpty ? nil : $0 } }
+
     func row(_ g: Item) -> some View {
         HStack(spacing: 8) {
             Image(systemName: g.bool("isInternalGroup") ? "person.2" : "globe").foregroundStyle(Theme.accent).frame(width: 20)
             VStack(alignment: .leading, spacing: 2) {
-                Text(g.text("name") ?? g.id).font(Theme.font(13, .semibold))
-                Text([g.bool("isInternalGroup") ? "Internal" : "External", g.bool("publicLinkEnabled") ? "public link on" : nil,
+                Text(alias(g) ?? g.text("name") ?? g.id).font(Theme.font(13, .semibold))
+                Text([alias(g) == nil ? nil : g.text("name"), g.bool("isInternalGroup") ? "Internal" : "External", g.bool("publicLinkEnabled") ? "public link on" : nil,
                       g.bool("feedbackEnabled") ? "feedback on" : nil].compactMap { $0 }.joined(separator: " · "))
                     .font(Theme.font(11)).foregroundStyle(Theme.muted)
             }
             Spacer()
             Menu {
                 Button("Edit...") { editing = g }
+                Button("Set Alias...") { aliasText = alias(g) ?? ""; aliasing = g }
                 if let link = g.text("publicLink") { Button("Copy Public Link") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(link, forType: .string) } }
                 Divider()
                 Button("Delete", role: .destructive) {

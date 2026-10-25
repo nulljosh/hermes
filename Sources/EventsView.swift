@@ -8,6 +8,29 @@ struct EventsView: View {
     @State private var open: Item?
     @State private var creating = false
     @State private var pending: PendingCommand?
+    @State private var showArchived = false
+    @AppStorage("archivedEvents") private var archivedRaw = ""
+
+    // Archive is Hermes' own: App Store Connect has no archive for events, so archived ids are kept on this Mac.
+    var archived: Set<String> { Set(archivedRaw.split(separator: ",").map(String.init)) }
+    func toggleArchive(_ e: Item) {
+        var a = archived
+        if a.remove(e.id) == nil { a.insert(e.id) }
+        archivedRaw = a.sorted().joined(separator: ",")
+    }
+
+    /// A new draft with the same type, purpose, priority and deep link, starting a week out for a week.
+    /// ponytail: dates are not copied (they sit in nested territory schedules); edit them before submitting.
+    func duplicate(_ e: Item) -> PendingCommand {
+        let iso = ISO8601DateFormatter(), start = Date().addingTimeInterval(7 * 86_400)
+        var args = ["app-events", "create", "--app", app.id, "--name", "Copy of " + (e.text("referenceName") ?? "event"),
+                    "--event-type", e.text("badge") ?? "SPECIAL_EVENT", "--purpose", e.text("purpose") ?? "APPROPRIATE_FOR_ALL_USERS",
+                    "--priority", e.text("priority") ?? "NORMAL", "--start", iso.string(from: start),
+                    "--end", iso.string(from: start.addingTimeInterval(7 * 86_400)), "--publish-start", iso.string(from: start),
+                    "--primary-locale", e.text("primaryLocale") ?? "en-US", "--purchase-requirement", "NO_COST_ASSOCIATED"]
+        if let link = e.text("deepLink"), !link.isEmpty { args += ["--deep-link", link] }
+        return PendingCommand(title: "Duplicate Event", args: args)
+    }
 
     var body: some View {
         Group {
@@ -18,10 +41,20 @@ struct EventsView: View {
             } else if let events {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
-                        HStack { Spacer(); Button("New Event", systemImage: "plus") { creating = true } }
+                        HStack {
+                            let hidden = events.filter { archived.contains($0.id) }.count
+                            if hidden > 0 { Toggle("Show archived (\(hidden))", isOn: $showArchived).toggleStyle(.checkbox) }
+                            Spacer(); Button("New Event", systemImage: "plus") { creating = true }
+                        }
                             .padding(.horizontal, 16).padding(.vertical, 8)
                         if events.isEmpty { Text("No in-app events yet.").foregroundStyle(Theme.muted).padding(16) }
-                        ForEach(events) { e in Button { open = e } label: { row(e) }.buttonStyle(.plain) }
+                        ForEach(events.filter { showArchived || !archived.contains($0.id) }) { e in
+                            Button { open = e } label: { row(e).opacity(archived.contains(e.id) ? 0.5 : 1) }.buttonStyle(.plain)
+                                .contextMenu {
+                                    Button("Duplicate") { pending = duplicate(e) }
+                                    Button(archived.contains(e.id) ? "Unarchive" : "Archive") { toggleArchive(e) }
+                                }
+                        }
                     }
                 }
             } else { ProgressView().frame(maxHeight: .infinity) }

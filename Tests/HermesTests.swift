@@ -182,4 +182,12 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(Watch.changes(from: old, to: new), [Watch.Change(key: "1|IOS", from: "WAITING_FOR_REVIEW", to: "IN_REVIEW")])
         XCTAssertEqual(Watch.words("WAITING_FOR_REVIEW"), "waiting for review")
     }
+
+    func testAgreementBannerOnlyWhenSomethingWaits() {
+        let ok = #"{"pending":false,"contractMessages":[],"agreements":[{"title":"Apple Developer Program License Agreement","status":"active","pending":false,"dateAgreeBy":"2026-10-28T23:59:59Z"}]}"#
+        XCTAssertNil(Agreements.notice(from: Data(ok.utf8)))
+        let waiting = ok.replacingOccurrences(of: #""status":"active","pending":false"#, with: #""status":"pending","pending":true"#)
+        XCTAssertEqual(Agreements.notice(from: Data(waiting.utf8)),
+                       "Apple has a new Apple Developer Program License Agreement to accept by 2026-10-28. Until you do, nothing can be submitted.")
+    }
 }

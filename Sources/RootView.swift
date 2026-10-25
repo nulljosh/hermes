@@ -81,6 +81,7 @@ struct AppList: View {
     var addAccount: () -> Void = {}
     let pick: (ASCApp) -> Void
     @State private var resolving = UserDefaults.standard.bool(forKey: "resolveAll")  // QA launch argument: -resolveAll YES
+    @State private var agreement: String?
 
     var rejectedCount: Int { store.versions.values.filter { $0.contains { $0.state.contains("REJECT") } }.count }
 
@@ -106,6 +107,17 @@ struct AppList: View {
                 }
             }
             .padding(12)
+            .task { agreement = await Agreements.check() }
+            if let agreement {
+                HStack(spacing: 8) {
+                    Image(systemName: "doc.badge.ellipsis").foregroundStyle(Theme.pending)
+                    Text(agreement).font(Theme.font(12, .medium))
+                    Spacer()
+                    Link("Review", destination: URL(string: "https://developer.apple.com/account")!)
+                }
+                .padding(.horizontal, 12).padding(.bottom, 10)
+            }
+            Color.clear.frame(height: 0)
             .sheet(isPresented: $resolving) { ResolveView(store: store) { resolving = false }.font(Theme.font(13)) }
             Divider().overlay(Theme.line)
             if let e = store.error {
