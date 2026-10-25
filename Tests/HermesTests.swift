@@ -125,9 +125,9 @@ final class HermesTests: XCTestCase {
     }
 
     // A drafted reply never claims a change nobody made: the claim becomes a placeholder, which blocks Send.
-    func testDraftClaimsBecomePlaceholders() {
+    func testDraftClaimsAreDropped() {
         let d = Drafter.unclaim("Thank you for the review. We have revised the app to add features. We've also fixed the crash. Please take another look.")
-        XCTAssertEqual(d, "Thank you for the review. [what changed in the new build] Please take another look.")
+        XCTAssertEqual(d, "Thank you for the review. Please take another look.")
         XCTAssertEqual(Drafter.unclaim("Thanks. The app is different from others because it reads live rentals."),
                        "Thanks. The app is different from others because it reads live rentals.")
         XCTAssertEqual(Drafter.unclaim(""), "")
@@ -158,5 +158,15 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(d, ISO8601DateFormatter().date(from: "2026-10-25T18:22:53Z"))
         XCTAssertNotNil(AppleWeb.throttledUntil(e("Apple's sign-in service is unavailable or is throttling sign-ins")))
         XCTAssertNil(AppleWeb.throttledUntil(e("Session expired.")))
+    }
+
+    func testWriterSplitsApplesQuestionsAndCutsRepeats() {
+        let apple = "Next Steps\n1. Describe in detail what this app does.\n2. Who is the intended user\nof this app?\nResources\n- Learn more"
+        XCTAssertEqual(Writer.questions(apple), ["Describe in detail what this app does.", "Who is the intended user of this app?"])
+        XCTAssertEqual(Writer.focus("Is this app part of a suite? Is it standalone?").readme, false)
+        XCTAssertEqual(Writer.focus("Who is the intended user of this app?").readme, true)
+        let earlier = ["1. Sidewise pulls 16 feeds from 14 newsrooms across the spectrum."]
+        XCTAssertEqual(Writer.fresh("It is for news readers. Sidewise pulls 16 feeds from 14 newsrooms across the spectrum.", after: earlier),
+                       "It is for news readers.")
     }
 }

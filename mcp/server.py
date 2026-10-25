@@ -158,6 +158,14 @@ def is_source(p: str) -> bool:
     return p.endswith(".swift") and not any(x in p for x in ("Test", "Snapshot", "Preview", "build/", ".build/", "Pods/"))
 
 
+def folder_readme(repo: dict, tops: set[str]) -> str:
+    """In a monorepo the repo README is about the whole repo; the app's own folder README is the one that describes it."""
+    for t in sorted(tops):
+        if f"{t}/README.md" in repo["files"]:
+            return gh("api", f"repos/{OWNER}/{repo['name']}/contents/{t}/README.md", "-H", "Accept: application/vnd.github.raw")[:1800]
+    return ""
+
+
 @mcp.tool()
 def app_facts(app_id: str) -> dict:
     """Checkable facts for an appeal: App Store history, versions App Review already approved, the source repo,
@@ -190,7 +198,7 @@ def app_facts(app_id: str) -> dict:
         if hits:
             shared[f"other {me['name']} folders" if same else o["name"]] = hits
     return {**facts, "repo": f"{OWNER}/{me['name']}", "folders": sorted(tops) if not whole else ["/"], "swiftFiles": len(src),
-            "sharedFiles": shared, "readme": me["readme"]}
+            "sharedFiles": shared, "readme": folder_readme(me, tops) if not whole else me["readme"]}
 
 
 @mcp.tool()

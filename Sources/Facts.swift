@@ -93,13 +93,23 @@ enum Facts {
                 shared[same ? "other \(me.name) folders" : o.name, default: []].insert((p as NSString).lastPathComponent)
             }
         }
+        // Store names lag renames (Thinkpond is Melete, Curvely is Pan): say both, so a reply uses the name Apple sees.
+        if me.name.lowercased() != app.name.lowercased(), !me.ids.isEmpty, me.name != "labs" {
+            lines.append("The listing App Review sees is named \(app.name); the project is now called \(me.name.capitalized). Use \(app.name) in the reply.")
+        }
         lines.append("\(app.name) ships \(src.count) Swift source files of its own, written for it.")
         if shared.isEmpty { lines.append("None of its Swift source files is byte-identical to a file in any other app on this account.") }
         else {
             let all = Set(shared.values.flatMap { $0 })
             lines.append("Source files byte-identical to another app in this account: \(all.count) (\(all.sorted().prefix(8).joined(separator: ", "))), shared with \(shared.keys.sorted().joined(separator: ", ")).")
         }
-        lines.append("README: " + me.readme.replacingOccurrences(of: "\n", with: " "))
+        // In a monorepo the repo README is about the whole repo; the app's own folder README describes the app.
+        var readme = me.readme
+        if !whole, let t = tops.sorted().first(where: { me.files["\($0)/README.md"] != nil }),
+           let d = try? await ASC.exec(gh, ["api", "repos/\(owner)/\(me.name)/contents/\(t)/README.md", "-H", "Accept: application/vnd.github.raw"], timeout: 60) {
+            readme = String(String(decoding: d, as: UTF8.self).prefix(1800))
+        }
+        lines.append("README: " + readme.replacingOccurrences(of: "\n", with: " "))
         return (repo, lines.joined(separator: "\n"))
     }
 }

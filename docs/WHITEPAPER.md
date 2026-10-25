@@ -1,6 +1,6 @@
 # Hermes Technical Whitepaper
 
-**v1.0.0** | October 2026
+**v2.9.0** | October 2026
 
 Hermes is a native Mac app for App Store Connect. It shows every app on an account in one window, with the state of each platform's newest version, and lets you edit versions, store text, screenshots, builds, TestFlight groups, review replies and submissions without opening Apple's website. It holds no API client of its own. Every screen is a call to the open source `asc` command line tool, so the key stays on the Mac and anything the window does is a command a script or an agent can run.
 
@@ -12,13 +12,19 @@ Writes are built as a `PendingCommand`: a title and the exact arguments. Before 
 
 Read-only mode is on by default. It passes `--read-only` to every call, and `asc` refuses any POST, PATCH or DELETE before it leaves the machine. Uploads go through `--dry-run` first and only then ask.
 
+## Resolve All
+
+Rejections live in Resolution Center threads, which only Apple's web session can read, so Hermes reads them with `asc web review show`. For each app it builds a fact sheet before any model sees the letter: the version history and which versions App Review already approved, the builds uploaded and when, and from GitHub the app's own Swift files and how many are byte-identical to files in the other apps on the account (git blob SHAs, one tree call per repo, cached a day). In a monorepo the app is only its own folders, found from the bundle id in each project.yml.
+
+`Sources/Writer.swift` writes the reply on Apple's on-device model (Foundation Models), or a local Ollama model when Apple Intelligence is off. Nothing leaves the Mac and no child process runs. The model's context is about 4,000 tokens, so it gets one task at a time. Apple's nine-question 4.3 follow-up is split into its questions, and each one is pointed at the fact that answers it. A plain 4.3(a) gets the house reply: the model's two sentences on what the app is, then the checked facts word for word, then a question about which apps were found similar. Sentences that repeat an earlier answer, or claim a change nobody made, are cut. Send stays off until Joshua confirms, and a send is never retried.
+
 ## Icons
 
 Live apps use their App Store artwork from the iTunes lookup. Apps that are not on sale yet use the icon Apple extracted from their newest build (`iconAssetToken`). Anything else gets a letter tile.
 
 ## Agents
 
-`mcp/server.py` exposes the same reads and two writes (reply to a review, submit for review) as MCP tools over stdio, read-only unless `HERMES_ALLOW_WRITES=1`. Two skills, `hermes-status` and `hermes-ship`, describe the release report and the path from build to App Review.
+`mcp/server.py` exposes the same reads as MCP tools, plus Resolve All (`open_rejections`, `app_facts`, `saved_drafts`) and three writes (reply to a customer review, submit for review, send a Resolution Center reply), read-only unless `HERMES_ALLOW_WRITES=1`. It runs over stdio, or with `--http` on 127.0.0.1:8787 as MCP at `/mcp` and a JSON API at `/api/<tool>`. Three skills, `hermes-status`, `hermes-ship` and `hermes-resolve`, describe the release report, the path from build to App Review, and answering rejections.
 
 ## Brand
 

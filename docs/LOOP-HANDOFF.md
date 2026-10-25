@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-19, night)
+# Hermes loop handoff (2026-10-25)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25: 2.9.0. Resolve All drafts on Apple's on-device model (Sources/Writer.swift), Ollama second; the claude child process is gone, and with it the privacy popups. Each app gets a fact sheet first (Sources/Facts.swift): history, approved versions, builds, its own Swift files and any byte-identical with other apps (GitHub tree SHAs, cached a day in ~/Library/Caches/Hermes/review/fleet.json; monorepo apps are scoped to their own folders). Apple's nine 4.3 questions are answered one at a time; a plain 4.3(a) gets the house reply. No placeholders. The MCP mirrors it (app_facts, open_rejections, saved_drafts, send_rejection_reply) and serves HTTP with `--http`; skill hermes-resolve. Sent and verified on the real account the same day: Cartons, Sidewise (nine answers) and Oohaah. Still open: Atlin's listing name is "Danae" (probe leftover, restoring needs Joshua's yes), Machaon Mac (keychain prompt blocks the reviewer, cut-off text), Melete Mac (Sign in with Apple error), Talli Mac (5.1.1(ix) needs an organization developer account).
 
 - 2026-10-20, 8am: 2.8.0 released. Notarized DMG on GitHub (v2.8.0, Latest), and `brew install --cask nulljosh/tap/hermes` works (Casks/hermes.rb in nulljosh/homebrew-tap, depends on the asc formula; fetch and audit clean). A local allow rule for `./scripts/release.sh` lives in the ignored .claude/settings.local.json, so the next release runs without the permission block. Bump the cask's version and sha256 with each release.
 - 2026-10-20, morning: Resolve All is on the Mac (Sources/ResolveView.swift). A red "Resolve All (N)" button sits on the app list when apps are rejected. It reads each rejection with `asc web review show --plain-text`, skips threads where Apple owes the answer ("Waiting on Apple"), and drafts a Resolution Center reply plus a GitHub issue per app in one batched call. Drafting uses local Ollama first (qwen3:8b, models on the LaCie) and the Claude Code CLI as the fallback, because a claude child process pops a Documents privacy prompt. Any drafted sentence that claims a change ("we have revised") becomes a [placeholder], and Send All stays off until every bracket is filled, read-only is off, and a confirm dialog lists the exact commands. Sends go one app at a time, stop on the first failure, never retry. QA launch argument `-resolveAll YES`. Tried on the real account: Atlin and Healstack drafted, Airwell waiting on Apple, nothing sent. Ollama currently runs from a shell (`ollama serve`), not the brew service.
