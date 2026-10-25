@@ -151,7 +151,7 @@ struct ResolveView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .firstTextBaseline) {
-                Text("RESOLVE ALL").font(Theme.display(28))
+                Text("Resolve All").font(Theme.display(28))
                 Spacer()
                 if busy { ProgressView().controlSize(.small) }
                 Text(phase).foregroundStyle(Theme.muted)

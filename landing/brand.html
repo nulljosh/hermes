@@ -10,10 +10,8 @@
 * { box-sizing: border-box; margin: 0; }
 body { font-family: var(--font); font-size: var(--size-body); line-height: 24px; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
 main { max-width: var(--wrap); margin: 0 auto; padding: var(--sp-8) 20px var(--sp-9); display: grid; gap: var(--sp-8); }
-h1 { font-family: var(--display); font-size: 120px; line-height: 128px; font-weight: 200; text-transform: uppercase; }
-h2 { font-family: var(--display); font-size: 56px; line-height: 56px; font-weight: 200; text-transform: uppercase; margin-bottom: var(--sp-5); }
-.disp { font-family: var(--display); text-transform: uppercase; }
-.specimen.disp { line-height: 132px; margin-bottom: var(--sp-2); }
+h1 { font-size: 120px; line-height: 128px; font-weight: 700; letter-spacing: -.045em; }
+h2 { font-size: 56px; line-height: 56px; font-weight: 700; letter-spacing: -.035em; margin-bottom: var(--sp-5); }
 .sub { color: var(--sub); }
 .foot { font-size: var(--size-footnote); line-height: 16px; color: var(--sub); }
 .head { display: flex; align-items: center; gap: var(--sp-5); }
@@ -81,17 +79,6 @@ h2 { font-family: var(--display); font-size: 56px; line-height: 56px; font-weigh
   <section>
     <h2>Type</h2>
     <div class="card" style="display:grid;gap:var(--sp-6)">
-      <div>
-        <p class="specimen disp" style="font-weight:200">Hermes Display</p>
-        <p class="sub">Antonio under the SIL Open Font License. Thin condensed caps for headlines, labels and buttons on the landing. Never for body text.</p>
-      </div>
-      <div class="weights disp">
-        <p style="font-weight:200">Extralight 200 The dashboard</p>
-        <p style="font-weight:300">Light 300 Every app at a glance</p>
-        <p style="font-weight:500;font-size:17px;letter-spacing:.08em">Medium 500 label &middot; built on asc</p>
-      </div>
-    </div>
-    <div class="card" style="display:grid;gap:var(--sp-6);margin-top:var(--sp-4)">
       <div>
         <p class="specimen">Hermes Sans</p>
         <p class="sub">Inter under the SIL Open Font License, renamed. Open shapes and even, proportional spacing in the spirit of San Francisco and Helvetica. The curly quotes are feathers from the wing.</p>

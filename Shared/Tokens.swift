@@ -26,9 +26,9 @@ enum Theme {
         .custom("Hermes Sans", size: size).weight(weight)
     }
 
-    /// Hermes Display (Antonio, OFL): condensed caps for big titles and labels only.
+    /// Big titles: the same face, bold. One family everywhere.
     static func display(_ size: CGFloat, medium: Bool = false) -> Font {
-        .custom(medium ? "HermesDisplay-Medium" : "HermesDisplay-ExtraLight", size: size)
+        font(size, medium ? .semibold : .bold)
     }
 
     static func stateColor(_ state: String?) -> Color {
