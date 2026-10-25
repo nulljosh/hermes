@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25, 6.0.0)
+# Hermes loop handoff (2026-10-25, 7.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25: 7.0.0, Keywords tab and the More menu for overflow tabs (QA caught tabs running off the edge). QA screenshots per feature via launch args, window captured with screencapture -l. Next: 7.1 Cover Flow view of the fleet (Joshua asked), 8.0 screenshot framing, 9.0 charts over time, 10.0 iPhone and iPad companion.
 
 - 2026-10-25: 6.0.0, Xcode Cloud tab. Next: 7.0 keyword tools (asc metadata keywords audit), 8.0 screenshot framing, 9.0 charts over time, 10.0 iPhone and iPad companion.
 

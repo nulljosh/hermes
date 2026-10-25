@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Tab: String, CaseIterable, Identifiable {
-    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", submissions = "Submissions", events = "Events", purchases = "Purchases", cloud = "Xcode Cloud", timeline = "Timeline"
+    case status = "Status", versions = "Versions", metadata = "Metadata", media = "Media", builds = "Builds", testflight = "TestFlight", reviews = "Reviews", submissions = "Submissions", events = "Events", purchases = "Purchases", keywords = "Keywords", cloud = "Xcode Cloud", timeline = "Timeline"
     var id: String { rawValue }
 }
 
@@ -11,6 +11,34 @@ struct DetailView: View {
     let back: () -> Void
     // QA launch argument: -tab <name> picks the starting tab.
     @State private var tab = Tab(rawValue: UserDefaults.standard.string(forKey: "tab") ?? "") ?? .status
+
+    func tabButton(_ t: Tab) -> some View {
+        Button { tab = t } label: {
+            Text(t.rawValue).font(Theme.font(12, tab == t ? .semibold : .medium))
+                .foregroundStyle(tab == t ? Theme.text : Theme.muted)
+                .padding(.horizontal, 10).padding(.vertical, 5)
+                .background(tab == t ? Theme.surface : .clear, in: Capsule())
+                .contentShape(Capsule())
+        }
+        .buttonStyle(.plain)
+    }
+
+    func tabRow(_ shown: [Tab], more: [Tab]) -> some View {
+        HStack(spacing: 2) {
+            ForEach(shown) { tabButton($0) }
+            if !more.isEmpty {
+                Menu {
+                    ForEach(more) { t in Button(t.rawValue) { tab = t } }
+                } label: {
+                    Text(more.contains(tab) ? tab.rawValue : "More").font(Theme.font(12, more.contains(tab) ? .semibold : .medium))
+                }
+                .menuStyle(.borderlessButton).fixedSize()
+                .padding(.horizontal, 10).padding(.vertical, 5)
+                .background(more.contains(tab) ? Theme.surface : .clear, in: Capsule())
+            }
+        }
+        .fixedSize()
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -22,22 +50,14 @@ struct DetailView: View {
                 Spacer()
             }
             .padding([.horizontal, .top], 12)
-            // Tabs get their own row and size to their labels, so nine of them fit.
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 2) {
-                    ForEach(Tab.allCases) { t in
-                        Button { tab = t } label: {
-                            Text(t.rawValue).font(Theme.font(12, tab == t ? .semibold : .medium))
-                                .foregroundStyle(tab == t ? Theme.text : Theme.muted)
-                                .padding(.horizontal, 10).padding(.vertical, 5)
-                                .background(tab == t ? Theme.surface : .clear, in: Capsule())
-                                .contentShape(Capsule())
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding(.horizontal, 8)
+            // Tabs get their own row and size to their labels. When they do not all fit, the last ones fold into More,
+            // so no tab is ever hidden off the edge (13 tabs since 7.0).
+            ViewThatFits(in: .horizontal) {
+                tabRow(Tab.allCases, more: [])
+                tabRow(Array(Tab.allCases.prefix(9)), more: Array(Tab.allCases.dropFirst(9)))
+                tabRow(Array(Tab.allCases.prefix(6)), more: Array(Tab.allCases.dropFirst(6)))
             }
+            .padding(.horizontal, 8)
             .padding(.vertical, 8)
             Divider().overlay(Theme.line)
             switch tab {
@@ -51,6 +71,7 @@ struct DetailView: View {
             case .submissions: SubmissionsView(app: app)
             case .events: EventsView(app: app)
             case .purchases: PurchasesTab(app: app)
+            case .keywords: KeywordsView(app: app)
             case .cloud: XcodeCloudView(app: app)
             case .timeline: TimelineView(app: app)
             }

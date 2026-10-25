@@ -208,4 +208,10 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(v.verdict, "Ready to submit")
         XCTAssertEqual(v.remediation?.steps.first?.order, 1)
     }
+
+    func testKeywordAuditFlagsWordsAlreadyInTheName() throws {
+        let j = #"{"platform":"IOS","versionString":"1.0.0","locales":[{"locale":"en-US","keywordField":"rent,atlin,map,deal","keywordCount":4,"usedBytes":18,"remainingBytes":82,"name":"Atlin","subtitle":"Real rentals ranked by deal"}],"checks":[]}"#
+        let a = try JSONDecoder().decode(KeywordAudit.self, from: Data(j.utf8))
+        XCTAssertEqual(a.locales.first?.repeats, ["atlin", "deal"])
+    }
 }
