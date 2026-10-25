@@ -17,6 +17,8 @@ struct StatusView: View {
                     row("App Store", [s.appstore?.version, s.appstore?.state, s.appstore?.platform])
                     row("Review", [s.review?.state, s.review?.submittedDate])
                     row("Latest build", [s.builds?.latest?.version, s.builds?.latest?.buildNumber, s.builds?.latest?.processingState])
+                    ChecklistSection(app: app)
+                    SalesSection(app: app)
                     HStack {
                         link("App Store Connect", s.links?.appStoreConnect)
                         link("TestFlight", s.links?.testFlight)

@@ -190,4 +190,22 @@ final class HermesTests: XCTestCase {
         XCTAssertEqual(Agreements.notice(from: Data(waiting.utf8)),
                        "Apple has a new Apple Developer Program License Agreement to accept by 2026-10-28. Until you do, nothing can be submitted.")
     }
+
+    func testSalesSummaryCountsDownloadsNotUpdates() {
+        let tsv = "Provider\tTitle\tProduct Type Identifier\tUnits\tDeveloper Proceeds\tApple Identifier\n" +
+                  "APPLE\tAtlin\t1F\t12\t0\t6824157219\n" +
+                  "APPLE\tAtlin\t3F\t2\t0\t6824157219\n" +
+                  "APPLE\tAtlin\t7F\t40\t0\t6824157219\n" +
+                  "APPLE\tTalli\t1F\t5\t0.99\t6782366555\n"
+        let rows = Sales.parse(tsv)
+        XCTAssertEqual(Sales.totals(rows, app: "6824157219"), Sales.Totals(downloads: 12, redownloads: 2, proceeds: 0))
+        XCTAssertEqual(Sales.totals(rows, app: "6782366555").proceeds, 4.95, accuracy: 0.001)
+    }
+
+    func testValidationDecodesAscOutput() throws {
+        let j = #"{"platform":"MAC_OS","versionString":"1.0.0","summary":{"errors":0,"warnings":0,"infos":1,"blocking":0},"remediation":{"totalActionable":1,"steps":[{"order":1,"blocking":false,"severity":"info","message":"App Privacy publish state is not verifiable","remediation":"Confirm App Privacy is published"}]}}"#
+        let v = try JSONDecoder().decode(Validation.self, from: Data(j.utf8))
+        XCTAssertEqual(v.verdict, "Ready to submit")
+        XCTAssertEqual(v.remediation?.steps.first?.order, 1)
+    }
 }

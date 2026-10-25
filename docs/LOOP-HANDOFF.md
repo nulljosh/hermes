@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25, 3.0.0)
+# Hermes loop handoff (2026-10-25, 4.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25, evening: 4.0.0. 3.1.0 closed TestFlight group aliases (kept on the Mac), event duplicate (through asc) and archive (kept on the Mac), and the agreement banner (asc web agreements status). 4.0.0 adds the release checklist (asc validate per version not live yet, on the Status tab) and last month's sales per app (monthly SALES SUMMARY, cached per month). 19 tests green. Not verified live: the sales numbers, because the finance key was refused on 2026-10-25 and the web analytics session had expired; the section shows the role message instead. Still open against Helm: event assets, adding an event to a submission, charts over time, and the visual side-by-side QA.
 
 - 2026-10-25, afternoon: 3.0.0 released. Menu bar extra (every app not live yet), a notification on each review-state move behind a Settings toggle (permission asked only when it is turned on), a 15-minute refresh, two Shortcuts actions, one shared Store. Notarized DMG on GitHub v3.0.0, cask bumped (sha checked against the download), landing and /docs deployed. 17 tests green. The menu bar item could not be screenshotted: this Mac auto-hides the system menu bar and status items do not show in the window list (Surf's do not either). Same day: Melete Mac 3.1 (Sign in with Apple entitlement) and Machaon Mac 2.3.5 (data protection keychain, sandbox, named Machaon) resubmitted, both WAITING_FOR_REVIEW. The Writer knows those fixes as recipes. Next: the side-by-side Helm QA that declares 1:1, then TestFlight aliases, event duplicate and archive, the agreement banner, and 4.x.
 

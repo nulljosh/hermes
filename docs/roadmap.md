@@ -39,7 +39,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | App intents and Shortcuts | yes | Get App Store Status, Get One App's Status | done (3.0) |
 | Menu bar status and notifications on state change | yes | menu bar list of every app not live yet, a notification on each review-state move, 15-minute refresh | done (3.0) |
 | Agreement banner (Apple license updated) | yes | banner on the app list from asc web agreements status | done (3.1) |
-| Datasets and charts | yes | no | check what these are |
+| Datasets and charts | yes | last month's downloads, redownloads and proceeds per app from the sales summary | partial (4.0: the numbers; charts over time next) |
 | Free tier counter and Pro license | yes | n/a | skip, Hermes is free or $1 |
 
 ## Version plan
@@ -69,6 +69,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 2.7 Hermes Sans rebuilt on Inter for SF-like proportional spacing, AA contrast accent, amber review state, brand kit page, 1878 Hermes engraving in a parallax hero (done)
 - 2.0 multiple accounts and setup flow (done; full QA passed, 5 tests green)
 - 3.0 menu bar, notifications, Shortcuts, agent skills (done: menu bar extra, review-state notifications behind a Settings toggle, two Shortcuts actions, hermes-resolve skill, MCP over HTTP)
+- 4.0 release checklist and sales (done: asc validate for every version not live yet, its fix steps in order, on the Status tab; last month's downloads, redownloads and proceeds per app). Parity read against the matrix: everything Helm does is here except event assets, adding an event to a submission, and charts over time. A visual side-by-side with Helm is still to do when Joshua is at the Mac.
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Long plan
