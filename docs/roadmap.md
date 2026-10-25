@@ -76,6 +76,7 @@ Each version closes a block of rows above and refreshes the matrix.
 - 7.1 Cover Flow (done: third view of the app list, icons tilt on either side of the centred app over flat reflections; Joshua asked)
 - 8.0 screenshot framing (done: Frame sheet in Media, any device asc knows, title and subtitle, solid background; needs Koubou installed)
 - 9.0 charts over time (done: versions per month by outcome on Timeline, six months of downloads in Sales)
+- 10.0 iPhone and iPad companion (done: iPad split view, phone grid, versions chart, iPad in every orientation; QA'd in the iPad Air 13-inch simulator against the real account)
 - then bump the matrix to 1:1 and keep going to 100 with polish, speed and the things Helm lacks
 
 ## Long plan

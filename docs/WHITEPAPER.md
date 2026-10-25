@@ -1,6 +1,6 @@
 # Hermes Technical Whitepaper
 
-**v9.0.0** | October 2026
+**v10.0.0** | October 2026
 
 Hermes is a native Mac app for App Store Connect. It shows every app on an account in one window, with the state of each platform's newest version, and lets you edit versions, store text, screenshots, builds, TestFlight groups, review replies and submissions without opening Apple's website. It holds no API client of its own. Every screen is a call to the open source `asc` command line tool, so the key stays on the Mac and anything the window does is a command a script or an agent can run.
 
@@ -21,6 +21,10 @@ Rejections live in Resolution Center threads, which only Apple's web session can
 ## Menu bar, notifications and Shortcuts
 
 One shared store feeds the window, the menu bar and Shortcuts, so they never disagree. While Hermes runs it reloads every 15 minutes. After each load it compares every app's state per platform with the last load and, if the Settings toggle is on, posts a notification for each real move (a version seen for the first time is not a move). Permission to notify is asked for only when that toggle is turned on. Two App Intents, Get App Store Status and Get One App's Status, return the same read as text for Shortcuts and Siri.
+
+## iPhone and iPad
+
+The companion (target HermesPhone) calls the App Store Connect API directly with an ES256 token signed by the user's key, kept in the Keychain. Since 10.0 a regular-width screen, an iPad or a wide window, shows the app list beside the open app in a split view, the iPhone list flips to the same grid as the Mac, each app's Versions tab charts versions per month by outcome, and the iPad turns to any orientation.
 
 ## Charts over time
 

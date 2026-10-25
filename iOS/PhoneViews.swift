@@ -1,3 +1,4 @@
+import Charts
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -89,38 +90,6 @@ struct PhoneApp: Identifiable, Hashable {
             apps = list
             error = nil
         } catch { self.error = error.localizedDescription }
-    }
-}
-
-struct AppsView: View {
-    let fleet: Fleet
-    @State private var query = ""
-    @State private var path: [PhoneApp] = []
-
-    var shown: [PhoneApp] { query.isEmpty ? fleet.apps : fleet.apps.filter { $0.name.localizedCaseInsensitiveContains(query) || $0.bundleId.localizedCaseInsensitiveContains(query) } }
-
-    var body: some View {
-        NavigationStack(path: $path) {
-            List {
-                if let error = fleet.error { Text(error).foregroundStyle(Theme.bad) }
-                ForEach(shown) { app in
-                    NavigationLink(value: app) { AppRow(app: app) }.listRowBackground(Theme.surface)
-                }
-            }
-            .overlay { if fleet.loading && fleet.apps.isEmpty { ProgressView() } }
-            .scrollContentBackground(.hidden)
-            .background(Theme.bg)
-            .navigationTitle("Apps")
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Apps")
-            .refreshable { await fleet.load() }
-            .navigationDestination(for: PhoneApp.self) { AppDetail(client: fleet.client, app: $0) }
-            .onChange(of: fleet.apps) {
-                #if DEBUG
-                // QA: HERMES_OPEN_APP=<name> opens that app on launch.
-                if path.isEmpty, let name = ProcessInfo.processInfo.environment["HERMES_OPEN_APP"], let app = fleet.apps.first(where: { $0.name == name }), app.icon != nil { path = [app] }
-                #endif
-            }
-        }
     }
 }
 
@@ -291,6 +260,8 @@ struct ReplySheet: View {
 
 // MARK: - One app
 
+struct Monthly: Hashable { let month: String, outcome: String, count: Int }
+
 struct AppDetail: View {
     let client: ASCClient
     let app: PhoneApp
@@ -302,6 +273,16 @@ struct AppDetail: View {
     @State private var icon: URL?
     @State private var replying: Doc<ReviewAttrs>.Item?
     @State private var error: String?
+
+    var monthly: [Monthly] {
+        var c: [String: [String: Int]] = [:]
+        for v in versions {
+            let a = v.attributes, s = a.appVersionState ?? a.appStoreState ?? ""
+            let o = s.hasPrefix("READY_FOR") || s == "ACCEPTED" ? "live" : s.contains("REJECT") ? "rejected" : "other"
+            c[String((a.createdDate ?? "").prefix(7)), default: [:]][o, default: 0] += 1
+        }
+        return c.keys.sorted().flatMap { m in c[m]!.keys.sorted().map { Monthly(month: m, outcome: $0, count: c[m]![$0]!) } }
+    }
 
     var body: some View {
         List {
@@ -320,6 +301,14 @@ struct AppDetail: View {
             Section {
                 switch tab {
                 case .versions:
+                    if versions.count > 1 {
+                        // Versions per month by outcome (9.0 on the Mac).
+                        Chart(monthly, id: \.self) { m in
+                            BarMark(x: .value("Month", m.month), y: .value("Versions", m.count)).foregroundStyle(by: .value("Outcome", m.outcome))
+                        }
+                        .chartForegroundStyleScale(["live": Theme.live, "rejected": Theme.bad, "other": Theme.idle])
+                        .frame(height: 140)
+                    }
                     ForEach(versions) { v in
                         let a = v.attributes
                         VStack(alignment: .leading, spacing: 2) {

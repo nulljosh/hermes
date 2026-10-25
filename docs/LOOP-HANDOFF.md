@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-25, 9.0.0)
+# Hermes loop handoff (2026-10-25, 10.0.0)
 
 ## What the loop is
 
@@ -12,6 +12,8 @@ Rules that bite:
 - Long builds run in the background. One heavy job at a time.
 
 ## Where things stand
+
+- 2026-10-25, late afternoon: 10.0.0. The loop to v10 is done: 5.0 fleet grid and timeline, 6.0 Xcode Cloud, 7.0 Keywords (7.1 Cover Flow), 8.0 framing, 9.0 charts (9.0.1 fixed a test literal; 9.0.0 did ship), 10.0 iPad split view and phone grid. Still open: review-time estimates (no decision date in asc), event assets, adding an event to a submission, Koubou install for real framing, a Finance key for sales, the visual Helm side-by-side. The companion is not on the App Store.
 
 - 2026-10-25: 9.0.0, charts over time (Timeline per month by outcome, QA'd on Talli; Sales six months, unverified until a Finance key works). Next: 10.0 iPhone and iPad companion (iOS/ target HermesPhone already exists: add iPad layout and the 3.0 to 9.0 features that fit a phone), then /checkpoint.
 
