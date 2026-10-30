@@ -111,6 +111,7 @@ struct AppList: View {
                 if rejectedCount > 0 {
                     Button("Resolve All (\(rejectedCount))") { resolving = true }
                         .foregroundStyle(Theme.bad)
+                        .modifier(GlassButton())
                 }
             }
             .padding(12)
@@ -220,5 +221,12 @@ struct AppIcon: View {
         }
         .frame(width: size, height: size)
         .clipShape(RoundedRectangle(cornerRadius: size * 0.225, style: .continuous))
+    }
+}
+
+// Liquid Glass on the one floating action; macOS 14 to 25 keep the plain button.
+struct GlassButton: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(macOS 26, *) { content.buttonStyle(.glass) } else { content }
     }
 }
