@@ -98,10 +98,3 @@ Shipped: a running indicator for long writes like uploads, read-only mode (Setti
 
 
 Ideas that Helm does not have: rejection history in one place (shipped 0.9), release checklist from `asc validate`, price heat map by territory, Xcode Cloud status, analytics and sales from `asc analytics`.
-
-## Ingested 2026-10-25
-- [ ] Needs a custom font: sans serif, Helvetica / San Francisco inspired.
-- [ ] Refresh the design system with macOS Liquid Glass inspiration (reference: "macOS | Custom Widget" by Kawsar Ahmed on Dribbble).
-
-## Ingested 2026-10-26
-- [ ] Product Hunt price: the Hermes page is set to Free without checking the real price. Confirm the price and fix the page.
