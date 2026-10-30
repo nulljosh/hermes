@@ -1,4 +1,4 @@
-# Hermes loop handoff (2026-10-30, 10.3.0)
+# Hermes loop handoff (2026-10-30, 10.4.0)
 
 ## What the loop is
 
@@ -16,22 +16,25 @@ Rules that bite:
 
 ## Where things stand
 
-- 2026-10-30: 10.3.0, Add to New Submission on an in-app event (asc review items-add appEvents). Before it, 10.2.0 added Liquid Glass on Resolve All (macOS 26 only, plain fallback below), and 10.1.0 added the app icon, name and version at the top of Settings and Mercury wallpapers. Each is notarized on GitHub. Tests: 21 of 21 pass. Not run yet: a live Resolve All pass on real threads.
-- Issues #1 (custom font, closed: system font only), #2 (Liquid Glass, closed by 10.2.0) and #3 (Product Hunt price, closed: stays Free for now) are all closed. Nothing is open on the repo.
-- Known gap: the Dock icon launch problem was worked around by launching dist/Hermes.app directly. The root cause is not confirmed.
-- The parity matrix still has open rows: in-app event assets (todo) and in-app event archive (kept on the Mac because App Store Connect has no archive).
-- The App Store Connect fleet read on 2026-10-30 showed 28 apps and 0 rejected versions.
+- 2026-10-30: 10.4.0. Hermes keeps the Apple password in its own Keychain item and passes it to asc on every web command. asc ran with its keychain bypassed, so it could not see its own saved password, which is why web sessions kept dying. Resolve All also signs itself back in once when the session expires, reading the 2FA code from Messages. Released as a notarized DMG on GitHub (v10.4.0). Not yet tested live.
+- 2026-10-30: 10.3.0 (Add to New Submission on an in-app event), 10.2.0 (Liquid Glass on Resolve All, macOS 26 only, plain fallback below), 10.1.0 (app icon, name and version at the top of Settings, Mercury wallpapers). All notarized on GitHub. 21 of 21 unit tests pass.
+- Issues #1 (custom font, system font only), #2 (Liquid Glass, closed by 10.2.0) and #3 (Product Hunt price, stays Free for now) are closed. The repo has no open issues or PRs.
+- App Store Connect has 10 review submissions in UNRESOLVED_ISSUES across 8 apps: Patois iOS, Mailbag Mac, Oohaah Mac and iOS, Scrounger iOS, Cartons iOS, Sidewise iOS (retired), Horula Mac and iOS, Atlin iOS. None of the threads have been read, because the Apple web session expired. An earlier "0 rejections" reading was wrong.
+- Blocked on Joshua: one sign-in inside Hermes (Resolve All, then Sign In) when he is back at his desk. The terminal asc-login timed out and was not retried, since Apple throttles.
+- Known gap: the Dock icon would not open the app. Worked around by launching dist/Hermes.app directly. Root cause not confirmed.
+- The parity matrix still has open rows: in-app event assets (todo) and the event archive (kept on the Mac, since App Store Connect has no archive).
 
 ## Next, in order
 
-1. Next minor is 10.4.0. Take the first open row of the parity matrix.
-2. TestFlight aliases are Mac-only today. Bring them to the iPhone companion if Joshua wants it.
-3. In-app event assets, the last todo row in the events band.
-4. Side-by-side Helm QA of every tab on a real app, when Joshua is at the Mac. Declaring 1:1 waits on that.
-5. Review-time estimates wait for a decision date source. asc review history has the submit date only.
+1. Joshua signs in inside Hermes (Resolve All, then Sign In). Nothing runs before that.
+2. Read the 10 open threads, draft replies, and send only on Joshua's yes. Never send unchanged, and check the listing name before replying.
+3. 10.5.0: TestFlight aliases, which are Mac-only today. Bring them to the iPhone companion if Joshua wants it.
+4. In-app event assets, the last todo row in the events band.
+5. Side-by-side Helm QA of every tab on a real app, when Joshua is at the Mac. Declaring 1:1 waits on that.
+6. Review-time estimates wait for a decision date source. asc review history has the submit date only.
 
 ## Restart prompt
 
 ```
-/loop Hermes: read docs/LOOP-HANDOFF.md and docs/roadmap.md, then do the next item as the next minor version (10.4.0 first). Versioning is honest semver: features are minors, fixes are patches, a major only on Joshua's call. QA each change on a real app, notarize the DMG for the GitHub release, and never mutate a live app without Joshua's yes.
+/loop Hermes: read docs/LOOP-HANDOFF.md and docs/roadmap.md. If Joshua has not yet signed in inside Hermes, stop and ask him for that one sign-in. Otherwise do the next item as the next minor version (10.5.0 next). Versioning is honest semver: features are minors, fixes are patches, a major only on Joshua's call. QA each change on a real app, notarize the DMG for the GitHub release, and never mutate a live app or send an Apple reply without Joshua's yes.
 ```
