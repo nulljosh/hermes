@@ -120,6 +120,12 @@ struct EventDetail: View {
                     pending = PendingCommand(title: "Submit Event", args: ["app-events", "submit", "--app", app.id, "--event-id", event.id, "--confirm"])
                 }
                 .disabled(!["DRAFT", "READY_FOR_REVIEW", "REJECTED"].contains(event.text("eventState") ?? ""))
+                // Events ride a draft submission of their own; submit it from the Submissions tab.
+                Button("Add to New Submission") {
+                    pending = PendingCommand(title: "Add Event to Submission",
+                                             args: ["review", "submissions-create", "--app", app.id, "--platform", "IOS"],
+                                             then: ["review", "items-add", "--submission", "{id}", "--item-type", "appEvents", "--item-id", event.id])
+                }
                 Button("Delete Event", role: .destructive) {
                     pending = PendingCommand(title: "Delete Event", args: ["app-events", "delete", "--event-id", event.id, "--confirm"])
                 }

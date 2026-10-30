@@ -24,7 +24,7 @@ Reference: `/Applications/Helm.app` (bundle id com.modumhq.Helm). Re-check the m
 | TestFlight group create, edit, testers, add builds, aliases | yes | create, edit, delete, testers, invite, add builds, copy public link | done (3.1: aliases are Hermes nicknames kept on the Mac; App Store Connect has no alias field) |
 | Customer reviews | yes | yes, with rating summary and filters | done |
 | Review reply, reply signature, review link | yes | yes | done |
-| Submissions: create, add version or event, submit, cancel | yes | create with version, submit, cancel, full history | partial (add event lands with in-app events) |
+| Submissions: create, add version or event, submit, cancel | yes | create with version, submit, cancel, full history | done (10.3: Add to New Submission on an event) |
 | In-app events: create, duplicate, localize, assets, archive | yes | create, text per language, submit, delete | partial (3.1: duplicate through asc, archive kept on the Mac since App Store Connect has none; assets todo) |
 | In-app purchases: list, edit, localize | yes | price and proceeds, create, rename, text per language, add to submission, delete | done |
 | IAP and subscription pricing: plan, set, schedule, equalize | yes | app price and proceeds, set app price from a date, set IAP price, subscription price for every country from a US base (equalize) | yes |
