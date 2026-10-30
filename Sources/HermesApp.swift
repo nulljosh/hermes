@@ -27,6 +27,14 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            HStack(spacing: 12) {
+                Image(nsImage: NSApp.applicationIconImage).resizable().frame(width: 56, height: 56)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Hermes").font(.title2.weight(.semibold))
+                    Text("Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "")")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
             Picker("Appearance", selection: $appearance) { Text("System").tag("system"); Text("Light").tag("light"); Text("Dark").tag("dark") }
             Toggle("Notify when a review state changes", isOn: $notifyReview)
                 .onChange(of: notifyReview) { _, on in
