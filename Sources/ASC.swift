@@ -44,6 +44,7 @@ enum ASC {
             // asc signs in to Apple's web session on its own when it expires; the 2FA code comes from Hermes' own prompt.
             p.environment = ProcessInfo.processInfo.environment.merging(["ASC_BYPASS_KEYCHAIN": "1", "ASC_TIMEOUT": "240s",
                                                                          "ASC_WEB_2FA_CODE_COMMAND": TwoFactor.script]) { $1 }
+                .merging(args.contains("web") ? Vault.password.map { ["ASC_WEB_PASSWORD": $0] } ?? [:] : [:]) { $1 }
                 .merging(env) { $1 }
             let out = Pipe(), err = Pipe()
             p.standardOutput = out; p.standardError = err; p.standardInput = FileHandle.nullDevice

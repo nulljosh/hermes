@@ -136,7 +136,7 @@ struct ResolveView: View {
         // Opened at launch, the list may still be loading; rejections are read off it.
         for _ in 0..<200 where store.loading || (store.apps.isEmpty && store.error == nil) { try? await Task.sleep(for: .milliseconds(300)) }
         let apps = rejected
-        var i = 0, pauses = 0
+        var i = 0, pauses = 0, healed = false
         while i < apps.count, !Task.isCancelled {
             let app = apps[i]
             phase = "Reading \(app.name) (\(i + 1) of \(apps.count))"
@@ -161,6 +161,12 @@ struct ResolveView: View {
                     i -= 1; continue
                 }
                 // One expired session fails every app the same way: stop and ask once instead of listing it nine times.
+                // An expired session signs itself back in once with the saved password; the 2FA code fills from Messages.
+                if AppleWeb.isSessionError(error), !healed, Vault.password != nil,
+                   let id = await AppleWeb.status()?.appleId ?? UserDefaults.standard.string(forKey: "appleID") {
+                    healed = true; phase = "Signing in to Apple"
+                    if (try? await AppleWeb.signIn(appleID: id, password: "")) != nil { i -= 1; continue }
+                }
                 if AppleWeb.isSessionError(error) { signInNeeded = true; break }
                 unread.append(app.name + ": " + (error.localizedDescription.split(separator: "\n").first.map(String.init) ?? "failed"))
             }

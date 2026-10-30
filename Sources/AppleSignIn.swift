@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import Security
 
 // Apple web sign-in for the asc web commands (Resolve All, Resolution Center replies).
 // asc asks for the 2FA code by running TwoFactor.script, which leaves a marker file and waits;
@@ -71,6 +72,24 @@ enum TwoFactor {
     }
 }
 
+// Hermes' own Keychain item for the Apple password. asc runs here with its keychain bypassed (no popups),
+// so it cannot see its own saved password; Hermes hands this one over on every web command instead.
+enum Vault {
+    private static let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                               kSecAttrService as String: "com.nulljosh.hermes.apple-password"]
+    static var password: String? {
+        var q = query; q[kSecReturnData as String] = true
+        var out: AnyObject?
+        guard SecItemCopyMatching(q as CFDictionary, &out) == errSecSuccess, let d = out as? Data else { return nil }
+        return String(data: d, encoding: .utf8)
+    }
+    static func save(_ password: String) {
+        SecItemDelete(query as CFDictionary)
+        var q = query; q[kSecValueData as String] = Data(password.utf8)
+        SecItemAdd(q as CFDictionary, nil)
+    }
+}
+
 enum AppleWeb {
     struct Status: Decodable { let authenticated: Bool; let passwordStored: Bool?; let appleId: String? }
 
@@ -98,6 +117,9 @@ enum AppleWeb {
     static func signIn(appleID: String, password: String) async throws {
         _ = try await ASC.exec("/opt/homebrew/bin/asc", ["web", "auth", "login", "--apple-id", appleID],
                                timeout: 300, env: password.isEmpty ? [:] : ["ASC_WEB_PASSWORD": password])
+        // Only a sign-in that worked is worth remembering.
+        if !password.isEmpty { Vault.save(password) }
+        UserDefaults.standard.set(appleID, forKey: "appleID")
     }
 }
 
@@ -129,7 +151,7 @@ struct AppleSignInSheet: View {
         .frame(width: 440)
         .task {
             guard let s = await AppleWeb.status() else { return }
-            appleID = s.appleId ?? ""; stored = s.passwordStored ?? false
+            appleID = s.appleId ?? UserDefaults.standard.string(forKey: "appleID") ?? ""; stored = Vault.password != nil
             if s.authenticated { note = "Signed in." }
         }
     }
