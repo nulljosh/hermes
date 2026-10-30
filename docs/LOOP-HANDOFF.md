@@ -20,7 +20,8 @@ Rules that bite:
 - 2026-10-30: 10.3.0 (Add to New Submission on an in-app event), 10.2.0 (Liquid Glass on Resolve All, macOS 26 only, plain fallback below), 10.1.0 (app icon, name and version at the top of Settings, Mercury wallpapers). All notarized on GitHub. 21 of 21 unit tests pass.
 - Issues #1 (custom font, system font only), #2 (Liquid Glass, closed by 10.2.0) and #3 (Product Hunt price, stays Free for now) are closed. The repo has no open issues or PRs.
 - App Store Connect has 10 review submissions in UNRESOLVED_ISSUES across 8 apps: Patois iOS, Mailbag Mac, Oohaah Mac and iOS, Scrounger iOS, Cartons iOS, Sidewise iOS (retired), Horula Mac and iOS, Atlin iOS. None of the threads have been read, because the Apple web session expired. An earlier "0 rejections" reading was wrong.
-- Blocked on Joshua: one sign-in inside Hermes (Resolve All, then Sign In) when he is back at his desk. The terminal asc-login timed out and was not retried, since Apple throttles.
+- Parked: the Apple sign-in. Joshua approved texting the 2FA code, but Apple returned a 503 throttle because the retry came 10 minutes after the last attempt. Nothing has been retried since. Lesson: wait at least 20 minutes between Apple sign-in attempts (asc-login's guard exists for this).
+- Next session starts with ONE sign-in, either Joshua in Hermes' Resolve All sheet (Sign In) or the code relay, then reads the 10 UNRESOLVED_ISSUES threads.
 - Known gap: the Dock icon would not open the app. Worked around by launching dist/Hermes.app directly. Root cause not confirmed.
 - The parity matrix still has open rows: in-app event assets (todo) and the event archive (kept on the Mac, since App Store Connect has no archive).
 
