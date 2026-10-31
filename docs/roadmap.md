@@ -98,3 +98,7 @@ Shipped: a running indicator for long writes like uploads, read-only mode (Setti
 
 
 Ideas that Helm does not have: rejection history in one place (shipped 0.9), release checklist from `asc validate`, price heat map by territory, Xcode Cloud status, analytics and sales from `asc analytics`.
+
+## Ingested 2026-10-30
+- [ ] README is super spammy
+- [ ] Remove the resume link, it's redundant
