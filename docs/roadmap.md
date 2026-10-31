@@ -101,4 +101,4 @@ Ideas that Helm does not have: rejection history in one place (shipped 0.9), rel
 
 ## Ingested 2026-10-30
 - [ ] README is super spammy
-- [ ] Remove the resume link, it's redundant
+- [x] Remove the resume link, it's redundant

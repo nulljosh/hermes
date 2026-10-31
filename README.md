@@ -2,8 +2,6 @@
 
 ![version](https://img.shields.io/badge/version-10.0.0-0074D9) ![license](https://img.shields.io/badge/license-MIT-0074D9) ![tests](https://github.com/nulljosh/hermes/actions/workflows/test.yml/badge.svg)
 
-**[hermes.jaybulb.com](https://hermes.jaybulb.com)**
-
 App Store Connect is a website built for one app at a time. Hermes is a Mac app built for all of them at once.
 
 ## Features
