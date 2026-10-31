@@ -6,49 +6,28 @@ App Store Connect is a website built for one app at a time. Hermes is a Mac app 
 
 ## Features
 
-Every app in one list, with its icon, its live version on each platform and where it stands in review. Open one for versions, metadata, screenshots, builds, TestFlight, reviews, submissions, events, prices and purchases. Every change shows the exact command and asks first.
+Every app in one list, with its live version and where it stands in review. Open one for versions, metadata, screenshots, builds, TestFlight, reviews, prices and purchases. Every change shows the exact command and asks first.
 
-Hermes for iPhone and iPad talks to App Store Connect directly with your own key. On iPad the app list sits beside the open app, on iPhone it flips to a grid, and every app shows its versions month by month.
+Before you submit, Status runs Apple's own readiness check and lists what blocks the version. When Apple rejects an app, Resolve All drafts the reply on your Mac's own model, and nothing sends until you say so.
 
-Frame turns a raw screenshot into a device frame with a title, ready to upload (it needs Koubou: `uv tool install koubou==0.20.0`).
-
-The Keywords tab audits every language's keyword field: how many of the 100 characters are left, and which words the name or subtitle already covers.
-
-The Xcode Cloud tab shows each workflow with its last runs, and starts a build after you confirm.
-
-Flip the list to a grid, or to Cover Flow for the iPod look, to see every app at once, and open Timeline for every version an app ever shipped, charted month by month.
-
-Before you submit, the Status tab runs Apple's own readiness check and lists what blocks the version, in the order to fix it, next to last month's downloads and proceeds.
-
-A menu bar list shows every app that is not live yet, Hermes can tell you the moment a review state moves, and Shortcuts can ask for the fleet's status.
-
-When Apple rejects an app, Resolve All reads the rejection, checks the facts (what App Review already approved, how many builds, how much of the code is the app's own) and writes the reply on your Mac's own Apple Intelligence model. No placeholders, nothing leaves the Mac, and nothing sends until you say so.
-
-Hermes runs on the [asc](https://github.com/rorkai/App-Store-Connect-CLI) tool, so your API key stays on your Mac.
+It runs on the [asc](https://github.com/rorkai/App-Store-Connect-CLI) tool, so your API key stays on your Mac. There's an iPhone and iPad app too.
 
 ## Get it
 
 [Download Hermes.dmg](https://github.com/nulljosh/hermes/releases/latest/download/Hermes.dmg), signed and notarized. Sign in to `asc` first.
 
-## Agents
-
-The Hermes MCP server gives agents the same view. One line, no clone, read only unless `HERMES_ALLOW_WRITES=1`:
+Agents get the same view over MCP, read only unless `HERMES_ALLOW_WRITES=1`:
 
 ```sh
 claude mcp add hermes -- uv run https://raw.githubusercontent.com/nulljosh/hermes/main/mcp/server.py
 ```
 
-Run it as a local API instead with `uv run mcp/server.py --http`: the same tools at `127.0.0.1:8787/mcp`, and plain JSON at `/api/<tool>`, such as `/api/app_facts?app_id=123`. Three skills ship in `skills/`: `hermes-status`, `hermes-ship` and `hermes-resolve`.
-
-Everything else is at [hermes.jaybulb.com/docs](https://hermes.jaybulb.com/docs).
-
 ## Build
 
 ```sh
 brew install xcodegen asc
-asc auth login --name MyKey --key-id KEY_ID --issuer-id ISSUER_ID --private-key AuthKey.p8
 xcodegen generate && open Hermes.xcodeproj
 ./scripts/release.sh   # signed, notarized dist/Hermes.dmg
 ```
 
-The roadmap is `docs/roadmap.md`. How it works is `docs/WHITEPAPER.md`.
+[Roadmap](docs/roadmap.md) · [Whitepaper](docs/WHITEPAPER.md)
